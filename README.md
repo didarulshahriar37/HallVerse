@@ -2,7 +2,7 @@
 HallVerse - A Console-based Hall Management System
 
 ## FOLDER STRUCTURE
-HallManagementSystem/ <br>
+HallVerse/ <br>
 │ <br>
 ├── src/ <br>
 │   ├── main/ <br>
