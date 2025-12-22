@@ -1,3 +1,6 @@
+#ifndef ADMIN_H
+#define ADMIN_H
+
 #include<string>
 #include "Student.h"
 using namespace std;
@@ -16,3 +19,5 @@ class Admin{
     void viewAllComplaints();
     void updateComplaintStatus(string complaintID, string status);
 };
+
+#endif
