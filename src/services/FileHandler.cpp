@@ -1,8 +1,12 @@
 #include "FileHandler.h"
+
 #include <fstream>
+#include <sstream>
+#include <iostream>
 
 using namespace std;
 
+// Constructor: initialize file paths
 FileHandler::FileHandler() {
     studentFile = "data/students.csv";
     adminFile = "data/admins.csv";
@@ -12,97 +16,71 @@ FileHandler::FileHandler() {
     entryExitFile = "data/entry_exit.csv";
 }
 
-vector<string> FileHandler::readStudents() {
-    vector<string> data;
+// ====================== STUDENT FILE ======================
+
+// Read students from CSV and return Student objects
+vector<Student> FileHandler::readStudents() {
+    vector<Student> students;
     ifstream file(studentFile);
-    string line;
-    while (getline(file, line)) {
-        data.push_back(line);
+
+    if (!file.is_open()) {
+        cout << "[FileHandler] students.csv not found. Using empty list.\n";
+        return students;
     }
-    return data;
+
+    string line;
+    getline(file, line); // skip header
+
+    while (getline(file, line)) {
+        if (line.empty()) continue;
+
+        stringstream ss(line);
+        string studentID, name, email, emergencyContact, roomNumber, duesStr;
+
+        getline(ss, studentID, ',');
+        getline(ss, name, ',');
+        getline(ss, email, ',');
+        getline(ss, emergencyContact, ',');
+        getline(ss, roomNumber, ',');
+        getline(ss, duesStr, ',');
+
+        double hallDues = 0.0;
+        try {
+            hallDues = stod(duesStr);
+        } catch (...) {
+            hallDues = 0.0;
+        }
+
+        Student s(studentID, name, email,
+                  emergencyContact, roomNumber, hallDues);
+
+        students.push_back(s);
+    }
+
+    file.close();
+    return students;
 }
 
-void FileHandler::writeStudents(const vector<string>& data) {
+// Write Student objects back to CSV
+void FileHandler::writeStudents(const vector<Student>& students) {
     ofstream file(studentFile);
-    for (auto line : data) {
-        file << line << endl;
-    }
-}
 
-vector<string> FileHandler::readAdmins() {
-    vector<string> data;
-    ifstream file(adminFile);
-    string line;
-    while (getline(file, line)) {
-        data.push_back(line);
+    if (!file.is_open()) {
+        cout << "[FileHandler] Error opening students.csv for writing.\n";
+        return;
     }
-    return data;
-}
 
-vector<string> FileHandler::readComplaints() {
-    vector<string> data;
-    ifstream file(complaintFile);
-    string line;
-    while (getline(file, line)) {
-        data.push_back(line);
-    }
-    return data;
-}
+    // Write CSV header
+    file << "studentID,name,email,emergencyContact,roomNumber,hallDues\n";
 
-void FileHandler::writeComplaints(const vector<string>& data) {
-    ofstream file(complaintFile);
-    for (auto line : data) {
-        file << line << endl;
+    for (size_t i = 0; i < students.size(); i++) {
+        file << students[i].getStudentID() << ","
+             << students[i].getName() << ","
+             << students[i].getEmail() << ","
+             << students[i].getEmergencyContact() << ","
+             << students[i].getRoomNumber() << ","
+             << students[i].getHallDues() << "\n";
     }
-}
 
-vector<string> FileHandler::readWorkers() {
-    vector<string> data;
-    ifstream file(workerFile);
-    string line;
-    while (getline(file, line)) {
-        data.push_back(line);
-    }
-    return data;
-}
-
-void FileHandler::writeWorkers(const vector<string>& data) {
-    ofstream file(workerFile);
-    for (auto line : data) {
-        file << line << endl;
-    }
-}
-
-vector<string> FileHandler::readAssignments() {
-    vector<string> data;
-    ifstream file(assignmentFile);
-    string line;
-    while (getline(file, line)) {
-        data.push_back(line);
-    }
-    return data;
-}
-
-void FileHandler::writeAssignments(const vector<string>& data) {
-    ofstream file(assignmentFile);
-    for (auto line : data) {
-        file << line << endl;
-    }
-}
-
-vector<string> FileHandler::readEntryExitLogs() {
-    vector<string> data;
-    ifstream file(entryExitFile);
-    string line;
-    while (getline(file, line)) {
-        data.push_back(line);
-    }
-    return data;
-}
-
-void FileHandler::writeEntryExitLogs(const vector<string>& data) {
-    ofstream file(entryExitFile);
-    for (auto line : data) {
-        file << line << endl;
-    }
+    file.close();
 }
