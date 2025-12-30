@@ -64,3 +64,8 @@ HallVerse/ <br>
 ├── build/ <br>
 │ <br>
 └── README.md
+
+## CONTRIBUTORS
+<a align="center" href="https://github.com/didarulshahriar37/HallVerse/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=didarulshahriar37/HallVerse" />
+</a>
