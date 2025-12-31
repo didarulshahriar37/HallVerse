@@ -1,4 +1,7 @@
-// JUST FOR TESTING
+// TESTING PURPOSE (FOR NOW)
+// Test 1: Adding data to students.csv file
+// Test 2: Removing data from students.csv file
+// Test 3: Reading data from students.csv file
 
 #include <iostream>
 #include "../models/Admin.h"
@@ -8,21 +11,37 @@ using namespace std;
 
 int main(){
     Admin admin;
+    string studentID, name, email, emergency, room;
+    double hallDues;
 
-    Student s1("230042103", "Muntajim Rahman Saimon", "saminon@123.com", "0123456789", "A101", 0);
-    Student s2("230042112", "Ifham", "Ifham@123.com", "0123456789", "A102", 0);
-    Student s3("230042137", "Didarul", "Didarul@123.com", "0123456789", "A101", 0);
+    // cout << "Student ID: ";
+    // getline(cin, studentID);
 
-    admin.addStudent(s1);
-    admin.addStudent(s3);
+    // cout << "Name: ";
+    // getline(cin, name);
 
-    admin.addStudent(s1);
-    admin.addStudent(s2);
+    // cout << "Email: ";
+    // getline(cin, email);
 
-    admin.removeStudent(s3.getStudentID());
-    // admin.addStudent(s3);
+    // cout << "Emergency: ";
+    // getline(cin, emergency);
 
-    admin.viewAllStudents();
+    // cout << "Room: ";
+    // getline(cin, room);
+
+    // cout << "Hall Dues: ";
+    // cin >> hallDues;
+
+    // Student student(studentID, name, email, emergency, room, hallDues);
+
+    // admin.addStudent(student);
+
+    cout << "Enter student ID to remove: ";
+    getline(cin, studentID);
+
+    admin.removeStudent(studentID);
+
+    // admin.viewAllStudents();
 
     return 0;
 }
