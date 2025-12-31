@@ -1,38 +1,38 @@
 #include "Admin.h"
+#include "../services/FileHandler.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-static Student students[100];
-static int studentCount = 0; 
-
+// Admin can add students data to students.csv file
 void Admin::addStudent(Student student){
-    if(studentCount >= 100){
-        cout << "Student limit reached." << endl;
-        return;
-    }
+    FileHandler fileHandler;
+    vector<Student> students = fileHandler.readStudents();
 
-    for(int i = 0; i < studentCount; i++){
+    for(size_t i = 0; i < students.size(); i++){
         if(students[i].getStudentID() == student.getStudentID()){
             cout << "Student ID " << student.getStudentID() << " already exists." << endl;
             return;
         }
     }
 
-    students[studentCount] = student;
-    studentCount++;
+    students.push_back(student);
+    fileHandler.writeStudents(students);
 
     cout << "Student with ID " << student.getStudentID() << " added successfully" << endl;
 }
 
+// Admin can remove any students from students.csv file
 void Admin::removeStudent(string studentID){
-    for(int i = 0; i<studentCount; i++){
-        if(students[i].getStudentID() == studentID){
-            for(int j = i; j<studentCount - 1; j++){
-                students[j] = students[j + 1];
-            }
+    FileHandler fileHandler;
+    vector<Student> students = fileHandler.readStudents();
 
-            studentCount--;
+    for(size_t i = 0; i<students.size(); i++){
+        if(students[i].getStudentID() == studentID){
+            students.erase(students.begin() + i);
+            fileHandler.writeStudents(students);
+
             cout << "Student with ID " << studentID << " removed successfully." << endl;
             return;
         }
@@ -45,15 +45,19 @@ void Admin::verifyPayment(string studentID){
 
 }
 
+// Admin can view all the students stored in students.csv file
 void Admin::viewAllStudents(){
-    if(studentCount == 0){
+    FileHandler fileHandler;
+    vector<Student> students = fileHandler.readStudents();
+    
+    if(students.empty()){
         cout << "No Students Data Exists." << endl;
         return;
     }
 
-    cout << "========== STUDENT LIST ==========" << endl;
+    cout << "\n========== STUDENT LIST ==========" << endl;
 
-    for(int i = 0; i<studentCount; i++){
+    for(size_t i = 0; i<students.size(); i++){
         cout << "Student ID          : " << students[i].getStudentID() << endl;
         cout << "Student Name        : " << students[i].getName() << endl;
         cout << "Email               : " << students[i].getEmail() << endl;
