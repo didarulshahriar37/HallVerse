@@ -75,6 +75,7 @@ public:
         this->hallDues = hallDues;
     };
 
+    // Other Methods
     void viewProfile();
     void updateEmail(const std::string& email);
     void updateEmergencyContact(const std::string& contact);
