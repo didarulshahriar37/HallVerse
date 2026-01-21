@@ -30,6 +30,8 @@ HallVerse/ <br>
 │   │   ├── ComplaintManager.cpp <br>
 │   │   ├── WorkerManager.h <br>
 │   │   ├── WorkerManager.cpp <br>
+│   │   ├── StudentManager.h <br>
+│   │   ├── StudentManager.cpp <br>
 │   │   ├── WorkAssignmentManager.h <br>
 │   │   ├── WorkAssignmentManager.cpp <br>
 │   │   ├── EntryExitManager.h <br>
@@ -59,6 +61,7 @@ HallVerse/ <br>
 │   ├── complaints.csv <br>
 │   ├── workers.csv <br>
 │   ├── assignments.csv <br>
+│   ├── rooms.csv <br>
 │   └── entry_exit.csv <br>
 │ <br>
 ├── build/ <br>
