@@ -30,8 +30,8 @@ HallVerse/ <br>
 │   │   ├── ComplaintManager.cpp <br>
 │   │   ├── WorkerManager.h <br>
 │   │   ├── WorkerManager.cpp <br>
-│   │   ├── StudentManager.h <br>
-│   │   ├── StudentManager.cpp <br>
+│   │   ├── RoomManager.h <br>
+│   │   ├── RoomManager.cpp <br>
 │   │   ├── WorkAssignmentManager.h <br>
 │   │   ├── WorkAssignmentManager.cpp <br>
 │   │   ├── EntryExitManager.h <br>
