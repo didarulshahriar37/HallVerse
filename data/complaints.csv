@@ -1,0 +1,16 @@
+complaintID,studentID,category,description,status,date
+C1,230042103,Electricity,Light not working in room 101,In-Progress,2025-01-05
+C2,230042112,Water,Water leakage in bathroom,In-Progress,2025-01-06
+C3,200041055,Room,Broken window glass needs replacement,Resolved,2025-01-04
+C4,210042088,Electricity,Fan making strange noise,Pending,2025-01-07
+C5,220043099,Water,Low water pressure in 3rd floor,In-Progress,2025-01-08
+C6,230042137,Room,Door lock is broken,Pending,2025-01-09
+C8,230042145,Electricity,Power socket not working,Pending,2025-01-09
+C9,230042103,Water,drain jam,Resolved,2026-01-10
+C10,230042112,Water,Basine jam,Resolved,2026-01-10
+C10,230042112,Electric,Power Socket Not Working,Pending,2026-01-12
+C11,230042112,water,...,Resolved,2026-01-12
+C12,230042112,Electricity,Light Fuse,Resolved,2026-01-12
+C13,230042112,Internet,not working,Pending,2026-01-12
+C14,230042112,Other,Ashnan Bad,Pending,2026-01-12
+C15,230042112,Electricity,light broken,Resolved,2026-01-19
