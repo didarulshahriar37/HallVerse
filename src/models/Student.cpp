@@ -11,57 +11,61 @@ Student::Student(const std::string& studentID,
                  const std::string& email,
                  const std::string& emergencyContact,
                  const std::string& roomNumber,
+                 const std::string& bedNumber,
+                 const std::string& hallName,
                  double hallDues) {
     this->studentID = studentID;
     this->name = name;
     this->email = email;
     this->emergencyContact = emergencyContact;
     this->roomNumber = roomNumber;
+    this->bedNumber = bedNumber;
+    this->hallName = hallName;
     this->hallDues = hallDues;
 }
 
-// Getters
-std::string Student::getStudentID() const {
-    return studentID;
-}
+// // Getters
+// std::string Student::getStudentID() const {
+//     return studentID;
+// }
 
-std::string Student::getName() const {
-    return name;
-}
+// std::string Student::getName() const {
+//     return name;
+// }
 
-std::string Student::getEmail() const {
-    return email;
-}
+// std::string Student::getEmail() const {
+//     return email;
+// }
 
-std::string Student::getEmergencyContact() const {
-    return emergencyContact;
-}
+// std::string Student::getEmergencyContact() const {
+//     return emergencyContact;
+// }
 
-std::string Student::getRoomNumber() const {
-    return roomNumber;
-}
+// std::string Student::getRoomNumber() const {
+//     return roomNumber;
+// }
 
-double Student::getHallDues() const {
-    return hallDues;
-}
+// double Student::getHallDues() const {
+//     return hallDues;
+// }
 
-// Setters
-void Student::setName(const std::string& name) {
-    this->name = name;
-}
+// // Setters
+// void Student::setName(const std::string& name) {
+//     this->name = name;
+// }
 
-void Student::setEmail(const std::string& email) {
-    this->email = email;
-}
+// void Student::setEmail(const std::string& email) {
+//     this->email = email;
+// }
 
-void Student::setEmergencyContact(const std::string& contact) {
-    this->emergencyContact = contact;
-}
+// void Student::setEmergencyContact(const std::string& contact) {
+//     this->emergencyContact = contact;
+// }
 
-void Student::setRoomNumber(const std::string& roomNumber) {
-    this->roomNumber = roomNumber;
-}
+// void Student::setRoomNumber(const std::string& roomNumber) {
+//     this->roomNumber = roomNumber;
+// }
 
-void Student::setHallDues(double dues) {
-    this->hallDues = dues;
-}
+// void Student::setHallDues(double dues) {
+//     this->hallDues = dues;
+// }
