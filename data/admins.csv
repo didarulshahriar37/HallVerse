@@ -1,0 +1,4 @@
+adminID,name,email,phone,department,role,password
+A001,Dr. Md. Kamrul Hasan,hasan@iut-dhaka.edu,+8801512345678,CSE,Provost,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+A002,Mr.Benadjih Oiriddine Abdou,benadjih@iut-dhaka.edu,+8801623456789,Administration,Assistant Provost,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+A003,Md.Mahbubul Alam,malam@iut-dhaka.edu,+8801734567890,Maintenance,Hall Supervisor,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
