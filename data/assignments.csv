@@ -1,0 +1,6 @@
+assignmentID,complaintID,workerID,status,report
+A1,C2,W002,Completed,Pipe replacement done
+A2,C3,W003,Completed,Window glass replaced successfully
+A3,C5,W005,Completed,Water pump checked and fixed
+A4,C13,W006,Completed,Internet issue resolved
+A5,C15,W001,Assigned,Electrical wiring inspection scheduled
