@@ -30,16 +30,35 @@ Student::Student(const std::string& studentID,
     this->hallDues = hallDues;
 }
 
-// View Profile
+// View Profile Method
 void Student::viewProfile(){
     std::cout << "\n============= STUDENT PROFILE =============\n";
-    std::cout << "Student Id: " << studentID << endl;
-    std::cout << "Student Name: " << name << endl;
-    std::cout << "Student Email: " << email << endl;
-    std::cout << "Emergency Contact: " << emergencyContact << endl;
-    std::cout << "Room Number: " << roomNumber << endl;
-    std::cout << "Bed Number: " << bedNumber << endl;
-    std::cout << "Hall Name: " << hallName << endl;
-    std::cout << "Hall Due: $ " << std::fixed << std::setprecision(2) << hallDues << endl;
+    std::cout << "Student Id: " << studentID << "\n";
+    std::cout << "Student Name: " << name << "\n";
+    std::cout << "Student Email: " << email << "\n";
+    std::cout << "Emergency Contact: " << emergencyContact << "\n";
+    std::cout << "Room Number: " << roomNumber << "\n";
+    std::cout << "Bed Number: " << bedNumber << "\n";
+    std::cout << "Hall Name: " << hallName << "\n";
+    std::cout << "Hall Due: $ " << std::fixed << std::setprecision(2) << hallDues << "\n";
     std::cout << "===========================================\n";   
+}
+
+// Update Methods
+void Student::updateEmail(const std::string& newEmail){
+    if(newEmail.empty()){
+        std::cout << "You must provide an email address !\n";
+        return;
+    }
+    email = newEmail;
+    std::cout << "Email updated to: " << email << "\n";
+}
+
+void Student::updateEmergencyContact(const std::string& newEmergencyContact){
+    if(newEmergencyContact.empty()){
+        std::cout << "You must provide an emergency contact !\n";
+        return;
+    }
+    emergencyContact = newEmergencyContact;
+    std::cout << "Emergency Contact updated to: " << emergencyContact << "\n";
 }
