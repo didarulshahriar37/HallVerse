@@ -2,7 +2,9 @@
 #define WORKER_MANAGER_H
 
 #include <vector>
-#include <string>
+#include "../models/Worker.h"
+#include "../services/FileHandler.h"
+
 
 class Worker;
 class FileHandler;
