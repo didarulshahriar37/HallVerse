@@ -1,17 +1,18 @@
 #include "InputHelper.h"
 #include <iostream>
+#include <cctype>
+#include <limits>
 
 using namespace std;
 
 int InputHelper::getInt() {
     int value;
-    cin >> value;
+    while(!(cin >> value)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter a valid integer: ";
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return value;
 }
 
-string InputHelper::getString() {
-    string value;
-    cin.ignore();
-    getline(cin, value);
-    return value;
-}
