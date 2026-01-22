@@ -1,29 +1,23 @@
-#ifndef COMPLAINT_MANAGER_H
-#define COMPLAINT_MANAGER_H
+#ifndef COMPLAINTMANAGER_H
+#define COMPLAINTMANAGER_H
 
 #include <vector>
-#include <string>
-
-class Complaint;
-class FileHandler;
+#include "../models/Complaint.h"
+#include "../services/FileHandler.h"
 
 class ComplaintManager {
 private:
     FileHandler* fileHandler;
     std::vector<Complaint> complaints;
-
+    int nextComplaintID;
+    
 public:
-    ComplaintManager(FileHandler* fileHandler);
-
-    void loadComplaints();
-
-    void addComplaint(const Complaint& complaint);
+    ComplaintManager(FileHandler* fh);
+    void createComplaint(const Complaint& complaint);
     std::vector<Complaint> getComplaintsByStudent(const std::string& studentID);
-
-    std::vector<Complaint> getAllComplaints();
-    void updateComplaintStatus(const std::string& complaintID, const std::string& newStatus);
-
-    Complaint* getComplaintByID(const std::string& complaintID);
+    std::vector<Complaint>& getAllComplaints() { return complaints; }
+    void updateComplaintStatus(const std::string& complaintID, const std::string& status);
+    void loadComplaints();
 };
 
 #endif

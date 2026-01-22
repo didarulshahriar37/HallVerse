@@ -3,11 +3,12 @@
 
 #include <string>
 
-using namespace std;
-
 class Hasher {
+private:
+    std::string id;
 public:
-    string hash(const string& input);
+    Hasher();
+    std::string hash(const std::string& input);
 };
 
 #endif
