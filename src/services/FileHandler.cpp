@@ -86,8 +86,8 @@ std::vector<Complaint> FileHandler::readComplaints() {
     while (std::getline(file, line)) {
         auto tokens = split(line, ',');
         if (tokens.size() >= 6) {
-            complaints.push_back(Complaint(tokens[0], tokens[1], tokens[2], 
-                                         tokens[3], tokens[4], tokens[5]));
+            complaints.push_back(Complaint(tokens[0], tokens[2], tokens[3], 
+                                         tokens[4], tokens[5], tokens[1]));
         }
     }
     file.close();
