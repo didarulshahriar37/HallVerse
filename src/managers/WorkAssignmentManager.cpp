@@ -22,7 +22,7 @@ void WorkAssignmentManager::assignWorker(const string& complaintID, const string
     if(worker){
         stringstream ss;
         ss << "A" << nextAssignmentID;
-        workAssignment assignment(ss.str(), complaintID, worker->getWorkerID(), "Assigned", "");
+        WorkAssignment assignment(ss.str(), complaintID, worker->getWorkerID(), "Assigned", "");
         assignments.push_back(assignment);
         fileHandler->writeAssignment(assignments);
         workerManager->updateWorkerStatus(worker->getWorkerID(), false);
@@ -32,4 +32,29 @@ void WorkAssignmentManager::assignWorker(const string& complaintID, const string
     else{
         cout << "No available worker found for role: " << role << "\n";
     }
+}
+
+void WorkAssignmentManager::completeWork(const string& assignmentID, const string& report) {
+    for(auto& assignment : assignments){
+        if(assignment.getAssignmentID() == assignmentID){
+            assignment.markCompleted();
+            assignment.addReport(report);
+            fileHandler->writeAssignment(assignments);
+            workerManager->updateWorkerStatus(assignment.getWorkerID(), true);
+            complaintManager->updateComplaintStatus(assignment.getComplaintID(), "Resolved");
+            cout << "Work assignment " << assignmentID << " marked as completed.\n";
+            return;
+        }
+    }
+    cout << "Assignment ID " << assignmentID << " not found or already completed.\n";
+}
+
+std::vector<WorkAssignment> WorkAssignmentManager::getAssignmentsByComplaint(const std::string& complaintID) {
+    std::vector<WorkAssignment> result;
+    for(const auto& assignment : assignments){
+        if(assignment.getComplaintID() == complaintID){
+            result.push_back(assignment);
+        }
+    }
+    return result;
 }
