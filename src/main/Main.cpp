@@ -174,3 +174,51 @@ private:
                 }
             InputHelper::pause();
     }
+}
+     void handleViewAllComplaints() {
+        std::cout << "\n========== ALL COMPLAINTS ==========\n";
+        auto& complaints = complaintManager.getAllComplaints();
+        if (complaints.empty()) {
+            std::cout << "No complaints found.\n";
+        } else {
+            for (const auto& c : complaints) {
+                Student* s = studentManager.getStudent(c.getStudentID());
+                std::cout << "\n┌─────────────────────────────────────┐\n";
+                std::cout << "│ Complaint ID: " << c.getComplaintID() << "\n";
+                std::cout << "│ Student: " << (s ? s->getName() : "Unknown") << "\n";
+                std::cout << "│ Room: " << (s ? s->getRoomNumber() : "N/A") << "\n";
+                std::cout << "│ Category: " << c.getCategory() << "\n";
+                std::cout << "│ Description: " << c.getDescription() << "\n";
+                std::cout << "│ Status: " << c.getStatus() << "\n";
+                std::cout << "│ Date: " << c.getDate() << "\n";
+                std::cout << "└─────────────────────────────────────┘\n";
+            }
+        }
+        InputHelper::pause();
+    }
+    void handleResetPassword() {
+        std::cout << "\n========== RESET PASSWORD ==========\n";
+        std::cout << "Enter current password: ";
+        std::string currentPassword = InputHelper::getLine();
+        
+        // Verify current password
+        if (!authManager.login(currentUserID, currentPassword, false)) {
+            std::cout << "\n✗ Current password is incorrect!\n";
+            InputHelper::pause();
+            return;
+        }
+        
+        std::cout << "Enter new password: ";
+        std::string newPassword = InputHelper::getLine();
+        std::cout << "Confirm new password: ";
+        std::string confirmPassword = InputHelper::getLine();
+        
+        if (newPassword != confirmPassword) {
+            std::cout << "\n✗ Passwords do not match!\n";
+        } else {
+            authManager.resetPassword(currentUserID, newPassword, false);
+            std::cout << "\n✓ Password reset successfully!\n";
+        }
+        InputHelper::pause();
+    }
+    
