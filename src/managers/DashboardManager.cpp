@@ -18,3 +18,4 @@ void DashboardManager::getComplaintSummary(int& pending, int& inProgress, int& r
         else if (c.getStatus() == "Resolved") resolved++;
     }
 }
+
