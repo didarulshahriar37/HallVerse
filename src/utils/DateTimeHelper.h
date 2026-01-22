@@ -1,13 +1,13 @@
-#ifndef DATE_TIME_HELPER_H
-#define DATE_TIME_HELPER_H
+#ifndef DATETIMEHELPER_H
+#define DATETIMEHELPER_H
 
 #include <string>
 
-using namespace std;
-
 class DateTimeHelper {
 public:
-    static string getCurrentDateTime();
+    static std::string getCurrentDateTime();
+    static std::string getCurrentDate();
+    static std::string getCurrentTime();
 };
 
 #endif
