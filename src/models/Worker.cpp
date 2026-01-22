@@ -9,3 +9,10 @@ Worker::Worker(std::string id, std::string n, std::string r, bool avail, std::st
 void Worker::markAvailable() {
     isAvailable = true;
 }
+void Worker::markUnavailable() {
+    isAvailable = false;
+}
+
+bool Worker::checkAvailability() const {
+    return isAvailable;
+}
