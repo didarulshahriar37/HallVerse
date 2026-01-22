@@ -1,23 +1,28 @@
 #ifndef ADMIN_H
 #define ADMIN_H
-
 #include<string>
-#include "Student.h"
+
 using namespace std;
 
 class Admin{
     
+    // Variables
     private:
     string adminID;
     string name;
 
+    // Constructors
     public:
-    void addStudent(Student student);
-    void removeStudent(string studentID);
-    void verifyPayment(string studentID);
-    void viewAllStudents();
-    void viewAllComplaints();
-    void updateComplaintStatus(string complaintID, string status);
+    Admin();
+    Admin(string adminId, string name);
+
+    // Getters
+    string getAdminID() const {
+        return adminID;
+    };
+    string getName() const {
+        return name;
+    };
 };
 
 #endif
