@@ -16,3 +16,19 @@ int InputHelper::getInt() {
     return value;
 }
 
+double InputHelper::getDouble() {
+    double value;
+    while(!(cin >> value)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter a valid number: ";
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    return value;
+}
+
+string InputHelper::getLine() {
+    string input;
+    getline(cin, input);
+    return input;
+}
