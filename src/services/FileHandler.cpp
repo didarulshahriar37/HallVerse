@@ -46,15 +46,21 @@ std::vector<Student> FileHandler::readStudents() {
             if (tokens.size() >= 9) {
                 double dues = 0.0;
                 try { dues = std::stod(tokens[7]); } catch (...) { dues = 0.0; }
-                students.push_back(Student(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], dues));
+                Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], dues);
+                s.setPasswordHash(tokens[8]);
+                students.push_back(s);
             } else if (tokens.size() == 8) {
                 double dues = 0.0;
                 try { dues = std::stod(tokens[6]); } catch (...) { dues = 0.0; }
-                students.push_back(Student(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], std::string(""), dues));
+                Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], std::string(""), dues);
+                s.setPasswordHash(tokens[7]);
+                students.push_back(s);
             } else if (tokens.size() >= 7) {
                 double dues = 0.0;
                 try { dues = std::stod(tokens[5]); } catch (...) { dues = 0.0; }
-                students.push_back(Student(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], std::string(""), std::string(""), dues));
+                Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], std::string(""), std::string(""), dues);
+                s.setPasswordHash(tokens[6]);
+                students.push_back(s);
             }
         } catch (const std::exception& e) {
             std::cerr << "Error parsing student line: " << e.what() << std::endl;
@@ -70,7 +76,7 @@ void FileHandler::writeStudents(const std::vector<Student>& students) {
     for (const auto& s : students) {
         file << s.getStudentID() << "," << s.getName() << "," << s.getEmail() << ","
              << s.getEmergencyContact() << "," << s.getRoomNumber() << ","
-             << s.getBedNumber() << "," << s.getHallName() << "," << s.getHallDues() << ",5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8\n";
+             << s.getBedNumber() << "," << s.getHallName() << "," << s.getHallDues() << "," << s.getPasswordHash() << "\n";
     }
     file.close();
 }

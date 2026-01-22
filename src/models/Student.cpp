@@ -9,6 +9,7 @@ Student::Student() {
     bedNumber = "";
     hallName = "";
     hallDues = 0.0;
+    passwordHash = "";
 }
 
 // Parameterized constructor
@@ -28,6 +29,7 @@ Student::Student(const std::string& studentID,
     this->bedNumber = bedNumber;
     this->hallName = hallName;
     this->hallDues = hallDues;
+    this->passwordHash = "";
 }
 
 // View Profile Method

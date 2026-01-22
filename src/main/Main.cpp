@@ -241,7 +241,7 @@ private:
         std::cout << "Enter Description: ";
         std::string description = InputHelper::getLine();
         std::string cid = "C" + std::to_string(complaintManager.getAllComplaints().size() + 1);
-        Complaint c(cid, currentUserID, category, description, "Pending", DateTimeHelper::getCurrentDate());
+        Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
         complaintManager.createComplaint(c);
         InputHelper::pause();
     }

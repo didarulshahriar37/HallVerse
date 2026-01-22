@@ -13,6 +13,7 @@ private:
     std::string bedNumber;
     std::string hallName;
     double hallDues;
+    std::string passwordHash;
 
 public:
     // Constructors
@@ -51,6 +52,9 @@ public:
     double getHallDues() const {
         return hallDues;
     };
+    std::string getPasswordHash() const {
+        return passwordHash;
+    };
 
     // Setters
     void setName(const std::string& name) {
@@ -73,6 +77,9 @@ public:
     };
     void setHallDues(double hallDues) {
         this->hallDues = hallDues;
+    };
+    void setPasswordHash(const std::string& hash) {
+        this->passwordHash = hash;
     };
 
     // Other Methods
