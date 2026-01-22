@@ -6,8 +6,7 @@
 #include "../services/FileHandler.h"
 
 
-class Worker;
-class FileHandler;
+
 
 class WorkerManager {
 private:
@@ -15,15 +14,13 @@ private:
     std::vector<Worker> workers;
 
 public:
-    WorkerManager(FileHandler* fileHandler);
+    WorkerManager(FileHandler* fh);
 
     void loadWorkers();
 
-    void addWorker(const Worker& worker);
-    void updateWorkerStatus(const std::string& workerID, const std::string& newStatus);
-
-    std::vector<Worker> getAllWorkers();
-    Worker* getAvailableWorkerByRole(const std::string& role);
+    Worker* findAvailableWorker(const std::string& role);
+    void updateWorkerStatus(const std::string& workerID, bool availability);
+    std::vector<Worker>& getAllWorkers() { return workers; }
 };
 
 #endif
