@@ -7,8 +7,15 @@ using namespace std;
 
 class InputHelper {
 public:
+    static string getLine();
     static int getInt();
-    static string getString();
+    static double getDouble();
+    static void clearScreen();
+    static void pause();
+
+    static string getNormalizedHall();
+    static bool isValidRoomForHall(const string& hall, const string& room);
+    static bool isValidBed(const string& bed);
 };
 
 #endif
