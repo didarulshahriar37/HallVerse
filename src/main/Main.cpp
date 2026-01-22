@@ -149,9 +149,6 @@ private:
     void handleManageStudents() {
         std::cout << "\n========== MANAGE STUDENTS ==========\n";
         std::cout << "1. View All Students\n";
-        // std::cout << "2. Add Student\n";
-        // std::cout << "3. Remove Student\n";
-        // std::cout << "4. Verify Payment (Clear Dues)\n";
         std::cout << "Choice: ";
         int choice = InputHelper::getInt();
         
@@ -326,7 +323,7 @@ public:
           workerManager(&fileHandler),
           entryExitManager(&fileHandler),
           authManager(&fileHandler, &hasher),
-          assignmentManager(&complaintManager, &workerManager, &fileHandler),
+          assignmentManager(&fileHandler, &complaintManager, &workerManager),
           dashboardManager(&studentManager, &complaintManager, &entryExitManager),
           roomManager(),
           isAdmin(false) {}

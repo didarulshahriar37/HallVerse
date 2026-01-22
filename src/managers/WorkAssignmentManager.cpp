@@ -1,59 +1,58 @@
 #include "WorkAssignmentManager.h"
 #include <iostream>
 #include <sstream>
-
+ 
 using namespace std;
-
-WorkAssignmentManager::WorkAssignmentManager(ComplaintManager* complaintManager, WorkerManager* workerManager, FileHandler* fileHandler)
-    : id("WAM_001"), complaintManager(complaintManager), workerManager(workerManager), fileHandler(fileHandler), nextAssignmentID(1) {
+WorkAssignmentManager::WorkAssignmentManager(FileHandler* fh, ComplaintManager* cm, WorkerManager* wm)
+    : id("WAM_001"), complaintManager(cm), workerManager(wm), fileHandler(fh), nextAssignmentID(1) {
     loadAssignments();
 }
 
 void WorkAssignmentManager::loadAssignments() {
-    assignments = fileHandler->readAssignments();
-    if(!assignments.empty()) {
-        string lastID = assignments.back().getAssignmentID();
-        nextAssignmentID = stoi(lastID.substr(1)) + 1;
+    workAssignments = fileHandler->readAssignments();
+    if (!workAssignments.empty()) {
+        std::string lastID = workAssignments.back().getAssignmentID();
+        nextAssignmentID = std::stoi(lastID.substr(1)) + 1;
     }
 }
 
-void WorkAssignmentManager::assignWorker(const string& complaintID, const string& role) {
+void WorkAssignmentManager::assignWorker(const std::string& complaintID, const std::string& role) {
     Worker* worker = workerManager->findAvailableWorker(role);
-    if(worker){
-        stringstream ss;
+    if (worker) {
+        std::stringstream ss;
         ss << "A" << nextAssignmentID;
         WorkAssignment assignment(ss.str(), complaintID, worker->getWorkerID(), "Assigned", "");
-        assignments.push_back(assignment);
-        fileHandler->writeAssignment(assignments);
+        workAssignments.push_back(assignment);
+        fileHandler->writeAssignments(workAssignments);
         workerManager->updateWorkerStatus(worker->getWorkerID(), false);
         nextAssignmentID++;
-        cout << "Worker " << worker->getName() << " assigned to complaint " << complaintID << "\n";
-    }
-    else{
-        cout << "No available worker found for role: " << role << "\n";
+        std::cout << "Worker assigned successfully!\n";
+    } else {
+        std::cout << "No available worker found for role: " << role << "\n";
     }
 }
 
-void WorkAssignmentManager::completeWork(const string& assignmentID, const string& report) {
-    for(auto& assignment : assignments){
-        if(assignment.getAssignmentID() == assignmentID){
-            assignment.markCompleted();
-            assignment.addReport(report);
-            fileHandler->writeAssignment(assignments);
-            workerManager->updateWorkerStatus(assignment.getWorkerID(), true);
-            complaintManager->updateComplaintStatus(assignment.getComplaintID(), "Resolved");
-            cout << "Work assignment " << assignmentID << " marked as completed.\n";
+void WorkAssignmentManager::completeWork(const std::string& assignmentID, const std::string& report) {
+    for (auto& a : workAssignments) {
+        if (a.getAssignmentID() == assignmentID) {
+            a.markCompleted();
+            a.addReport(report);
+            fileHandler->writeAssignments(workAssignments);
+            workerManager->updateWorkerStatus(a.getWorkerID(), true);
+            complaintManager->updateComplaintStatus(a.getComplaintID(), "Resolved");
+            std::cout << "Work completed successfully!\n";
             return;
         }
     }
-    cout << "Assignment ID " << assignmentID << " not found or already completed.\n";
+    std::cout << "Assignment not found!\n";
 }
 
-std::vector<WorkAssignment> WorkAssignmentManager::getAssignmentsByComplaint(const std::string& complaintID) {
-    std::vector<WorkAssignment> result;
-    for(const auto& assignment : assignments){
-        if(assignment.getComplaintID() == complaintID){
-            result.push_back(assignment);
+std::vector<WorkAssignment>& WorkAssignmentManager::getAssignmentsByComplaint(const std::string& complaintID) {
+    static std::vector<WorkAssignment> result;
+    result.clear();
+    for (const auto& a : workAssignments) {
+        if (a.getComplaintID() == complaintID) {
+            result.push_back(a);
         }
     }
     return result;
