@@ -1,21 +1,13 @@
 #include "WorkerManager.h"
-
-#include "../models/Worker.h"
-#include "../services/FileHandler.h"
-
-WorkerManager::WorkerManager(FileHandler* fileHandler) {
-    this->fileHandler = fileHandler;
+#include <iostream>
+ 
+using namespace std;
+WorkerManager::WorkerManager(FileHandler* fh) : fileHandler(fh) {
+    loadWorkers();
 }
 
 void WorkerManager::loadWorkers() {
-}
-
-void WorkerManager::addWorker(const Worker& worker) {
-    
-}
-
-void WorkerManager::updateWorkerStatus(const std::string& workerID, const std::string& newStatus) {
-    
+    workers = fileHandler->readWorkers();
 }
 
 std::vector<Worker> WorkerManager::getAllWorkers() {
