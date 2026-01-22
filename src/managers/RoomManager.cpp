@@ -87,3 +87,41 @@ std::vector<RoomManager::Room> RoomManager::searchAvailableBeds(const std::strin
     
     return results;
 }
+void RoomManager::displayBedAvailability(const std::string& hall, const std::string& room) {
+    std::cout << "\n========== Bed Availability Report ==========\n";
+    std::cout << "Hall: " << (hall.empty() ? "All" : hall) << " | ";
+    std::cout << "Room: " << (room.empty() ? "All" : room) << "\n";
+    std::cout << "=============================================\n";
+    
+    std::cout << std::left << std::setw(10) << "Hall" 
+              << std::setw(10) << "Room" 
+              << std::setw(8) << "Bed" 
+              << "Status\n";
+    std::cout << "---------------------------------------------\n";
+    
+    for (const auto& r : rooms) {
+        if (!hall.empty() && r.hallName != hall) continue;
+        if (!room.empty() && r.roomNumber != room) continue;
+        
+        std::cout << std::left << std::setw(10) << r.hallName 
+                  << std::setw(10) << r.roomNumber 
+                  << std::setw(8) << r.bedNumber 
+                  << r.status << "\n";
+    }
+    
+    std::cout << "=============================================\n";
+}
+
+void RoomManager::displayAllBeds() {
+    displayBedAvailability("", "");
+}
+
+std::string RoomManager::getBedStatus(const std::string& hall, const std::string& room, 
+                                       const std::string& bed) {
+    for (const auto& r : rooms) {
+        if (r.hallName == hall && r.roomNumber == room && r.bedNumber == bed) {
+            return r.status;
+        }
+    }
+    return "not found";
+}
