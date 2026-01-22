@@ -16,3 +16,20 @@ void WorkAssignmentManager::loadAssignments() {
         nextAssignmentID = stoi(lastID.substr(1)) + 1;
     }
 }
+
+void WorkAssignmentManager::assignWorker(const string& complaintID, const string& role) {
+    Worker* worker = workerManager->findAvailableWorker(role);
+    if(worker){
+        stringstream ss;
+        ss << "A" << nextAssignmentID;
+        workAssignment assignment(ss.str(), complaintID, worker->getWorkerID(), "Assigned", "");
+        assignments.push_back(assignment);
+        fileHandler->writeAssignment(assignments);
+        workerManager->updateWorkerStatus(worker->getWorkerID(), false);
+        nextAssignmentID++;
+        cout << "Worker " << worker->getName() << " assigned to complaint " << complaintID << "\n";
+    }
+    else{
+        cout << "No available worker found for role: " << role << "\n";
+    }
+}
