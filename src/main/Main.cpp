@@ -221,4 +221,157 @@ private:
         }
         InputHelper::pause();
     }
+    void handleFileComplaint() {
+        std::cout << "\n=== FILE A COMPLAINT ===\n";
+        std::cout << "Select Category:\n";
+        std::cout << "  1. Electricity\n";
+        std::cout << "  2. Plumbing\n";
+        std::cout << "  3. Housekeeping\n";
+        std::cout << "  4. Internet\n";
+        std::cout << "  5. Other\n";
+        std::cout << "Choose (1-5): ";
+        int catChoice = InputHelper::getInt();
+        std::string category;
+        switch (catChoice) {
+            case 1: category = "Electricity"; break;
+            case 2: category = "Plumbing"; break;
+            case 3: category = "Housekeeping"; break;
+            case 4: category = "Internet"; break;
+            case 5: category = "Other"; break;
+            default: category = "Other"; break;
+        }
+
+        std::cout << "Enter Description: ";
+        std::string description = InputHelper::getLine();
+        std::string cid = "C" + std::to_string(complaintManager.getAllComplaints().size() + 1);
+        Complaint c(cid, currentUserID, category, description, "Pending", DateTimeHelper::getCurrentDate());
+        complaintManager.createComplaint(c);
+        InputHelper::pause();
+    }
+
+    void handleViewMyComplaints() {
+        std::cout << "\n=== MY COMPLAINTS ===\n";
+        auto comps = complaintManager.getComplaintsByStudent(currentUserID);
+        if (comps.empty()) {
+            std::cout << "You have no complaints filed.\n";
+        } else {
+            for (const auto& c : comps) {
+                std::cout << "\nComplaint ID: " << c.getComplaintID() << "\n";
+                std::cout << "Category: " << c.getCategory() << "\n";
+                std::cout << "Description: " << c.getDescription() << "\n";
+                std::cout << "Status: " << c.getStatus() << "\n";
+                std::cout << "Date: " << c.getDate() << "\n";
+            }
+        }
+        InputHelper::pause();
+    }
     
+    void studentFlow() {
+        bool loggedIn = true;
+        while (loggedIn) {
+            InputHelper::clearScreen();
+            showStudentMenu();
+            int choice = InputHelper::getInt();
+            
+            switch (choice) {
+                case 1: handleStudentProfile(); break;
+                case 2: handleUpdateEmail(); break;
+                case 3: handleUpdateContact(); break;
+                case 4: handleFileComplaint(); break;
+                case 5: handleViewMyComplaints(); break;
+                case 6: handleLogEntryExit(); break;
+                case 7: handleResetPassword(); break;
+                case 8: 
+                    loggedIn = false;
+                    std::cout << "\n✓ Logged out successfully!\n";
+                    InputHelper::pause();
+                    break;
+                default: 
+                    std::cout << "Invalid choice!\n";
+                    InputHelper::pause();
+            }
+        }
+    }
+    
+    void adminFlow() {
+        bool loggedIn = true;
+        while (loggedIn) {
+            InputHelper::clearScreen();
+            showAdminMenu();
+            int choice = InputHelper::getInt();
+            
+            switch (choice) {
+                case 1: 
+                    dashboardManager.displayDashboard();
+                    InputHelper::pause();
+                    break;
+                case 2: handleManageStudents(); break;
+                case 3: handleViewAllComplaints(); break;
+                case 4:
+                    loggedIn = false;
+                    std::cout << "\n✓ Logged out successfully!\n";
+                    InputHelper::pause();
+                    break;
+                default:
+                    std::cout << "Invalid choice!\n";
+                    InputHelper::pause();
+            }
+        }
+    }
+    
+public:
+    HallVerseApp() 
+        : studentManager(&fileHandler),
+          complaintManager(&fileHandler),
+          workerManager(&fileHandler),
+          entryExitManager(&fileHandler),
+          authManager(&fileHandler, &hasher),
+          assignmentManager(&complaintManager, &workerManager, &fileHandler),
+          dashboardManager(&studentManager, &complaintManager, &entryExitManager),
+          roomManager(),
+          isAdmin(false) {}
+    
+    void run() {
+        bool running = true;
+        
+        while (running) {
+            InputHelper::clearScreen();
+            showWelcome();
+            showMainMenu();
+            int choice = InputHelper::getInt();
+            
+            switch (choice) {
+                case 1:
+                    if (performLogin(true)) {
+                        adminFlow();
+                    }
+                    break;
+                case 2:
+                    if (performLogin(false)) {
+                        studentFlow();
+                    }
+                    break;
+                case 3:
+                    running = false;
+                    std::cout << "\n╔════════════════════════════════════╗\n";
+                    std::cout << "║ Thank you for using HallVerse!     ║\n";
+                    std::cout << "║ Developed by Team-14               ║\n";
+                    std::cout << "╚════════════════════════════════════╝\n\n";
+                    break;
+                default:
+                    std::cout << "Invalid choice!\n";
+                    InputHelper::pause();
+            }
+        }
+    }
+};
+int main() {
+#ifdef _WIN32
+    // Ensure Windows console uses UTF-8 so box-drawing characters render correctly
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
+    HallVerseApp app;
+    app.run();
+    return 0;
+}
