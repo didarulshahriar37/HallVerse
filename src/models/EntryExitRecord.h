@@ -6,14 +6,34 @@ using namespace std;
 
 class EntryExitRecord{
 
+    // Variables
     private:
     string recordID;
     string studentID;
     string type;
     string timestamp;
 
+    // Constructors
     public:
-    void displayRecord();
+    EntryExitRecord();
+    EntryExitRecord(string recordID, string studentID, string type, string timestamp);
+
+    // Getters
+    string getRecordID() const {
+        return recordID;
+    };
+    string getStudentID() const {
+        return studentID;
+    };
+    string getType() const {
+        return type;
+    };
+    string getTimestamp() const {
+        return timestamp;
+    };
+
+    // Other Methods
+    void displayRecord() const;
 };
 
 #endif
