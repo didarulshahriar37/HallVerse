@@ -32,3 +32,16 @@ string InputHelper::getLine() {
     getline(cin, input);
     return input;
 }
+
+void InputHelper::clearScreen() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
+void InputHelper::pause() {
+    cout << "Press Enter to continue...";
+    cin.get();
+}
