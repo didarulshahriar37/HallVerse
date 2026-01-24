@@ -107,7 +107,7 @@ private:
         std::cout << "Username: ";
         std::string username = InputHelper::getLine();
         std::cout << "Password: ";
-        std::string password = InputHelper::getLine();
+        std::string password = InputHelper::getPassword();
         
         if (authManager.login(username, password, isAdminLogin)) {
             currentUserID = username;
@@ -196,7 +196,7 @@ private:
     void handleResetPassword() {
         std::cout << "\n========== RESET PASSWORD ==========\n";
         std::cout << "Enter current password: ";
-        std::string currentPassword = InputHelper::getLine();
+        std::string currentPassword = InputHelper::getPassword();
         
         // Verify current password
         if (!authManager.login(currentUserID, currentPassword, false)) {
@@ -206,9 +206,9 @@ private:
         }
         
         std::cout << "Enter new password: ";
-        std::string newPassword = InputHelper::getLine();
+        std::string newPassword = InputHelper::getPassword();
         std::cout << "Confirm new password: ";
-        std::string confirmPassword = InputHelper::getLine();
+        std::string confirmPassword = InputHelper::getPassword();
         
         if (newPassword != confirmPassword) {
             std::cout << "\n✗ Passwords do not match!\n";

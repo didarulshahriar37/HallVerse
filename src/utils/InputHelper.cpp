@@ -2,6 +2,12 @@
 #include <iostream>
 #include <cctype>
 #include <limits>
+#ifdef _WIN32
+    #include <conio.h>
+#else
+    #include <termios.h>
+    #include <unistd.h>
+#endif
 
 using namespace std;
 
@@ -31,6 +37,46 @@ string InputHelper::getLine() {
     string input;
     getline(cin, input);
     return input;
+}
+
+string InputHelper::getPassword() {
+    #ifdef _WIN32
+        // Windows implementation
+        string password = "";
+        char c;
+        FILE* inputFile = stdin;
+        while ((c = _getch()) != '\r') {
+            if (c == '\b') {
+                if (!password.empty()) {
+                    password.pop_back();
+                    cout << "\b \b";
+                    cout.flush();
+                }
+            } else if (c != '\0') {
+                password += c;
+                cout << '*';
+                cout.flush();
+            }
+        }
+        cout << '\n';
+        return password;
+    #else
+        // Unix/Linux implementation
+        string password = "";
+        char c;
+        system("stty -echo");
+        while ((c = getchar()) != '\n') {
+            if (c == 127 || c == '\b') {
+                if (!password.empty()) {
+                    password.pop_back();
+                }
+            } else {
+                password += c;
+            }
+        }
+        system("stty echo");
+        return password;
+    #endif
 }
 
 void InputHelper::clearScreen() {
