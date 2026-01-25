@@ -8,6 +8,8 @@ public:
     static void showMainMenu();
     static void showAdminMenu();
     static void showStudentMenu();
+    static void entryExitMenu();
+    static void filingComplaintMenu();
 };
 
 #endif
