@@ -12,6 +12,7 @@ public:
     static double getDouble();
     static void clearScreen();
     static void pause();
+    static string getPassword();
 
     static string getNormalizedHall();
     static bool isValidRoomForHall(const string& hall, const string& room);
