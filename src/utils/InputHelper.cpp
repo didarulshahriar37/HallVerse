@@ -10,7 +10,7 @@ int InputHelper::getInt() {
     while(!(cin >> value)){
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input. Please enter a valid input: ";
+        cout << "Invalid input. Please enter a valid integer: ";
     }
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return value;
@@ -21,7 +21,7 @@ double InputHelper::getDouble() {
     while(!(cin >> value)){
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input. Please enter a valid input: ";
+        cout << "Invalid input. Please enter a valid integer: ";
     }
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return value;
