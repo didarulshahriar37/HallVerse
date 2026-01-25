@@ -47,6 +47,7 @@ void Student::viewProfile(){
 }
 
 // Update Methods
+// Update Email
 void Student::updateEmail(const std::string& newEmail){
     if(newEmail.empty()){
         std::cout << "You must provide an email address !\n";
@@ -56,6 +57,7 @@ void Student::updateEmail(const std::string& newEmail){
     std::cout << "Email updated to: " << email << "\n";
 }
 
+// Update Emergency Contact
 void Student::updateEmergencyContact(const std::string& newEmergencyContact){
     if(newEmergencyContact.empty()){
         std::cout << "You must provide an emergency contact !\n";
