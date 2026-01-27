@@ -344,7 +344,7 @@ public:
                     running = false;
                     cout << "\n╔════════════════════════════════════╗\n";
                     cout << "║ Thank you for using HallVerse!     ║\n";
-                    cout << "║ Developed by Team-14               ║\n";
+                    cout << "║      Developed by Team-14          ║\n";
                     cout << "╚════════════════════════════════════╝\n\n";
                     break;
                 default:
