@@ -14,6 +14,13 @@ Complaint Management
 - Students can file a complaint based on different categories (Electricity, plumbing, housekeeping, internet etc.)
 - Students can view their own complaints along with the status
 
+Log Entry/Exit Management
+- 
+- 
+
+**Admin Features**
+
+
 ## FOLDER STRUCTURE
 HallVerse/ <br>
 │ <br>
