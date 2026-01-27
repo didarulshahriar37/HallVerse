@@ -1,6 +1,11 @@
 ## PROJECT NAME
 HallVerse - A Console-based Hall Management System
 
+## OVERVIEW
+<p align="center">
+  <img src="others/Welcome.png" alt="Welcome" width="100%"/>
+</p>
+
 ## KEY FEATURES
 **User Authentication System** <br>
 The system provides secure username and password-based authentication for both Students and Admin. It ensures role-based acccess control, allowing users to access only authorized features. A password reset feature is also included to maintain account security. <br>
