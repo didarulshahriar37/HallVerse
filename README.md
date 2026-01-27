@@ -2,7 +2,7 @@
 HallVerse - A Console-based Hall Management System
 
 ## KEY FEATURES
-**Module Name**
+**Module Name** <br>
 Write the Title here<br>
 - 
 - Write points here
