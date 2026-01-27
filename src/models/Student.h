@@ -2,90 +2,90 @@
 #define STUDENT_H
 
 #include <string>
-
+using namespace std;
 class Student {
 private:
-    std::string studentID;
-    std::string name;
-    std::string email;
-    std::string emergencyContact;
-    std::string roomNumber;
-    std::string bedNumber;
-    std::string hallName;
+    string studentID;
+    string name;
+    string email;
+    string emergencyContact;
+    string roomNumber;
+    string bedNumber;
+    string hallName;
     double hallDues;
-    std::string passwordHash;
+    string passwordHash;
 
 public:
     // Constructors
     Student();
-    Student(const std::string& studentID,
-            const std::string& name,
-            const std::string& email,
-            const std::string& emergencyContact,
-            const std::string& roomNumber,
-            const std::string& bedNumber,
-            const std::string& hallName,
+    Student(const string& studentID,
+            const string& name,
+            const string& email,
+            const string& emergencyContact,
+            const string& roomNumber,
+            const string& bedNumber,
+            const string& hallName,
             double hallDues);
 
     // Getters (const-correct)
-    std::string getStudentID() const {
+    string getStudentID() const {
         return studentID;
     };
-    std::string getName() const {
+    string getName() const {
         return name;
     };
-    std::string getEmail() const {
+    string getEmail() const {
         return email;
     };
-    std::string getEmergencyContact() const {
+    string getEmergencyContact() const {
         return emergencyContact;
     };
-    std::string getRoomNumber() const {
+    string getRoomNumber() const {
         return roomNumber;
     };
-    std::string getBedNumber() const {
+    string getBedNumber() const {
         return bedNumber;
     };
-    std::string getHallName() const {
+    string getHallName() const {
         return hallName;
     };
     double getHallDues() const {
         return hallDues;
     };
-    std::string getPasswordHash() const {
+    string getPasswordHash() const {
         return passwordHash;
     };
 
     // Setters
-    void setName(const std::string& name) {
+    void setName(const string& name) {
         this->name = name;
     };
-    void setEmail(const std::string& email) {
+    void setEmail(const string& email) {
         this->email = email;
     };
-    void setEmergencyContact(const std::string& contact) {
+    void setEmergencyContact(const string& contact) {
         this->emergencyContact = contact;
     };
-    void setRoomNumber(const std::string& roomNumber) {
+    void setRoomNumber(const string& roomNumber) {
         this->roomNumber = roomNumber;
     };
-    void setBedNumber(const std::string& bedNumber) {
+    void setBedNumber(const string& bedNumber) {
         this->bedNumber = bedNumber;
     };
-    void setHallName(const std::string& hallName) {
+    void setHallName(const string& hallName) {
         this->hallName = hallName;
     };
     void setHallDues(double hallDues) {
         this->hallDues = hallDues;
     };
-    void setPasswordHash(const std::string& hash) {
+    void setPasswordHash(const string& hash) {
         this->passwordHash = hash;
     };
 
     // Other Methods
     void viewProfile();
-    void updateEmail(const std::string& email);
-    void updateEmergencyContact(const std::string& contact);
+    void updateEmail(const string& email);
+    void updateEmergencyContact(const string& contact);
 };
 
 #endif

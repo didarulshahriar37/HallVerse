@@ -18,25 +18,25 @@ FileHandler::FileHandler()
       assignmentFile("data/assignments.csv"),
       entryExitFile("data/entry_exit.csv") {}
 
-std::vector<std::string> FileHandler::split(const std::string& str, char delimiter) {
-    std::vector<std::string> tokens;
-    std::stringstream ss(str);
-    std::string token;
-    while (std::getline(ss, token, delimiter)) {
+vector<string> FileHandler::split(const string& str, char delimiter) {
+    vector<string> tokens;
+    stringstream ss(str);
+    string token;
+    while (getline(ss, token, delimiter)) {
         tokens.push_back(token);
     }
     return tokens;
 }
 
-std::vector<Student> FileHandler::readStudents() {
-    std::vector<Student> students;
-    std::ifstream file(studentFile);
-    std::string line;
+vector<Student> FileHandler::readStudents() {
+    vector<Student> students;
+    ifstream file(studentFile);
+    string line;
     
     if (!file.is_open()) return students;
 
-    std::getline(file, line);
-    while (std::getline(file, line)) {
+    getline(file, line);
+    while (getline(file, line)) {
         try {
             auto tokens = split(line, ',');
             // Possible formats (columns):
@@ -45,33 +45,33 @@ std::vector<Student> FileHandler::readStudents() {
             // 7: legacy id,name,email,emergencyContact,roomNumber,hallDues,password
             if (tokens.size() >= 9) {
                 double dues = 0.0;
-                try { dues = std::stod(tokens[7]); } catch (...) { dues = 0.0; }
+                try { dues = stod(tokens[7]); } catch (...) { dues = 0.0; }
                 Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], dues);
                 s.setPasswordHash(tokens[8]);
                 students.push_back(s);
             } else if (tokens.size() == 8) {
                 double dues = 0.0;
-                try { dues = std::stod(tokens[6]); } catch (...) { dues = 0.0; }
-                Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], std::string(""), dues);
+                try { dues = stod(tokens[6]); } catch (...) { dues = 0.0; }
+                Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], string(""), dues);
                 s.setPasswordHash(tokens[7]);
                 students.push_back(s);
             } else if (tokens.size() >= 7) {
                 double dues = 0.0;
-                try { dues = std::stod(tokens[5]); } catch (...) { dues = 0.0; }
-                Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], std::string(""), std::string(""), dues);
+                try { dues = stod(tokens[5]); } catch (...) { dues = 0.0; }
+                Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], string(""), string(""), dues);
                 s.setPasswordHash(tokens[6]);
                 students.push_back(s);
             }
-        } catch (const std::exception& e) {
-            std::cerr << "Error parsing student line: " << e.what() << std::endl;
+        } catch (const exception& e) {
+            cerr << "Error parsing student line: " << e.what() << endl;
         }
     }
     file.close();
     return students;
 }
 
-void FileHandler::writeStudents(const std::vector<Student>& students) {
-    std::ofstream file(studentFile);
+void FileHandler::writeStudents(const vector<Student>& students) {
+    ofstream file(studentFile);
     file << "studentID,name,email,emergencyContact,roomNumber,bedNumber,hallName,hallDues,password\n";
     for (const auto& s : students) {
         file << s.getStudentID() << "," << s.getName() << "," << s.getEmail() << ","
@@ -81,15 +81,15 @@ void FileHandler::writeStudents(const std::vector<Student>& students) {
     file.close();
 }
 
-std::vector<Complaint> FileHandler::readComplaints() {
-    std::vector<Complaint> complaints;
-    std::ifstream file(complaintFile);
-    std::string line;
+vector<Complaint> FileHandler::readComplaints() {
+    vector<Complaint> complaints;
+    ifstream file(complaintFile);
+    string line;
     
     if (!file.is_open()) return complaints;
     
-    std::getline(file, line);
-    while (std::getline(file, line)) {
+    getline(file, line);
+    while (getline(file, line)) {
         auto tokens = split(line, ',');
         if (tokens.size() >= 6) {
             complaints.push_back(Complaint(tokens[0], tokens[2], tokens[3], 
@@ -100,8 +100,8 @@ std::vector<Complaint> FileHandler::readComplaints() {
     return complaints;
 }
 
-void FileHandler::writeComplaints(const std::vector<Complaint>& complaints) {
-    std::ofstream file(complaintFile);
+void FileHandler::writeComplaints(const vector<Complaint>& complaints) {
+    ofstream file(complaintFile);
     file << "complaintID,studentID,category,description,status,date\n";
     for (const auto& c : complaints) {
         file << c.getComplaintID() << "," << c.getStudentID() << "," 
@@ -111,15 +111,15 @@ void FileHandler::writeComplaints(const std::vector<Complaint>& complaints) {
     file.close();
 }
 
-std::vector<Worker> FileHandler::readWorkers() {
-    std::vector<Worker> workers;
-    std::ifstream file(workerFile);
-    std::string line;
+vector<Worker> FileHandler::readWorkers() {
+    vector<Worker> workers;
+    ifstream file(workerFile);
+    string line;
     
     if (!file.is_open()) return workers;
     
-    std::getline(file, line);
-    while (std::getline(file, line)) {
+    getline(file, line);
+    while (getline(file, line)) {
         auto tokens = split(line, ',');
         if (tokens.size() >= 5) {
             // Handle different representations of availability: "1", "true", "0", "false"
@@ -131,8 +131,8 @@ std::vector<Worker> FileHandler::readWorkers() {
     return workers;
 }
 
-void FileHandler::writeWorkers(const std::vector<Worker>& workers) {
-    std::ofstream file(workerFile);
+void FileHandler::writeWorkers(const vector<Worker>& workers) {
+    ofstream file(workerFile);
     file << "workerID,name,role,isAvailable,contactNumber\n";
     for (const auto& w : workers) {
         file << w.getWorkerID() << "," << w.getName() << "," << w.getRole() << ","
@@ -141,15 +141,15 @@ void FileHandler::writeWorkers(const std::vector<Worker>& workers) {
     file.close();
 }
 
-std::vector<WorkAssignment> FileHandler::readAssignments() {
-    std::vector<WorkAssignment> assignments;
-    std::ifstream file(assignmentFile);
-    std::string line;
+vector<WorkAssignment> FileHandler::readAssignments() {
+    vector<WorkAssignment> assignments;
+    ifstream file(assignmentFile);
+    string line;
     
     if (!file.is_open()) return assignments;
     
-    std::getline(file, line);
-    while (std::getline(file, line)) {
+    getline(file, line);
+    while (getline(file, line)) {
         auto tokens = split(line, ',');
         if (tokens.size() >= 5) {
             assignments.push_back(WorkAssignment(tokens[0], tokens[1], tokens[2], 
@@ -160,8 +160,8 @@ std::vector<WorkAssignment> FileHandler::readAssignments() {
     return assignments;
 }
 
-void FileHandler::writeAssignments(const std::vector<WorkAssignment>& assignments) {
-    std::ofstream file(assignmentFile);
+void FileHandler::writeAssignments(const vector<WorkAssignment>& assignments) {
+    ofstream file(assignmentFile);
     file << "assignmentID,complaintID,workerID,status,report\n";
     for (const auto& a : assignments) {
         file << a.getAssignmentID() << "," << a.getComplaintID() << "," 
@@ -171,15 +171,15 @@ void FileHandler::writeAssignments(const std::vector<WorkAssignment>& assignment
     file.close();
 }
 
-std::vector<EntryExitRecord> FileHandler::readEntryExitLogs() {
-    std::vector<EntryExitRecord> records;
-    std::ifstream file(entryExitFile);
-    std::string line;
+vector<EntryExitRecord> FileHandler::readEntryExitLogs() {
+    vector<EntryExitRecord> records;
+    ifstream file(entryExitFile);
+    string line;
     
     if (!file.is_open()) return records;
     
-    std::getline(file, line);
-    while (std::getline(file, line)) {
+    getline(file, line);
+    while (getline(file, line)) {
         auto tokens = split(line, ',');
         if (tokens.size() >= 4) {
             records.push_back(EntryExitRecord(tokens[0], tokens[1], tokens[2], tokens[3]));
@@ -189,8 +189,8 @@ std::vector<EntryExitRecord> FileHandler::readEntryExitLogs() {
     return records;
 }
 
-void FileHandler::writeEntryExitLogs(const std::vector<EntryExitRecord>& records) {
-    std::ofstream file(entryExitFile);
+void FileHandler::writeEntryExitLogs(const vector<EntryExitRecord>& records) {
+    ofstream file(entryExitFile);
     file << "recordID,studentID,type,timestamp\n";
     for (const auto& r : records) {
         file << r.getRecordID() << "," << r.getStudentID() << "," 
@@ -199,15 +199,15 @@ void FileHandler::writeEntryExitLogs(const std::vector<EntryExitRecord>& records
     file.close();
 }
 
-bool FileHandler::checkCredentials(const std::string& username, const std::string& passwordHash, bool isAdmin) {
-    std::string filename = isAdmin ? adminFile : studentFile;
-    std::ifstream file(filename);
-    std::string line;
+bool FileHandler::checkCredentials(const string& username, const string& passwordHash, bool isAdmin) {
+    string filename = isAdmin ? adminFile : studentFile;
+    ifstream file(filename);
+    string line;
     
     if (!file.is_open()) return false;
     
-    std::getline(file, line);
-    while (std::getline(file, line)) {
+    getline(file, line);
+    while (getline(file, line)) {
         auto tokens = split(line, ',');
         if (tokens.size() > 0) {
             if (tokens[0] == username) {
@@ -219,22 +219,22 @@ bool FileHandler::checkCredentials(const std::string& username, const std::strin
     return false;
 }
 
-void FileHandler::updatePassword(const std::string& username, const std::string& newPasswordHash, bool isAdmin) {
-    std::string filename = isAdmin ? adminFile : studentFile;
-    std::vector<std::string> lines;
-    std::ifstream file(filename);
-    std::string line;
+void FileHandler::updatePassword(const string& username, const string& newPasswordHash, bool isAdmin) {
+    string filename = isAdmin ? adminFile : studentFile;
+    vector<string> lines;
+    ifstream file(filename);
+    string line;
     
     if (!file.is_open()) return;
     
-    std::getline(file, line);
+    getline(file, line);
     lines.push_back(line);
     
-    while (std::getline(file, line)) {
+    while (getline(file, line)) {
         auto tokens = split(line, ',');
         if (tokens.size() > 0 && tokens[0] == username) {
             if (!tokens.empty()) tokens.back() = newPasswordHash;
-            std::string newLine;
+            string newLine;
             for (size_t i = 0; i < tokens.size(); ++i) {
                 newLine += tokens[i];
                 if (i < tokens.size() - 1) newLine += ",";
@@ -246,7 +246,7 @@ void FileHandler::updatePassword(const std::string& username, const std::string&
     }
     file.close();
     
-    std::ofstream outFile(filename);
+    ofstream outFile(filename);
     for (const auto& l : lines) {
         outFile << l << "\n";
     }

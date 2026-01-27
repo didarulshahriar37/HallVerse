@@ -173,11 +173,11 @@ static void sha256(const uint8* data, size_t len, uint8* out) {
     }
 }
 
-std::string Hasher::hash(const std::string& input) {
+string Hasher::hash(const string& input) {
     uint8 digest[32];
     sha256(reinterpret_cast<const uint8*>(input.data()), input.size(), digest);
-    std::stringstream ss;
-    ss << std::hex << std::setfill('0');
-    for (int i = 0; i < 32; ++i) ss << std::setw(2) << (int)digest[i];
+    stringstream ss;
+    ss << hex << setfill('0');
+    for (int i = 0; i < 32; ++i) ss << setw(2) << (int)digest[i];
     return ss.str();
 }

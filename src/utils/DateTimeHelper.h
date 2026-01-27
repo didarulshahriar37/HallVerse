@@ -2,12 +2,12 @@
 #define DATETIMEHELPER_H
 
 #include <string>
-
+using namespace std;
 class DateTimeHelper {
 public:
-    static std::string getCurrentDateTime();
-    static std::string getCurrentDate();
-    static std::string getCurrentTime();
+    static string getCurrentDateTime();
+    static string getCurrentDate();
+    static string getCurrentTime();
 };
 
 #endif

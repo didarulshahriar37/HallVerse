@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-
+using namespace std;
 class Student;
 class Complaint;
 class Worker;
@@ -12,36 +12,36 @@ class EntryExitRecord;
 
 class FileHandler {
 private:
-    std::string id;
-    std::string studentFile;
-    std::string adminFile;
-    std::string complaintFile;
-    std::string workerFile;
-    std::string assignmentFile;
-    std::string entryExitFile;
+    string id;
+    string studentFile;
+    string adminFile;
+    string complaintFile;
+    string workerFile;
+    string assignmentFile;
+    string entryExitFile;
     
-    std::vector<std::string> split(const std::string& str, char delimiter);
+    vector<string> split(const string& str, char delimiter);
     
 public:
     FileHandler();
     
-    std::vector<Student> readStudents();
-    void writeStudents(const std::vector<Student>& students);
+    vector<Student> readStudents();
+    void writeStudents(const vector<Student>& students);
     
-    std::vector<Complaint> readComplaints();
-    void writeComplaints(const std::vector<Complaint>& complaints);
+    vector<Complaint> readComplaints();
+    void writeComplaints(const vector<Complaint>& complaints);
     
-    std::vector<Worker> readWorkers();
-    void writeWorkers(const std::vector<Worker>& workers);
+    vector<Worker> readWorkers();
+    void writeWorkers(const vector<Worker>& workers);
     
-    std::vector<WorkAssignment> readAssignments();
-    void writeAssignments(const std::vector<WorkAssignment>& assignments);
+    vector<WorkAssignment> readAssignments();
+    void writeAssignments(const vector<WorkAssignment>& assignments);
     
-    std::vector<EntryExitRecord> readEntryExitLogs();
-    void writeEntryExitLogs(const std::vector<EntryExitRecord>& records);
+    vector<EntryExitRecord> readEntryExitLogs();
+    void writeEntryExitLogs(const vector<EntryExitRecord>& records);
     
-    bool checkCredentials(const std::string& username, const std::string& passwordHash, bool isAdmin);
-    void updatePassword(const std::string& username, const std::string& newPasswordHash, bool isAdmin);
+    bool checkCredentials(const string& username, const string& passwordHash, bool isAdmin);
+    void updatePassword(const string& username, const string& newPasswordHash, bool isAdmin);
 };
 
 #endif

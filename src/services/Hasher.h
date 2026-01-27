@@ -2,13 +2,13 @@
 #define HASHER_H
 
 #include <string>
-
+using namespace std;
 class Hasher {
 private:
-    std::string id;
+    string id;
 public:
     Hasher();
-    std::string hash(const std::string& input);
+    string hash(const std::string& input);
 };
 
 #endif
