@@ -117,6 +117,10 @@ g++ -std=c++17 -Isrc -Isrc/managers -Isrc/models -Isrc/services -Isrc/utils -O2 
 .\build\HallVerse.exe
 ```
 
+<p align="center">
+  <img src="others/Thanks.png" alt="Thanks" width="50%"/>
+</p>
+
 ## CONTRIBUTORS
 <a align="center" href="https://github.com/didarulshahriar37/HallVerse/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=didarulshahriar37/HallVerse" />
