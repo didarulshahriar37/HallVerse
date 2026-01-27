@@ -5,6 +5,7 @@ HallVerse - A Console-based Hall Management System
 <p align="center">
   <img src="others/Welcome.png" alt="Welcome" width="50%"/>
 </p>
+HallVerse is a C++ based hall management system that manages students information, room allocation, payment status, complaints, and other administrative tasks through a simple, menu-driven interface. It focuses on secure data handling, organized record-keeping and smooth user interaction.
 
 ## KEY FEATURES
 **User Authentication System** <br>
