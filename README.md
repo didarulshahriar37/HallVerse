@@ -1,6 +1,15 @@
 ## PROJECT NAME
 HallVerse - A Console-based Hall Management System
 
+## KEY FEATURES
+**Module Name**
+Write the Title here<br>
+- 
+- Write points here
+- 
+
+Copy line 5-9 for incuding the key features
+
 ## FOLDER STRUCTURE
 HallVerse/ <br>
 │ <br>
