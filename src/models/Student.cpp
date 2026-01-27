@@ -13,13 +13,13 @@ Student::Student() {
 }
 
 // Parameterized constructor
-Student::Student(const std::string& studentID,
-                 const std::string& name,
-                 const std::string& email,
-                 const std::string& emergencyContact,
-                 const std::string& roomNumber,
-                 const std::string& bedNumber,
-                 const std::string& hallName,
+Student::Student(const string& studentID,
+                 const string& name,
+                 const string& email,
+                 const string& emergencyContact,
+                 const string& roomNumber,
+                 const string& bedNumber,
+                 const string& hallName,
                  double hallDues) {
     this->studentID = studentID;
     this->name = name;
@@ -34,35 +34,35 @@ Student::Student(const std::string& studentID,
 
 // View Profile Method
 void Student::viewProfile(){
-    std::cout << "\n============= STUDENT PROFILE =============\n";
-    std::cout << "Student Id: " << studentID << "\n";
-    std::cout << "Student Name: " << name << "\n";
-    std::cout << "Student Email: " << email << "\n";
-    std::cout << "Emergency Contact: " << emergencyContact << "\n";
-    std::cout << "Room Number: " << roomNumber << "\n";
-    std::cout << "Bed Number: " << bedNumber << "\n";
-    std::cout << "Hall Name: " << hallName << "\n";
-    std::cout << "Hall Due: $ " << std::fixed << std::setprecision(2) << hallDues << "\n";
-    std::cout << "===========================================\n";   
+    cout << "\n============= STUDENT PROFILE =============\n";
+    cout << "Student Id: " << studentID << "\n";
+    cout << "Student Name: " << name << "\n";
+    cout << "Student Email: " << email << "\n";
+    cout << "Emergency Contact: " << emergencyContact << "\n";
+    cout << "Room Number: " << roomNumber << "\n";
+    cout << "Bed Number: " << bedNumber << "\n";
+    cout << "Hall Name: " << hallName << "\n";
+    cout << "Hall Due: $ " << fixed << setprecision(2) << hallDues << "\n";
+    cout << "===========================================\n";   
 }
 
 // Update Methods
 // Update Email
-void Student::updateEmail(const std::string& newEmail){
+void Student::updateEmail(const string& newEmail){
     if(newEmail.empty()){
-        std::cout << "You must provide an email address !\n";
+        cout << "You must provide an email address !\n";
         return;
     }
     email = newEmail;
-    std::cout << "Email updated to: " << email << "\n";
+    cout << "Email updated to: " << email << "\n";
 }
 
 // Update Emergency Contact
-void Student::updateEmergencyContact(const std::string& newEmergencyContact){
+void Student::updateEmergencyContact(const string& newEmergencyContact){
     if(newEmergencyContact.empty()){
-        std::cout << "You must provide an emergency contact !\n";
+        cout << "You must provide an emergency contact !\n";
         return;
     }
     emergencyContact = newEmergencyContact;
-    std::cout << "Emergency Contact updated to: " << emergencyContact << "\n";
+    cout << "Emergency Contact updated to: " << emergencyContact << "\n";
 }

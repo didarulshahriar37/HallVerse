@@ -1,6 +1,5 @@
 #include "AuthenticationManager.h"
 
-using namespace std;
 AuthenticationManager::AuthenticationManager(FileHandler* fileHandler, Hasher* hasher) {
     this->fileHandler = fileHandler;
     this->hasher = hasher;

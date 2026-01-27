@@ -3,16 +3,16 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
-
+using namespace std;
 RoomManager::RoomManager() {
     loadRooms();
 }
 
-std::vector<std::string> RoomManager::split(const std::string& str, char delimiter) {
-    std::vector<std::string> tokens;
-    std::stringstream ss(str);
-    std::string token;
-    while (std::getline(ss, token, delimiter)) {
+vector<string> RoomManager::split(const string& str, char delimiter) {
+    vector<string> tokens;
+    stringstream ss(str);
+    string token;
+    while (getline(ss, token, delimiter)) {
         tokens.push_back(token);
     }
     return tokens;
@@ -20,16 +20,16 @@ std::vector<std::string> RoomManager::split(const std::string& str, char delimit
 
 void RoomManager::loadRooms() {
     rooms.clear();
-    std::ifstream file("data/rooms.csv");
+    ifstream file("data/rooms.csv");
     if (!file.is_open()) {
-        std::cerr << "Error opening rooms.csv\n";
+        cerr << "Error opening rooms.csv\n";
         return;
     }
     
-    std::string line;
+    string line;
     bool isHeader = true;
     
-    while (std::getline(file, line)) {
+    while (getline(file, line)) {
         if (isHeader) {
             isHeader = false;
             continue;
@@ -49,8 +49,8 @@ void RoomManager::loadRooms() {
     file.close();
 }
 
-void RoomManager::updateBedStatus(const std::string& hall, const std::string& room, 
-                                   const std::string& bed, const std::string& status) {
+void RoomManager::updateBedStatus(const string& hall, const string& room, 
+                                   const string& bed, const string& status) {
     for (auto& r : rooms) {
         if (r.hallName == hall && r.roomNumber == room && r.bedNumber == bed) {
             r.status = status;
@@ -59,9 +59,9 @@ void RoomManager::updateBedStatus(const std::string& hall, const std::string& ro
     }
     
     // Write back to CSV
-    std::ofstream file("data/rooms.csv");
+    ofstream file("data/rooms.csv");
     if (!file.is_open()) {
-        std::cerr << "Error writing to rooms.csv\n";
+        cerr << "Error writing to rooms.csv\n";
         return;
     }
     
@@ -73,9 +73,9 @@ void RoomManager::updateBedStatus(const std::string& hall, const std::string& ro
     file.close();
 }
 
-std::vector<RoomManager::Room> RoomManager::searchAvailableBeds(const std::string& hall, 
-                                                                 const std::string& room) {
-    std::vector<Room> results;
+vector<RoomManager::Room> RoomManager::searchAvailableBeds(const string& hall, 
+                                                                 const string& room) {
+    vector<Room> results;
     
     for (const auto& r : rooms) {
         if (r.status == "free") {
@@ -87,37 +87,37 @@ std::vector<RoomManager::Room> RoomManager::searchAvailableBeds(const std::strin
     
     return results;
 }
-void RoomManager::displayBedAvailability(const std::string& hall, const std::string& room) {
-    std::cout << "\n========== Bed Availability Report ==========\n";
-    std::cout << "Hall: " << (hall.empty() ? "All" : hall) << " | ";
-    std::cout << "Room: " << (room.empty() ? "All" : room) << "\n";
-    std::cout << "=============================================\n";
+void RoomManager::displayBedAvailability(const string& hall, const string& room) {
+    cout << "\n========== Bed Availability Report ==========\n";
+    cout << "Hall: " << (hall.empty() ? "All" : hall) << " | ";
+    cout << "Room: " << (room.empty() ? "All" : room) << "\n";
+    cout << "=============================================\n";
     
-    std::cout << std::left << std::setw(10) << "Hall" 
-              << std::setw(10) << "Room" 
-              << std::setw(8) << "Bed" 
+    cout << left << setw(10) << "Hall" 
+              << setw(10) << "Room" 
+              << setw(8) << "Bed" 
               << "Status\n";
-    std::cout << "---------------------------------------------\n";
+    cout << "---------------------------------------------\n";
     
     for (const auto& r : rooms) {
         if (!hall.empty() && r.hallName != hall) continue;
         if (!room.empty() && r.roomNumber != room) continue;
         
-        std::cout << std::left << std::setw(10) << r.hallName 
-                  << std::setw(10) << r.roomNumber 
-                  << std::setw(8) << r.bedNumber 
+        cout << left << setw(10) << r.hallName 
+                  << setw(10) << r.roomNumber 
+                  << setw(8) << r.bedNumber 
                   << r.status << "\n";
     }
     
-    std::cout << "=============================================\n";
+    cout << "=============================================\n";
 }
 
 void RoomManager::displayAllBeds() {
     displayBedAvailability("", "");
 }
 
-std::string RoomManager::getBedStatus(const std::string& hall, const std::string& room, 
-                                       const std::string& bed) {
+string RoomManager::getBedStatus(const string& hall, const string& room, 
+                                       const string& bed) {
     for (const auto& r : rooms) {
         if (r.hallName == hall && r.roomNumber == room && r.bedNumber == bed) {
             return r.status;

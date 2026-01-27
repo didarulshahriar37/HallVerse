@@ -1,12 +1,12 @@
 #ifndef DASHBOARDMANAGER_H
 #define DASHBOARDMANAGER_H
-
+using namespace std;
 #include "StudentManager.h"
 #include "ComplaintManager.h"
 #include "EntryExitManager.h" 
 class DashboardManager {
 private:
-    std::string id;
+    string id;
     StudentManager* studentManager;
     ComplaintManager* complaintManager;
     EntryExitManager* entryExitManager;

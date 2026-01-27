@@ -11,29 +11,29 @@ EntryExitManager::EntryExitManager(FileHandler* fh) : fileHandler(fh), nextRecor
 void EntryExitManager::loadLogs() {
     logs = fileHandler->readEntryExitLogs();
     if (!logs.empty()) {
-        std::string lastID = logs.back().getRecordID();
-        nextRecordID = std::stoi(lastID.substr(1)) + 1;
+        string lastID = logs.back().getRecordID();
+        nextRecordID = stoi(lastID.substr(1)) + 1;
     }
 }
 
-void EntryExitManager::logEntry(const std::string& studentID) {
-    std::stringstream ss;
+void EntryExitManager::logEntry(const string& studentID) {
+    stringstream ss;
     ss << "R" << nextRecordID;
-    std::string timestamp = DateTimeHelper::getCurrentDateTime();
+    string timestamp = DateTimeHelper::getCurrentDateTime();
     EntryExitRecord record(ss.str(), studentID, "Entry", timestamp);
     logs.push_back(record);
     fileHandler->writeEntryExitLogs(logs);
     nextRecordID++;
-    std::cout << "Entry logged successfully at " << timestamp << "\n";
+    cout << "Entry logged successfully at " << timestamp << "\n";
 }
 
-void EntryExitManager::logExit(const std::string& studentID) {
-    std::stringstream ss;
+void EntryExitManager::logExit(const string& studentID) {
+    stringstream ss;
     ss << "R" << nextRecordID;
-    std::string timestamp = DateTimeHelper::getCurrentDateTime();
+    string timestamp = DateTimeHelper::getCurrentDateTime();
     EntryExitRecord record(ss.str(), studentID, "Exit", timestamp);
     logs.push_back(record);
     fileHandler->writeEntryExitLogs(logs);
     nextRecordID++;
-    std::cout << "Exit logged successfully at " << timestamp << "\n";
+    cout << "Exit logged successfully at " << timestamp << "\n";
 }

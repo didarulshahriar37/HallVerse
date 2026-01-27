@@ -5,7 +5,6 @@
 #include "../services/FileHandler.h"
 #include "../services/Hasher.h"
 
-using namespace std;
 
 class AuthenticationManager {
     private:

@@ -4,19 +4,20 @@
 #include <vector>
 #include "../models/Complaint.h"
 #include "../services/FileHandler.h"
+using namespace std;
 
 class ComplaintManager {
 private:
     FileHandler* fileHandler;
-    std::vector<Complaint> complaints;
+    vector<Complaint> complaints;
     int nextComplaintID;
     
 public:
     ComplaintManager(FileHandler* fh);
     void createComplaint(const Complaint& complaint);
-    std::vector<Complaint> getComplaintsByStudent(const std::string& studentID);
-    std::vector<Complaint>& getAllComplaints() { return complaints; }
-    void updateComplaintStatus(const std::string& complaintID, const std::string& status);
+    vector<Complaint> getComplaintsByStudent(const string& studentID);
+    vector<Complaint>& getAllComplaints() { return complaints; }
+    void updateComplaintStatus(const string& complaintID, const string& status);
     void loadComplaints();
 };
 

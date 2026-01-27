@@ -2,8 +2,6 @@
 #define ADMIN_H
 #include<string>
 
-using namespace std;
-
 class Admin{
     
     // Variables

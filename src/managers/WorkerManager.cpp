@@ -10,7 +10,7 @@ void WorkerManager::loadWorkers() {
     workers = fileHandler->readWorkers();
 }
 
-Worker* WorkerManager::findAvailableWorker(const std::string& role) {
+Worker* WorkerManager::findAvailableWorker(const string& role) {
     for (auto& w : workers) {
         if (w.getRole() == role && w.checkAvailability()) {
             return &w;
@@ -19,7 +19,7 @@ Worker* WorkerManager::findAvailableWorker(const std::string& role) {
     return nullptr;
 }
 
-void WorkerManager::updateWorkerStatus(const std::string& workerID, bool availability) {
+void WorkerManager::updateWorkerStatus(const string& workerID, bool availability) {
     for (auto& w : workers) {
         if (w.getWorkerID() == workerID) {
             if (availability) {
@@ -30,9 +30,9 @@ void WorkerManager::updateWorkerStatus(const std::string& workerID, bool availab
             fileHandler->writeWorkers(workers);
             // Reload workers from file to ensure consistency
             loadWorkers();
-            std::cout << "Worker status updated!\n";
+            cout << "Worker status updated!\n";
             return;
         }
     }
-    std::cout << "Worker not found!\n";
+    cout << "Worker not found!\n";
 }

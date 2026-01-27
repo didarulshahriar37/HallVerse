@@ -35,17 +35,17 @@ private:
     DashboardManager dashboardManager;
     RoomManager roomManager;
 
-    std::string currentUserID;
+    string currentUserID;
     bool isAdmin;
 
     void showWelcome() {
-        std::cout << "\n";
-        std::cout << "╔═══════════════════════════════════════════╗\n";
-        std::cout << "║                                           ║\n";
-        std::cout << "║           WELCOME TO HALLVERSE            ║\n";
-        std::cout << "║    Islamic University of Technology       ║\n";
-        std::cout << "║                                           ║\n";
-        std::cout << "╚═══════════════════════════════════════════╝\n";
+        cout << "\n";
+        cout << "╔═══════════════════════════════════════════╗\n";
+        cout << "║                                           ║\n";
+        cout << "║           WELCOME TO HALLVERSE            ║\n";
+        cout << "║    Islamic University of Technology       ║\n";
+        cout << "║                                           ║\n";
+        cout << "╚═══════════════════════════════════════════╝\n";
     }
 
     // Menu display functions
@@ -66,7 +66,7 @@ private:
         if (student) {
             student->viewProfile();
         } else {
-            std::cout << "Student profile not found.\n";
+            cout << "Student profile not found.\n";
         }
         InputHelper::pause();
     }
@@ -81,7 +81,7 @@ private:
         } else if (choice == 2) {
             entryExitManager.logExit(currentUserID);
         } else {
-            std::cout << "Invalid choice!\n";
+            cout << "Invalid choice!\n";
         }
         InputHelper::pause();
     }
@@ -90,9 +90,9 @@ private:
     void handleUpdateEmail() {
         Student* student = studentManager.getStudent(currentUserID);
         if (student) {
-            std::cout << "\nCurrent Email: " << student->getEmail() << "\n";
-            std::cout << "Enter new email: ";
-            std::string email = InputHelper::getLine();
+            cout << "\nCurrent Email: " << student->getEmail() << "\n";
+            cout << "Enter new email: ";
+            string email = InputHelper::getLine();
             student->updateEmail(email);
             studentManager.updateStudent(*student);
         }
@@ -103,9 +103,9 @@ private:
     void handleUpdateContact() {
         Student* student = studentManager.getStudent(currentUserID);
         if (student) {
-            std::cout << "\nCurrent Emergency Contact: " << student->getEmergencyContact() << "\n";
-            std::cout << "Enter new contact: ";
-            std::string contact = InputHelper::getLine();
+            cout << "\nCurrent Emergency Contact: " << student->getEmergencyContact() << "\n";
+            cout << "Enter new contact: ";
+            string contact = InputHelper::getLine();
             student->updateEmergencyContact(contact);
             studentManager.updateStudent(*student);
         }
@@ -116,7 +116,7 @@ private:
     void handleFileComplaint() {
         MenuPrinter::filingComplaintMenu();
         int catChoice = InputHelper::getInt();
-        std::string category;
+        string category;
         switch (catChoice) {
             case 1: category = "Electricity"; break;
             case 2: category = "Plumbing"; break;
@@ -126,9 +126,9 @@ private:
             default: category = "Other"; break;
         }
 
-        std::cout << "Enter Description: ";
-        std::string description = InputHelper::getLine();
-        std::string cid = "C" + std::to_string(complaintManager.getAllComplaints().size() + 1);
+        cout << "Enter Description: ";
+        string description = InputHelper::getLine();
+        string cid = "C" + to_string(complaintManager.getAllComplaints().size() + 1);
         Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
         complaintManager.createComplaint(c);
         InputHelper::pause();
@@ -136,17 +136,17 @@ private:
 
     // Handles viewing student's own complaints
     void handleViewMyComplaints() {
-        std::cout << "\n=== MY COMPLAINTS ===\n";
+        cout << "\n=== MY COMPLAINTS ===\n";
         auto comps = complaintManager.getComplaintsByStudent(currentUserID);
         if (comps.empty()) {
-            std::cout << "You have no complaints filed.\n";
+            cout << "You have no complaints filed.\n";
         } else {
             for (const auto& c : comps) {
-                std::cout << "\nComplaint ID: " << c.getComplaintID() << "\n";
-                std::cout << "Category: " << c.getCategory() << "\n";
-                std::cout << "Description: " << c.getDescription() << "\n";
-                std::cout << "Status: " << c.getStatus() << "\n";
-                std::cout << "Date: " << c.getDate() << "\n";
+                cout << "\nComplaint ID: " << c.getComplaintID() << "\n";
+                cout << "Category: " << c.getCategory() << "\n";
+                cout << "Description: " << c.getDescription() << "\n";
+                cout << "Status: " << c.getStatus() << "\n";
+                cout << "Date: " << c.getDate() << "\n";
             }
         }
         InputHelper::pause();
@@ -156,20 +156,20 @@ private:
     // Authentication handling
     bool performLogin(bool isAdminLogin) {
         InputHelper::clearScreen();
-        std::cout << "\n========== " << (isAdminLogin ? "ADMIN" : "STUDENT") << " LOGIN ==========" << "\n";
-        std::cout << "Username: ";
-        std::string username = InputHelper::getLine();
-        std::cout << "Password: ";
-        std::string password = InputHelper::getPassword();
+        cout << "\n========== " << (isAdminLogin ? "ADMIN" : "STUDENT") << " LOGIN ==========" << "\n";
+        cout << "Username: ";
+        string username = InputHelper::getLine();
+        cout << "Password: ";
+        string password = InputHelper::getPassword();
         
         if (authManager.login(username, password, isAdminLogin)) {
             currentUserID = username;
             isAdmin = isAdminLogin;
-            std::cout << "\n\u2713 Login successful! Welcome, " << username << "\n";
+            cout << "\n\u2713 Login successful! Welcome, " << username << "\n";
             InputHelper::pause();
             return true;
         } else {
-            std::cout << "\n\u2717 Invalid credentials!\n";
+            cout << "\n\u2717 Invalid credentials!\n";
             InputHelper::pause();
             return false;
         }
@@ -177,27 +177,27 @@ private:
     
     // Handles managing students (admin)
     void handleManageStudents() {
-        std::cout << "\n========== MANAGE STUDENTS ==========\n";
-        std::cout << "1. View All Students\n";
-        std::cout << "Choice: ";
+        cout << "\n========== MANAGE STUDENTS ==========\n";
+        cout << "1. View All Students\n";
+        cout << "Choice: ";
         int choice = InputHelper::getInt();
         
         if (choice == 1) {
-                std::cout << "\n========== ALL STUDENTS ==========" << "\n";
-                std::cout << std::left << std::setw(12) << "ID"
-                          << std::setw(28) << "Name"
-                          << std::setw(8) << "Room"
-                          << std::setw(6) << "Bed"
-                          << std::setw(10) << "Hall"
-                          << std::right << std::setw(10) << "Dues" << "\n";
-                std::cout << "────────────────────────────────────────────────────────────────────────────\n";
+                cout << "\n========== ALL STUDENTS ==========" << "\n";
+                cout << left << setw(12) << "ID"
+                          << setw(28) << "Name"
+                          << setw(8) << "Room"
+                          << setw(6) << "Bed"
+                          << setw(10) << "Hall"
+                          << right << setw(10) << "Dues" << "\n";
+                cout << "────────────────────────────────────────────────────────────────────────────\n";
                 for (const auto& s : studentManager.getAllStudents()) {
-                    std::cout << std::left << std::setw(12) << s.getStudentID()
-                              << std::setw(28) << s.getName()
-                              << std::setw(8) << s.getRoomNumber()
-                              << std::setw(6) << s.getBedNumber()
-                              << std::setw(10) << s.getHallName();
-                    std::cout << std::right << std::fixed << std::setprecision(2) << std::setw(10) << s.getHallDues() << "\n";
+                    cout << left << setw(12) << s.getStudentID()
+                              << setw(28) << s.getName()
+                              << setw(8) << s.getRoomNumber()
+                              << setw(6) << s.getBedNumber()
+                              << setw(10) << s.getHallName();
+                    cout << right << fixed << setprecision(2) << setw(10) << s.getHallDues() << "\n";
                 }
             InputHelper::pause();
         }
@@ -205,22 +205,22 @@ private:
 
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
-        std::cout << "\n========== ALL COMPLAINTS ==========\n";
+        cout << "\n========== ALL COMPLAINTS ==========\n";
         auto& complaints = complaintManager.getAllComplaints();
         if (complaints.empty()) {
-            std::cout << "No complaints found.\n";
+            cout << "No complaints found.\n";
         } else {
             for (const auto& c : complaints) {
                 Student* s = studentManager.getStudent(c.getStudentID());
-                std::cout << "\n┌─────────────────────────────────────┐\n";
-                std::cout << "│ Complaint ID: " << c.getComplaintID() << "\n";
-                std::cout << "│ Student: " << (s ? s->getName() : "Unknown") << "\n";
-                std::cout << "│ Room: " << (s ? s->getRoomNumber() : "N/A") << "\n";
-                std::cout << "│ Category: " << c.getCategory() << "\n";
-                std::cout << "│ Description: " << c.getDescription() << "\n";
-                std::cout << "│ Status: " << c.getStatus() << "\n";
-                std::cout << "│ Date: " << c.getDate() << "\n";
-                std::cout << "└─────────────────────────────────────┘\n";
+                cout << "\n┌─────────────────────────────────────┐\n";
+                cout << "│ Complaint ID: " << c.getComplaintID() << "\n";
+                cout << "│ Student: " << (s ? s->getName() : "Unknown") << "\n";
+                cout << "│ Room: " << (s ? s->getRoomNumber() : "N/A") << "\n";
+                cout << "│ Category: " << c.getCategory() << "\n";
+                cout << "│ Description: " << c.getDescription() << "\n";
+                cout << "│ Status: " << c.getStatus() << "\n";
+                cout << "│ Date: " << c.getDate() << "\n";
+                cout << "└─────────────────────────────────────┘\n";
             }
         }
         InputHelper::pause();
@@ -228,27 +228,27 @@ private:
 
     // Handles resetting password
     void handleResetPassword() {
-        std::cout << "\n========== RESET PASSWORD ==========\n";
-        std::cout << "Enter current password: ";
-        std::string currentPassword = InputHelper::getPassword();
+        cout << "\n========== RESET PASSWORD ==========\n";
+        cout << "Enter current password: ";
+        string currentPassword = InputHelper::getPassword();
         
         // Verify current password
         if (!authManager.login(currentUserID, currentPassword, false)) {
-            std::cout << "\n✗ Current password is incorrect!\n";
+            cout << "\n✗ Current password is incorrect!\n";
             InputHelper::pause();
             return;
         }
         
-        std::cout << "Enter new password: ";
-        std::string newPassword = InputHelper::getPassword();
-        std::cout << "Confirm new password: ";
-        std::string confirmPassword = InputHelper::getPassword();
+        cout << "Enter new password: ";
+        string newPassword = InputHelper::getPassword();
+        cout << "Confirm new password: ";
+        string confirmPassword = InputHelper::getPassword();
         
         if (newPassword != confirmPassword) {
-            std::cout << "\n✗ Passwords do not match!\n";
+            cout << "\n✗ Passwords do not match!\n";
         } else {
             authManager.resetPassword(currentUserID, newPassword, false);
-            std::cout << "\n✓ Password reset successfully!\n";
+            cout << "\n✓ Password reset successfully!\n";
         }
         InputHelper::pause();
     }
@@ -271,11 +271,11 @@ private:
                 case 7: handleResetPassword(); break;
                 case 8: 
                     loggedIn = false;
-                    std::cout << "\n✓ Logged out successfully!\n";
+                    cout << "\n✓ Logged out successfully!\n";
                     InputHelper::pause();
                     break;
                 default: 
-                    std::cout << "Invalid choice!\n";
+                    cout << "Invalid choice!\n";
                     InputHelper::pause();
             }
         }
@@ -298,11 +298,11 @@ private:
                 case 3: handleViewAllComplaints(); break;
                 case 4:
                     loggedIn = false;
-                    std::cout << "\n✓ Logged out successfully!\n";
+                    cout << "\n✓ Logged out successfully!\n";
                     InputHelper::pause();
                     break;
                 default:
-                    std::cout << "Invalid choice!\n";
+                    cout << "Invalid choice!\n";
                     InputHelper::pause();
             }
         }
@@ -342,13 +342,13 @@ public:
                     break;
                 case 3:
                     running = false;
-                    std::cout << "\n╔════════════════════════════════════╗\n";
-                    std::cout << "║ Thank you for using HallVerse!     ║\n";
-                    std::cout << "║ Developed by Team-14               ║\n";
-                    std::cout << "╚════════════════════════════════════╝\n\n";
+                    cout << "\n╔════════════════════════════════════╗\n";
+                    cout << "║ Thank you for using HallVerse!     ║\n";
+                    cout << "║ Developed by Team-14               ║\n";
+                    cout << "╚════════════════════════════════════╝\n\n";
                     break;
                 default:
-                    std::cout << "Invalid choice!\n";
+                    cout << "Invalid choice!\n";
                     InputHelper::pause();
             }
         }
