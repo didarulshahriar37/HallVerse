@@ -3,7 +3,7 @@ HallVerse - A Console-based Hall Management System
 
 ## OVERVIEW
 <p align="center">
-  <img src="others/Welcome.png" alt="Welcome" width="100%"/>
+  <img src="others/Welcome.png" alt="Welcome" width="50%"/>
 </p>
 
 ## KEY FEATURES
