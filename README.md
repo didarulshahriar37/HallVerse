@@ -4,6 +4,8 @@ HallVerse - A Console-based Hall Management System
 ## KEY FEATURES
 **User Authentication System** <br>
 The system provides secure username and password-based authentication for both Students and Admin. It ensures role-based acccess control, allowing users to access only authorized features. A password reset feature is also included to maintain account security.
+- "Student ID" is the username for all
+- "password" is set as default password for all. Students can reset the password after logging in
 
 **Student Features** <br>
 Profile Management
@@ -15,8 +17,8 @@ Complaint Management
 - Students can view their own complaints along with the status
 
 Log Entry/Exit Management
-- 
-- 
+- Students can log their entry/exit from the hall
+- Each log is recorded with exact date and time and can be monitored by the admin
 
 **Admin Features**
 
