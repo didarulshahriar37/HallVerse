@@ -11,6 +11,7 @@
 
 using namespace std;
 
+// Get integer input with validation
 int InputHelper::getInt() {
     int value;
     while(!(cin >> value)){
@@ -22,6 +23,7 @@ int InputHelper::getInt() {
     return value;
 }
 
+// Get double input with validation
 double InputHelper::getDouble() {
     double value;
     while(!(cin >> value)){
@@ -33,12 +35,14 @@ double InputHelper::getDouble() {
     return value;
 }
 
+// Get line input
 string InputHelper::getLine() {
     string input;
     getline(cin, input);
     return input;
 }
 
+// Get password input without echoing
 string InputHelper::getPassword() {
     #ifdef _WIN32
         // Windows implementation
@@ -79,6 +83,7 @@ string InputHelper::getPassword() {
     #endif
 }
 
+// Clear the console screen
 void InputHelper::clearScreen() {
     #ifdef _WIN32
         system("cls");
@@ -135,10 +140,11 @@ bool InputHelper::isValidRoomForHall(const string& hall, const string& room){
     return true;
 }
 
+// valid beds: A, B, C, D
 bool InputHelper::isValidBed(const string& bed){
     if(bed.size() != 1){
         return false;
     }
     char c = tolower(bed[0]);
-    return (c == 'a' || c == 'b' || c == 'd');
+    return (c == 'a' || c == 'b' || c == 'c' || c == 'd');
 }

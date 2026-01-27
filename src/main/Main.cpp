@@ -48,6 +48,7 @@ private:
         std::cout << "╚═══════════════════════════════════════════╝\n";
     }
 
+    // Menu display functions
     void showMainMenu() {
         MenuPrinter::showMainMenu();
     }
@@ -57,7 +58,9 @@ private:
      void showAdminMenu() {
         MenuPrinter::showAdminMenu();
     }
-    
+
+    // ------------- Student side features starts here ----------------
+    // Handles viewing student profile
     void handleStudentProfile() {
         Student* student = studentManager.getStudent(currentUserID);
         if (student) {
@@ -68,11 +71,9 @@ private:
         InputHelper::pause();
     }
     
+    // Handles logging entry/exit
     void handleLogEntryExit() {
-        std::cout << "\n========== ENTRY/EXIT ==========\n";
-        std::cout << "1. Log Entry\n";
-        std::cout << "2. Log Exit\n";
-        std::cout << "Choice: ";
+        MenuPrinter::entryExitMenu();
         int choice = InputHelper::getInt();
         
         if (choice == 1) {
@@ -85,6 +86,74 @@ private:
         InputHelper::pause();
     }
 
+    // Handles updating email
+    void handleUpdateEmail() {
+        Student* student = studentManager.getStudent(currentUserID);
+        if (student) {
+            std::cout << "\nCurrent Email: " << student->getEmail() << "\n";
+            std::cout << "Enter new email: ";
+            std::string email = InputHelper::getLine();
+            student->updateEmail(email);
+            studentManager.updateStudent(*student);
+        }
+        InputHelper::pause();
+    }
+
+    // Handles updating emergency contact
+    void handleUpdateContact() {
+        Student* student = studentManager.getStudent(currentUserID);
+        if (student) {
+            std::cout << "\nCurrent Emergency Contact: " << student->getEmergencyContact() << "\n";
+            std::cout << "Enter new contact: ";
+            std::string contact = InputHelper::getLine();
+            student->updateEmergencyContact(contact);
+            studentManager.updateStudent(*student);
+        }
+        InputHelper::pause();
+    }
+
+    // Handles filing a complaint
+    void handleFileComplaint() {
+        MenuPrinter::filingComplaintMenu();
+        int catChoice = InputHelper::getInt();
+        std::string category;
+        switch (catChoice) {
+            case 1: category = "Electricity"; break;
+            case 2: category = "Plumbing"; break;
+            case 3: category = "Housekeeping"; break;
+            case 4: category = "Internet"; break;
+            case 5: category = "Other"; break;
+            default: category = "Other"; break;
+        }
+
+        std::cout << "Enter Description: ";
+        std::string description = InputHelper::getLine();
+        std::string cid = "C" + std::to_string(complaintManager.getAllComplaints().size() + 1);
+        Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
+        complaintManager.createComplaint(c);
+        InputHelper::pause();
+    }
+
+    // Handles viewing student's own complaints
+    void handleViewMyComplaints() {
+        std::cout << "\n=== MY COMPLAINTS ===\n";
+        auto comps = complaintManager.getComplaintsByStudent(currentUserID);
+        if (comps.empty()) {
+            std::cout << "You have no complaints filed.\n";
+        } else {
+            for (const auto& c : comps) {
+                std::cout << "\nComplaint ID: " << c.getComplaintID() << "\n";
+                std::cout << "Category: " << c.getCategory() << "\n";
+                std::cout << "Description: " << c.getDescription() << "\n";
+                std::cout << "Status: " << c.getStatus() << "\n";
+                std::cout << "Date: " << c.getDate() << "\n";
+            }
+        }
+        InputHelper::pause();
+    }
+    // ------------- Student side features ends here ----------------
+    
+    // Authentication handling
     bool performLogin(bool isAdminLogin) {
         InputHelper::clearScreen();
         std::cout << "\n========== " << (isAdminLogin ? "ADMIN" : "STUDENT") << " LOGIN ==========" << "\n";
@@ -105,31 +174,8 @@ private:
             return false;
         }
     }
-
-    void handleUpdateEmail() {
-        Student* student = studentManager.getStudent(currentUserID);
-        if (student) {
-            std::cout << "\nCurrent Email: " << student->getEmail() << "\n";
-            std::cout << "Enter new email: ";
-            std::string email = InputHelper::getLine();
-            student->updateEmail(email);
-            studentManager.updateStudent(*student);
-        }
-        InputHelper::pause();
-    }
-
-    void handleUpdateContact() {
-        Student* student = studentManager.getStudent(currentUserID);
-        if (student) {
-            std::cout << "\nCurrent Emergency Contact: " << student->getEmergencyContact() << "\n";
-            std::cout << "Enter new contact: ";
-            std::string contact = InputHelper::getLine();
-            student->updateEmergencyContact(contact);
-            studentManager.updateStudent(*student);
-        }
-        InputHelper::pause();
-    }
     
+    // Handles managing students (admin)
     void handleManageStudents() {
         std::cout << "\n========== MANAGE STUDENTS ==========\n";
         std::cout << "1. View All Students\n";
@@ -154,9 +200,11 @@ private:
                     std::cout << std::right << std::fixed << std::setprecision(2) << std::setw(10) << s.getHallDues() << "\n";
                 }
             InputHelper::pause();
+        }
     }
-}
-     void handleViewAllComplaints() {
+
+    // Handles viewing all complaints (admin)
+    void handleViewAllComplaints() {
         std::cout << "\n========== ALL COMPLAINTS ==========\n";
         auto& complaints = complaintManager.getAllComplaints();
         if (complaints.empty()) {
@@ -177,6 +225,8 @@ private:
         }
         InputHelper::pause();
     }
+
+    // Handles resetting password
     void handleResetPassword() {
         std::cout << "\n========== RESET PASSWORD ==========\n";
         std::cout << "Enter current password: ";
@@ -202,51 +252,8 @@ private:
         }
         InputHelper::pause();
     }
-    void handleFileComplaint() {
-        std::cout << "\n=== FILE A COMPLAINT ===\n";
-        std::cout << "Select Category:\n";
-        std::cout << "  1. Electricity\n";
-        std::cout << "  2. Plumbing\n";
-        std::cout << "  3. Housekeeping\n";
-        std::cout << "  4. Internet\n";
-        std::cout << "  5. Other\n";
-        std::cout << "Choose (1-5): ";
-        int catChoice = InputHelper::getInt();
-        std::string category;
-        switch (catChoice) {
-            case 1: category = "Electricity"; break;
-            case 2: category = "Plumbing"; break;
-            case 3: category = "Housekeeping"; break;
-            case 4: category = "Internet"; break;
-            case 5: category = "Other"; break;
-            default: category = "Other"; break;
-        }
 
-        std::cout << "Enter Description: ";
-        std::string description = InputHelper::getLine();
-        std::string cid = "C" + std::to_string(complaintManager.getAllComplaints().size() + 1);
-        Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
-        complaintManager.createComplaint(c);
-        InputHelper::pause();
-    }
-
-    void handleViewMyComplaints() {
-        std::cout << "\n=== MY COMPLAINTS ===\n";
-        auto comps = complaintManager.getComplaintsByStudent(currentUserID);
-        if (comps.empty()) {
-            std::cout << "You have no complaints filed.\n";
-        } else {
-            for (const auto& c : comps) {
-                std::cout << "\nComplaint ID: " << c.getComplaintID() << "\n";
-                std::cout << "Category: " << c.getCategory() << "\n";
-                std::cout << "Description: " << c.getDescription() << "\n";
-                std::cout << "Status: " << c.getStatus() << "\n";
-                std::cout << "Date: " << c.getDate() << "\n";
-            }
-        }
-        InputHelper::pause();
-    }
-    
+    // Student flow after login
     void studentFlow() {
         bool loggedIn = true;
         while (loggedIn) {
@@ -274,6 +281,7 @@ private:
         }
     }
     
+    // Admin flow after login
     void adminFlow() {
         bool loggedIn = true;
         while (loggedIn) {

@@ -4,6 +4,8 @@
 #include <iomanip>
  
 using namespace std;
+
+// Get current date and time in "YYYY-MM-DD HH:MM:SS" format
 std::string DateTimeHelper::getCurrentDateTime() {
     time_t now = time(0);
     tm* ltm = localtime(&now);
@@ -18,6 +20,7 @@ std::string DateTimeHelper::getCurrentDateTime() {
     return ss.str();
 }
 
+// Get current date in "YYYY-MM-DD" format
 std::string DateTimeHelper::getCurrentDate() {
     time_t now = time(0);
     tm* ltm = localtime(&now);
@@ -29,6 +32,7 @@ std::string DateTimeHelper::getCurrentDate() {
     return ss.str();
 }
 
+// Get current time in "HH:MM:SS" format
 std::string DateTimeHelper::getCurrentTime() {
     time_t now = time(0);
     tm* ltm = localtime(&now);
