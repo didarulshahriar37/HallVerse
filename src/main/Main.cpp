@@ -228,30 +228,43 @@ private:
 
     // Handles resetting password
     void handleResetPassword() {
-        cout << "\n========== RESET PASSWORD ==========\n";
-        cout << "Enter current password: ";
-        string currentPassword = InputHelper::getPassword();
-        
-        // Verify current password
-        if (!authManager.login(currentUserID, currentPassword, false)) {
-            cout << "\n✗ Current password is incorrect!\n";
-            InputHelper::pause();
-            return;
-        }
-        
-        cout << "Enter new password: ";
-        string newPassword = InputHelper::getPassword();
-        cout << "Confirm new password: ";
-        string confirmPassword = InputHelper::getPassword();
-        
-        if (newPassword != confirmPassword) {
-            cout << "\n✗ Passwords do not match!\n";
-        } else {
-            authManager.resetPassword(currentUserID, newPassword, false);
-            cout << "\n✓ Password reset successfully!\n";
-        }
+    cout << "\n========== RESET PASSWORD ==========\n";
+    cout << "Enter current password: ";
+    string currentPassword = InputHelper::getPassword();
+
+    if (!authManager.login(currentUserID, currentPassword, false)) {
+        cout << "\n✗ Current password is incorrect!\n";
         InputHelper::pause();
+        return;
     }
+
+    string newPassword, confirmPassword;
+
+    while (true) {
+        cout << "Enter new password: ";
+        newPassword = InputHelper::getPassword();
+
+        if (newPassword.length() < 8) {
+            cout << "✗ Password must contain at least 8 characters!\n";
+            continue;
+        }
+
+        cout << "Confirm new password: ";
+        confirmPassword = InputHelper::getPassword();
+
+        if (newPassword != confirmPassword) {
+            cout << "✗ Passwords do not match!\n";
+            continue;
+        }
+
+        break;
+    }
+
+    authManager.resetPassword(currentUserID, newPassword, false);
+    cout << "\n✓ Password reset successfully!\n";
+    InputHelper::pause();
+}
+
 
     // Student flow after login
     void studentFlow() {
