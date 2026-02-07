@@ -179,6 +179,7 @@ private:
     void handleManageStudents() {
         cout << "\n========== MANAGE STUDENTS ==========\n";
         cout << "1. View All Students\n";
+        cout << "2. Add Students\n";
         cout << "Choice: ";
         int choice = InputHelper::getInt();
         
@@ -199,9 +200,53 @@ private:
                               << setw(10) << s.getHallName();
                     cout << right << fixed << setprecision(2) << setw(10) << s.getHallDues() << "\n";
                 }
+            }
+            else if(choice == 2){
+                cout << "\n=== ADD NEW STUDENT ===\n";
+                cout << left << setw(12) << "ID" << setw(28) << "Name" << setw(8) << "Room" << setw(6) << "Bed" << setw(10) << "Hall" << right << setw(10) << "Dues" << "\n";
+                cout << "────────────────────────────────────────────────────────────────────────────\n";
+                for(const auto& s : studentManager.getAllStudents()){
+                    cout << left << setw(12) << s.getStudentID() << setw(28) << s.getName() << setw(8) << s.getRoomNumber() << setw(6) << s.getBedNumber() << setw(10) << s.getHallName();
+                    cout << right << fixed << setprecision(2) << setw(10) << s.getHallDues() << "\n";
+                }
+
+                string id, name, email, contact;
+                cout << "Enter Student ID: ";
+                id = InputHelper::getLine();
+                cout << "Enter Name: ";
+                name = InputHelper::getLine();
+                cout << "Enter Email: ";
+                email = InputHelper::getLine();
+                cout << "Enter Emergency Contact: ";
+                contact = InputHelper::getLine();
+                cout << "Enter Hall Name (South/North) : ";
+                string hall = InputHelper::getNormalizedHall();
+                string room ;
+                do{
+                    cout << "Enter Room Number (e.g. 101): ";
+                    room = InputHelper::getLine();
+                    if(!InputHelper::isValidRoomForHall(hall, room)){
+                        cout << "Invalid room for the selected hall. Try again.\n";
+                    }
+                } while(!InputHelper::isValidRoomForHall(hall, room));
+                string bed;
+                do{
+                    cout << "Enter Bed Number (A/B/C.D): ";
+                    bed = InputHelper::getLine();
+                    if(!InputHelper::isValidBed(bed)){
+                        cout << "Invalid Bed. Use A, B, C, D.\n";
+                    }
+                } while(!InputHelper::isValidBed(bed));
+
+                bed[0] = toupper(bed[0]);
+                cout << "Enter Hall Dues: ";
+                double dues = InputHelper::getDouble();
+
+                Student student(id, name, email, contact, room, bed, hall, dues);
+                studentManager.addStudent(student);
+            }
             InputHelper::pause();
         }
-    }
 
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
