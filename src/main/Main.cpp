@@ -202,7 +202,7 @@ private:
                 }
             }
             else if(choice == 2){
-                cout << "\n=== ADD NEW STUDENT ===\n";
+                cout << "\n========== ADD NEW STUDENT ==========\n";
                 cout << left << setw(12) << "ID" << setw(28) << "Name" << setw(8) << "Room" << setw(6) << "Bed" << setw(10) << "Hall" << right << setw(10) << "Dues" << "\n";
                 cout << "────────────────────────────────────────────────────────────────────────────\n";
                 for(const auto& s : studentManager.getAllStudents()){
@@ -231,7 +231,7 @@ private:
                 } while(!InputHelper::isValidRoomForHall(hall, room));
                 string bed;
                 do{
-                    cout << "Enter Bed Number (A/B/C.D): ";
+                    cout << "Enter Bed Number (A/B/C/D): ";
                     bed = InputHelper::getLine();
                     if(!InputHelper::isValidBed(bed)){
                         cout << "Invalid Bed. Use A, B, C, D.\n";
