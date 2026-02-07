@@ -41,6 +41,7 @@ From Dashboard admin can view: <br>
 
 Student Management:
 - Admin can view all students
+- Admin can add new students
 
 Complaint Management:
 - Admin can view all complaints
