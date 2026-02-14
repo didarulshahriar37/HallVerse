@@ -5,14 +5,19 @@ HallVerse - A Console-based Hall Management System
 <p align="center">
   <img src="others/Welcome.png" alt="Welcome" width="50%"/>
 </p>
-HallVerse is a C++ based hall management system that manages students information, room allocation, payment status, complaints, and other administrative tasks through a simple, menu-driven interface. It focuses on secure data handling, organized record-keeping and smooth user interaction.
+HallVerse is a C++ based hall management system that manages student information, room allocation, payment status, complaints, and other administrative tasks through a simple, menu-driven interface. It focuses on secure data handling using CSV files, organized record-keeping and smooth user interaction.
 
 ## KEY FEATURES
 **User Authentication System** <br>
 The system provides secure username and password-based authentication for both Students and Admin. It ensures role-based acccess control, allowing users to access only authorized features. A password reset feature is also included to maintain account security. <br>
+
 Student login:
-- "Student ID" is the username for all
-- "password" is set as default password for all. Students can reset the password after logging in
+- Username: STUDENT ID (e.g. 230042100)
+- Password: password (Students can change their password after logging in)
+
+Admin login:
+- Username: A*** (A001 - A003)
+- Password: admin
 
 **Student Features** <br>
 Profile Management:
@@ -36,6 +41,7 @@ From Dashboard admin can view: <br>
 
 Student Management:
 - Admin can view all students
+- Admin can add new students
 
 Complaint Management:
 - Admin can view all complaints
@@ -104,10 +110,19 @@ HallVerse/ <br>
 │   └── entry_exit.csv <br>
 │ <br>
 ├── build/ <br>
+│   ├── HallVerse.exe <br>
 │ <br>
 └── README.md
 
 ## TO RUN THE APP
+**Clone the Repository**
+```bash
+git clone https://github.com/didarulshahriar37/HallVerse.git
+```
+**Change Directory**
+```bash
+cd HallVerse
+```
 **Compilation**
 ```bash
 g++ -std=c++17 -Isrc -Isrc/managers -Isrc/models -Isrc/services -Isrc/utils -O2 -g src/main/Main.cpp src/managers/*.cpp src/models/*.cpp src/services/*.cpp src/utils/*.cpp -o build/HallVerse.exe

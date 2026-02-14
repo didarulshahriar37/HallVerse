@@ -17,5 +17,8 @@ C15,230042112,Electricity,light broken,Resolved,2026-01-19
 C16,230042112,Electricity,light so low,Pending,2026-01-23
 C17,230042103,Electricity,asdfghj,Pending,2026-01-23
 C16,230042112,Plumbing,Basine Leak,Pending,2026-01-23
+<<<<<<< HEAD
 C19,230042137,Internet,Slow Internet,Pending,2026-01-25
-C20,230042137,Other,abcd,Pending,2026-01-27
+=======
+C17,230042112,Plumbing,Basine jam,Pending,2026-01-27
+>>>>>>> ifham

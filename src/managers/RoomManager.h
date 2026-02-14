@@ -4,25 +4,27 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class RoomManager {
 private:
     struct Room {
-        std::string hallName;
-        std::string roomNumber;
-        std::string bedNumber;
-        std::string status;
+        string hallName;
+        string roomNumber;
+        string bedNumber;
+        string status;
     };
 
-    std::vector<Room> rooms;
+    vector<Room> rooms;
     
-    std::vector<std::string> split(const std::string& str, char delimiter);
+    vector<string> split(const string& str, char delimiter);
 public:
     RoomManager();
     void loadRooms();
-    void updateBedStatus(const std::string& hall, const std::string& room, const std::string& bed, const std::string& status);
-    std::vector<Room> searchAvailableBeds(const std::string& hall = "", const std::string& room = "");
-    void displayBedAvailability(const std::string& hall, const std::string& room = "");
+    void updateBedStatus(const string& hall, const string& room, const string& bed, const string& status);
+    vector<Room> searchAvailableBeds(const string& hall = "", const string& room = "");
+    void displayBedAvailability(const string& hall, const string& room = "");
     void displayAllBeds();
-    std::string getBedStatus(const std::string& hall, const std::string& room, const std::string& bed);
+    string getBedStatus(const string& hall, const string& room, const string& bed);
 };
 #endif
