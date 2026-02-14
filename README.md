@@ -42,6 +42,8 @@ From Dashboard admin can view: <br>
 Student Management:
 - Admin can view all students
 - Admin can add new students
+- Admin can remove a student
+- Admin can verify students payment (clear dues)
 
 Complaint Management:
 - Admin can view all complaints
