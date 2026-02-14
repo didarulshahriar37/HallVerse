@@ -181,6 +181,7 @@ private:
         cout << "1. View All Students\n";
         cout << "2. Add Students\n";
         cout << "3. Remove Student\n";
+        cout << "4. Verify Payments (Clear dues)\n";
         cout << "Choice: ";
         int choice = InputHelper::getInt();
         
@@ -250,6 +251,26 @@ private:
                 cout << "Enter Student ID to remove: ";
                 string id = InputHelper::getLine();
                 studentManager.removeStudent(id);
+            }
+            else if(choice == 4){
+                cout << "\n========== VERIFY PAYMENT ==========\n";
+                cout << "Enter Student ID: ";
+                string id = InputHelper::getLine();
+                Student* student = studentManager.getStudent(id);
+                if(student){
+                    cout << "\nStudent: " << student->getName() << "(" << student->getStudentID() << ")\n";
+                    cout << "Hall: " << student->getHallName() << " (" << student->getRoomNumber()<< ", " << student->getBedNumber() << ")\n";
+                    cout << "Current Due(s): $" << student->getHallDues() << "\n";
+                    cout << "Clear all due(s)? (y/n): ";
+                    string confirm = InputHelper::getLine();
+                    if(confirm == "y" || confirm == "Y"){
+                        student->setHallDues(0.0);
+                        studentManager.updateStudent(*student);
+                        cout << "✓ Payment verified and dues cleared!\n";
+                    }
+                }else{
+                    cout << "Student not found!\n";
+                }
             }
             InputHelper::pause();
         }
