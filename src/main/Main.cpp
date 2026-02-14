@@ -180,6 +180,7 @@ private:
         cout << "\n========== MANAGE STUDENTS ==========\n";
         cout << "1. View All Students\n";
         cout << "2. Add Students\n";
+        cout << "3. Remove Student\n";
         cout << "Choice: ";
         int choice = InputHelper::getInt();
         
@@ -244,6 +245,11 @@ private:
 
                 Student student(id, name, email, contact, room, bed, hall, dues);
                 studentManager.addStudent(student);
+            }
+            else if(choice == 3){
+                cout << "Enter Student ID to remove: ";
+                string id = InputHelper::getLine();
+                studentManager.removeStudent(id);
             }
             InputHelper::pause();
         }
