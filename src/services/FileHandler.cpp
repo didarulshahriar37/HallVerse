@@ -36,6 +36,13 @@ vector<Student> FileHandler::readStudents() {
     if (!file.is_open()) return students;
 
     getline(file, line);
+    bool headerHasHallName = false;
+    for (const auto& token : split(line, ',')) {
+        if (token == "hallName") {
+            headerHasHallName = true;
+            break;
+        }
+    }
     while (getline(file, line)) {
         try {
             auto tokens = split(line, ',');
@@ -50,11 +57,19 @@ vector<Student> FileHandler::readStudents() {
                 s.setPasswordHash(tokens[8]);
                 students.push_back(s);
             } else if (tokens.size() == 8) {
-                double dues = 0.0;
-                try { dues = stod(tokens[6]); } catch (...) { dues = 0.0; }
-                Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], string(""), dues);
-                s.setPasswordHash(tokens[7]);
-                students.push_back(s);
+                if (headerHasHallName) {
+                    double dues = 0.0;
+                    try { dues = stod(tokens[7]); } catch (...) { dues = 0.0; }
+                    Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], dues);
+                    s.setPasswordHash("");
+                    students.push_back(s);
+                } else {
+                    double dues = 0.0;
+                    try { dues = stod(tokens[6]); } catch (...) { dues = 0.0; }
+                    Student s(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], string(""), dues);
+                    s.setPasswordHash(tokens[7]);
+                    students.push_back(s);
+                }
             } else if (tokens.size() >= 7) {
                 double dues = 0.0;
                 try { dues = stod(tokens[5]); } catch (...) { dues = 0.0; }
