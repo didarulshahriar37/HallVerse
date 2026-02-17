@@ -245,6 +245,7 @@ private:
                 double dues = InputHelper::getDouble();
 
                 Student student(id, name, email, contact, room, bed, hall, dues);
+                student.setPasswordHash(hasher.hash("password"));
                 studentManager.addStudent(student);
             }
             else if(choice == 3){
