@@ -344,6 +344,12 @@ private:
             return;
         }
 
+        cout << "\nCurrent Room Assignment:\n";
+        cout << "  Hall: " << student->getHallName() << "\n";
+        cout << "  Room: " << student->getRoomNumber() << "\n";
+        cout << "  Bed: " << student->getBedNumber() << "\n";
+        
+
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
         cout << "\n========== ALL COMPLAINTS ==========\n";
