@@ -292,20 +292,45 @@ private:
         } else if (choice == 2) {
             string hall;
             cout << "Enter Hall Name (North/South): ";
-            getline(std::cin, hall);
+            getline(cin, hall);
             roomManager.displayBedAvailability(hall);
         } else if (choice == 3) {
             string hall, room;
             cout << "Enter Hall Name (North/South): ";
-            getline(std::cin, hall);
+            getline(cin, hall);
             cout << "Enter Room Number: ";
-            getline(std::cin, room);
+            getline(cin, room);
             roomManager.displayBedAvailability(hall, room);
         } else if (choice == 4) {
             cout << "\nCheck Specific Bed\n";
             cout << "Enter Hall Name (South/North): ";
             string hall = InputHelper::getNormalizedHall();
             string room;
+
+                    do {
+                cout << "Enter Room Number (e.g., 101): ";
+                room = InputHelper::getLine();
+                if (!InputHelper::isValidRoomForHall(hall, room)) {
+                    cout << "Invalid room for the selected hall. Try again.\n";
+                }
+            } while (!InputHelper::isValidRoomForHall(hall, room));
+            string bed;
+            do {
+                cout << "Enter Bed Number (A/B/C/D): ";
+                bed = InputHelper::getLine();
+                if (!InputHelper::isValidBed(bed)) {
+                    cout << "Invalid bed. Use A, B, C or D.\n";
+                }
+            } while (!InputHelper::isValidBed(bed));
+            bed[0] = toupper(bed[0]);
+            
+            string status = roomManager.getBedStatus(hall, room, bed);
+            cout << "\nBed Status: " << hall << " Hall, Room " << room << ", Bed " << bed << " is " << status << "\n";
+        } else {
+            cout << "Invalid choice!\n";
+        }
+        InputHelper::pause();
+    }
 
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
