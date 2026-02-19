@@ -350,6 +350,30 @@ private:
         cout << "  Bed: " << student->getBedNumber() << "\n";
         
 
+             // Select Hall
+        string hall;
+        do {
+            cout << "\nSelect Hall:\n";
+            cout << "  1. South\n";
+            cout << "  2. North\n";
+            cout << "Choose (1-2): ";
+            int hallChoice = InputHelper::getInt();
+            if (hallChoice == 1) {
+                hall = "South";
+            } else if (hallChoice == 2) {
+                hall = "North";
+            } else {
+                std::cout << "Invalid choice. Try again.\n";
+                continue;
+            }
+            break;
+        } while (true);
+        
+        // Select Room
+        string room;
+
+        
+
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
         cout << "\n========== ALL COMPLAINTS ==========\n";
