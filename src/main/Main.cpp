@@ -626,7 +626,13 @@ private:
                     break;
                 case 2: handleManageStudents(); break;
                 case 3: handleViewAllComplaints(); break;
-                case 4:
+                case 4: handleUpdateComplaintStatus(); break;
+                case 5: handleAssignWorker(); break;
+                case 6: handleViewLogs(); break;
+                case 7: handleEditHallDues(); break;
+                case 8: handleCheckBed(); break;
+                case 9: handleChangeStudentRoom(); break;
+                case 10:
                     loggedIn = false;
                     cout << "\n✓ Logged out successfully!\n";
                     InputHelper::pause();
