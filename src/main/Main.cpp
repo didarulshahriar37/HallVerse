@@ -287,6 +287,26 @@ private:
         int choice = InputHelper::getInt();
         cin.ignore();
 
+             if (choice == 1) {
+            roomManager.displayAllBeds();
+        } else if (choice == 2) {
+            string hall;
+            cout << "Enter Hall Name (North/South): ";
+            getline(std::cin, hall);
+            roomManager.displayBedAvailability(hall);
+        } else if (choice == 3) {
+            string hall, room;
+            cout << "Enter Hall Name (North/South): ";
+            getline(std::cin, hall);
+            cout << "Enter Room Number: ";
+            getline(std::cin, room);
+            roomManager.displayBedAvailability(hall, room);
+        } else if (choice == 4) {
+            cout << "\nCheck Specific Bed\n";
+            cout << "Enter Hall Name (South/North): ";
+            string hall = InputHelper::getNormalizedHall();
+            string room;
+
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
         cout << "\n========== ALL COMPLAINTS ==========\n";
