@@ -372,6 +372,48 @@ private:
         // Select Room
         string room;
 
+            do {
+            std::cout << "Enter Room Number (101-130 or 201-230): ";
+            room = InputHelper::getLine();
+            if (!InputHelper::isValidRoomForHall(hall, room)) {
+                std::cout << "Invalid room for " << hall << " hall. Try again.\n";
+            } else {
+                break;
+            }
+        } while (true);
+        
+        // Select Bed
+        std::string bed;
+        do {
+            cout << "Enter Bed Letter (A/B/C/D): ";
+            bed = InputHelper::getLine();
+            if (!InputHelper::isValidBed(bed)) {
+                std::cout << "Invalid bed. Use A, B, C or D.\n";
+            } else {
+                bed[0] = std::toupper(bed[0]);
+                break;
+            }
+        } while (true);
+        
+        // Check if bed is available
+        if (studentManager.isBedOccupied(hall, room, bed)) {
+            // Check if it's the same student's current bed
+            Student* occupant = nullptr;
+            for (auto& s : studentManager.getAllStudents()) {
+                if (s.getHallName() == hall && s.getRoomNumber() == room && 
+                    s.getBedNumber() == bed && s.getStudentID() != studentID) {
+                    occupant = &s;
+                    break;
+                }
+            }
+            if (occupant) {
+                cout << "\nError: Bed " << bed << " in Room " << room << " is already occupied by " 
+                          << occupant->getName() << "!\n";
+                InputHelper::pause();
+                return;
+            }
+        }
+
         
 
     // Handles viewing all complaints (admin)
