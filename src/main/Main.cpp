@@ -459,6 +459,25 @@ private:
         InputHelper::pause();
     }
 
+    void handleEditHallDues() {
+        cout << "\n=== EDIT HALL DUES ===\n";
+        cout << "Enter Student ID: ";
+        string id = InputHelper::getLine();
+        Student* student = studentManager.getStudent(id);
+        if (student) {
+            cout << "Student: " << student->getName() << "\n";
+            cout << "Current Dues: $" << student->getHallDues() << "\n";
+            cout << "Enter new dues amount: ";
+            double dues = InputHelper::getDouble();
+            student->setHallDues(dues);
+            studentManager.updateStudent(*student);
+            cout << "\n✓ Hall dues updated!\n";
+        } else {
+            cout << "Student not found!\n";
+        }
+        InputHelper::pause();
+    }
+
     // Handles resetting password
     void handleResetPassword() {
     cout << "\n========== RESET PASSWORD ==========\n";
