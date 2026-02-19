@@ -333,13 +333,13 @@ private:
     }
 
     void handleChangeStudentRoom() {
-        std::cout << "\n========== CHANGE STUDENT ROOM ==========\n";
-        std::cout << "Enter Student ID: ";
-        std::string studentID = InputHelper::getLine();
+        cout << "\n========== CHANGE STUDENT ROOM ==========\n";
+        cout << "Enter Student ID: ";
+        string studentID = InputHelper::getLine();
         
         Student* student = studentManager.getStudent(studentID);
         if (!student) {
-            std::cout << "Student not found!\n";
+            cout << "Student not found!\n";
             InputHelper::pause();
             return;
         }
