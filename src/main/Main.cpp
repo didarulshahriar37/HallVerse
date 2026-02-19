@@ -517,6 +517,71 @@ private:
     InputHelper::pause();
 }
 
+ void handleUpdateComplaintStatus() {
+        cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
+        cout << "Enter Complaint ID: ";
+        string id = InputHelper::getLine();
+        cout << "New Status:\n";
+        cout << "  1. Pending\n";
+        cout << "  2. In-Progress\n";
+        cout << "  3. Resolved\n";
+        cout << "Choose (1-3): ";
+        int choice = InputHelper::getInt();
+        
+        string status;
+        switch(choice) {
+            case 1: status = "Pending"; break;
+            case 2: status = "In-Progress"; break;
+            case 3: status = "Resolved"; break;
+            default: status = "Pending"; break;
+        }
+        
+        complaintManager.updateComplaintStatus(id, status);
+        InputHelper::pause();
+    }
+    
+    void handleAssignWorker() {
+        cout << "\n=== ASSIGN WORKER TO COMPLAINT ===\n";
+        cout << "Enter Complaint ID: ";
+        string complaintID = InputHelper::getLine();
+        
+        cout << "Worker Type:\n";
+        cout << "  1. Electrician\n";
+        cout << "  2. Plumber\n";
+        cout << "  3. Carpenter\n";
+        cout << "  4. General Maintenance\n";
+        cout << "Choose (1-4): ";
+        int choice = InputHelper::getInt();
+        
+        string role;
+        switch(choice) {
+            case 1: role = "Electrician"; break;
+            case 2: role = "Plumber"; break;
+            case 3: role = "Carpenter"; break;
+            case 4: role = "General Maintenance"; break;
+            default: role = "General Maintenance"; break;
+        }
+        
+        assignmentManager.assignWorker(complaintID, role);
+        InputHelper::pause();
+    }
+    
+    void handleViewLogs() {
+        cout << "\n========== ENTRY/EXIT LOGS ==========\n";
+        auto& logs = entryExitManager.getLogs();
+        if (logs.empty()) {
+            cout << "No logs found.\n";
+        } else {
+            cout << "Record ID | Student ID   | Type  | Timestamp\n";
+            cout << "──────────────────────────────────────────────────────\n";
+            for (const auto& log : logs) {
+                log.displayRecord();
+            }
+        }
+        InputHelper::pause();
+    }
+
+
 
     // Student flow after login
     void studentFlow() {
