@@ -11,4 +11,5 @@ studentID,name,email,emergencyContact,roomNumber,bedNumber,hallName,hallDues,pas
 230042102,Ashfaq,asfaq@iut-dhaka.edu,012109012,211,A,North,0,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
 230042156,Sifat,sifat@iut-dhaka.edu,0212312444,210,B,North,1500,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
 230042105,Tiran Abdullah,tiran@iut-dhaka.edu,+8801234567891,102,D,,0,0
-230042137,Didarul Shahriar,didarul@iut-dhaka.edu,+8801872686773,102,D,South,0,
+230042137,Didarul Shahriar,didarul@iut-dhaka.edu,+8801872686773,102,D,,0,0
+230042113,Shaikh Muhaiminul Hasan,muhaimin@iut-dhaka.edu,015711617178,227,C,North,1000,0
