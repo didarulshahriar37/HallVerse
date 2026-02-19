@@ -277,15 +277,15 @@ private:
         }
 
         void handleCheckBed() {
-        std::cout << "\n========== BED AVAILABILITY MENU ==========\n";
-        std::cout << "1. View All Beds\n";
-        std::cout << "2. Search by Hall\n";
-        std::cout << "3. Search by Hall and Room\n";
-        std::cout << "4. Check Specific Bed\n";
-        std::cout << "Enter choice: ";
+        cout << "\n========== BED AVAILABILITY MENU ==========\n";
+        cout << "1. View All Beds\n";
+        cout << "2. Search by Hall\n";
+        cout << "3. Search by Hall and Room\n";
+        cout << "4. Check Specific Bed\n";
+        cout << "Enter choice: ";
         
         int choice = InputHelper::getInt();
-        std::cin.ignore();
+        cin.ignore();
 
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
