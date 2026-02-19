@@ -414,7 +414,27 @@ private:
             }
         }
 
+            // Update student's room assignment
+        string oldHall = student->getHallName();
+        string oldRoom = student->getRoomNumber();
+        string oldBed = student->getBedNumber();
         
+        student->setHallName(hall);
+        student->setRoomNumber(room);
+        student->setBedNumber(bed);
+        
+        studentManager.updateStudent(*student);
+        
+        // Update room occupancy status in RoomManager
+        roomManager.updateBedStatus(oldHall, oldRoom, oldBed, "Vacant");
+        roomManager.updateBedStatus(hall, room, bed, "Occupied");
+        
+        cout << "\n✓ Room assignment updated successfully!\n";
+        cout << "  Student: " << student->getName() << " (" << studentID << ")\n";
+        cout << "  New Location: " << hall << " Hall, Room " << room << ", Bed " << bed << "\n";
+        InputHelper::pause();
+    
+    }
 
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
