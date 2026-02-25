@@ -333,16 +333,108 @@ private:
     }
 
     void handleChangeStudentRoom() {
-        std::cout << "\n========== CHANGE STUDENT ROOM ==========\n";
-        std::cout << "Enter Student ID: ";
-        std::string studentID = InputHelper::getLine();
+        cout << "\n========== CHANGE STUDENT ROOM ==========\n";
+        cout << "Enter Student ID: ";
+        string studentID = InputHelper::getLine();
         
         Student* student = studentManager.getStudent(studentID);
         if (!student) {
-            std::cout << "Student not found!\n";
+            cout << "Student not found!\n";
             InputHelper::pause();
             return;
         }
+
+        cout << "\nCurrent Room Assignment:\n";
+        cout << "  Hall: " << student->getHallName() << "\n";
+        cout << "  Room: " << student->getRoomNumber() << "\n";
+        cout << "  Bed: " << student->getBedNumber() << "\n";
+        
+
+             // Select Hall
+        string hall;
+        do {
+            cout << "\nSelect Hall:\n";
+            cout << "  1. South\n";
+            cout << "  2. North\n";
+            cout << "Choose (1-2): ";
+            int hallChoice = InputHelper::getInt();
+            if (hallChoice == 1) {
+                hall = "South";
+            } else if (hallChoice == 2) {
+                hall = "North";
+            } else {
+                std::cout << "Invalid choice. Try again.\n";
+                continue;
+            }
+            break;
+        } while (true);
+        
+        // Select Room
+        string room;
+
+            do {
+            std::cout << "Enter Room Number (101-130 or 201-230): ";
+            room = InputHelper::getLine();
+            if (!InputHelper::isValidRoomForHall(hall, room)) {
+                std::cout << "Invalid room for " << hall << " hall. Try again.\n";
+            } else {
+                break;
+            }
+        } while (true);
+        
+        // Select Bed
+        std::string bed;
+        do {
+            cout << "Enter Bed Letter (A/B/C/D): ";
+            bed = InputHelper::getLine();
+            if (!InputHelper::isValidBed(bed)) {
+                std::cout << "Invalid bed. Use A, B, C or D.\n";
+            } else {
+                bed[0] = std::toupper(bed[0]);
+                break;
+            }
+        } while (true);
+        
+        // Check if bed is available
+        if (studentManager.isBedOccupied(hall, room, bed)) {
+            // Check if it's the same student's current bed
+            Student* occupant = nullptr;
+            for (auto& s : studentManager.getAllStudents()) {
+                if (s.getHallName() == hall && s.getRoomNumber() == room && 
+                    s.getBedNumber() == bed && s.getStudentID() != studentID) {
+                    occupant = &s;
+                    break;
+                }
+            }
+            if (occupant) {
+                cout << "\nError: Bed " << bed << " in Room " << room << " is already occupied by " 
+                          << occupant->getName() << "!\n";
+                InputHelper::pause();
+                return;
+            }
+        }
+
+            // Update student's room assignment
+        string oldHall = student->getHallName();
+        string oldRoom = student->getRoomNumber();
+        string oldBed = student->getBedNumber();
+        
+        student->setHallName(hall);
+        student->setRoomNumber(room);
+        student->setBedNumber(bed);
+        
+        studentManager.updateStudent(*student);
+        
+        // Update room occupancy status in RoomManager
+        roomManager.updateBedStatus(oldHall, oldRoom, oldBed, "Vacant");
+        roomManager.updateBedStatus(hall, room, bed, "Occupied");
+        
+        cout << "\n✓ Room assignment updated successfully!\n";
+        cout << "  Student: " << student->getName() << " (" << studentID << ")\n";
+        cout << "  New Location: " << hall << " Hall, Room " << room << ", Bed " << bed << "\n";
+        InputHelper::pause();
+    
+    }
 
     // Handles viewing all complaints (admin)
     void handleViewAllComplaints() {
@@ -363,6 +455,25 @@ private:
                 cout << "│ Date: " << c.getDate() << "\n";
                 cout << "└─────────────────────────────────────┘\n";
             }
+        }
+        InputHelper::pause();
+    }
+
+    void handleEditHallDues() {
+        cout << "\n=== EDIT HALL DUES ===\n";
+        cout << "Enter Student ID: ";
+        string id = InputHelper::getLine();
+        Student* student = studentManager.getStudent(id);
+        if (student) {
+            cout << "Student: " << student->getName() << "\n";
+            cout << "Current Dues: $" << student->getHallDues() << "\n";
+            cout << "Enter new dues amount: ";
+            double dues = InputHelper::getDouble();
+            student->setHallDues(dues);
+            studentManager.updateStudent(*student);
+            cout << "\n✓ Hall dues updated!\n";
+        } else {
+            cout << "Student not found!\n";
         }
         InputHelper::pause();
     }
@@ -405,6 +516,71 @@ private:
     cout << "\n✓ Password reset successfully!\n";
     InputHelper::pause();
 }
+
+ void handleUpdateComplaintStatus() {
+        cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
+        cout << "Enter Complaint ID: ";
+        string id = InputHelper::getLine();
+        cout << "New Status:\n";
+        cout << "  1. Pending\n";
+        cout << "  2. In-Progress\n";
+        cout << "  3. Resolved\n";
+        cout << "Choose (1-3): ";
+        int choice = InputHelper::getInt();
+        
+        string status;
+        switch(choice) {
+            case 1: status = "Pending"; break;
+            case 2: status = "In-Progress"; break;
+            case 3: status = "Resolved"; break;
+            default: status = "Pending"; break;
+        }
+        
+        complaintManager.updateComplaintStatus(id, status);
+        InputHelper::pause();
+    }
+    
+    void handleAssignWorker() {
+        cout << "\n=== ASSIGN WORKER TO COMPLAINT ===\n";
+        cout << "Enter Complaint ID: ";
+        string complaintID = InputHelper::getLine();
+        
+        cout << "Worker Type:\n";
+        cout << "  1. Electrician\n";
+        cout << "  2. Plumber\n";
+        cout << "  3. Carpenter\n";
+        cout << "  4. General Maintenance\n";
+        cout << "Choose (1-4): ";
+        int choice = InputHelper::getInt();
+        
+        string role;
+        switch(choice) {
+            case 1: role = "Electrician"; break;
+            case 2: role = "Plumber"; break;
+            case 3: role = "Carpenter"; break;
+            case 4: role = "General Maintenance"; break;
+            default: role = "General Maintenance"; break;
+        }
+        
+        assignmentManager.assignWorker(complaintID, role);
+        InputHelper::pause();
+    }
+    
+    void handleViewLogs() {
+        cout << "\n========== ENTRY/EXIT LOGS ==========\n";
+        auto& logs = entryExitManager.getLogs();
+        if (logs.empty()) {
+            cout << "No logs found.\n";
+        } else {
+            cout << "Record ID | Student ID   | Type  | Timestamp\n";
+            cout << "──────────────────────────────────────────────────────\n";
+            for (const auto& log : logs) {
+                log.displayRecord();
+            }
+        }
+        InputHelper::pause();
+    }
+
 
 
     // Student flow after login
@@ -450,7 +626,13 @@ private:
                     break;
                 case 2: handleManageStudents(); break;
                 case 3: handleViewAllComplaints(); break;
-                case 4:
+                case 4: handleUpdateComplaintStatus(); break;
+                case 5: handleAssignWorker(); break;
+                case 6: handleViewLogs(); break;
+                case 7: handleEditHallDues(); break;
+                case 8: handleCheckBed(); break;
+                case 9: handleChangeStudentRoom(); break;
+                case 10:
                     loggedIn = false;
                     cout << "\n✓ Logged out successfully!\n";
                     InputHelper::pause();
