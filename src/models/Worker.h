@@ -2,28 +2,51 @@
 #define WORKER_H
 
 #include <string>
+#include <vector>
+
 using namespace std;
-class Worker {
+
+class Worker
+{
 private:
     string workerID;
     string name;
     string role;
-    bool isAvailable;
     string contactNumber;
-    
+    bool isAvailable;
+
+    int activeComplaints;
+    int resolvedComplaints;
+    vector<string> assignedComplaintIDs;
+
 public:
+    // constructors
     Worker();
-    Worker(string id, string n, string r, bool avail, string contact);
-    
+    Worker(const string &id,
+           const string &n,
+           const string &r,
+           bool avail,
+           const string &contact);
+
+    // availability control
     void markAvailable();
     void markUnavailable();
     bool checkAvailability() const;
-    
-    string getWorkerID() const { return workerID; }
-    string getName() const { return name; }
-    string getRole() const { return role; }
-    bool getIsAvailable() const { return isAvailable; }
-    string getContactNumber() const { return contactNumber; }
+
+    // complaint workflow
+    void assignComplaint(const string &complaintID);
+    void completeComplaint(const string &complaintID);
+    void updateComplaintStatus(const string &complaintID, const string &status);
+
+    // getters
+    string getWorkerID() const;
+    string getName() const;
+    string getRole() const;
+    string getContactNumber() const;
+    bool getIsAvailable() const;
+    int getActiveComplaints() const;
+    int getResolvedComplaints() const;
+    vector<string> getAssignedComplaints() const;
 };
 
 #endif
