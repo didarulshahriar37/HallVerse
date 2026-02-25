@@ -676,7 +676,7 @@ public:
                         studentFlow();
                     }
                     break;
-                case 3:
+                case 4:
                     running = false;
                     cout << "\n╔════════════════════════════════════╗\n";
                     cout << "║ Thank you for using HallVerse!     ║\n";

@@ -8,7 +8,8 @@ void MenuPrinter::showMainMenu() {
     cout << "\n========== MAIN MENU ==========" << "\n";
     cout << "1. Admin Login\n";
     cout << "2. Student Login\n";
-    cout << "3. Exit\n";
+    cout << "3. Worker Login\n";
+    cout << "4. Exit\n";
     cout << "Enter your choice: ";
 }
 
