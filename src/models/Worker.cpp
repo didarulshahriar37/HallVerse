@@ -86,3 +86,29 @@ vector<string> Worker::getAssignedComplaints() const
 {
     return assignedComplaintIDs;
 }
+
+// basic attribute getters
+string Worker::getWorkerID() const
+{
+    return workerID;
+}
+
+string Worker::getName() const
+{
+    return name;
+}
+
+string Worker::getRole() const
+{
+    return role;
+}
+
+string Worker::getContactNumber() const
+{
+    return contactNumber;
+}
+
+bool Worker::getIsAvailable() const
+{
+    return isAvailable;
+}
