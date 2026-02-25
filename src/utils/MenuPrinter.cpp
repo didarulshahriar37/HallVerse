@@ -32,7 +32,13 @@ void MenuPrinter::showAdminMenu() {
     cout << "1. View Dashboard\n";
     cout << "2. Manage Students\n";
     cout << "3. View All Complaints\n";
-    cout << "4. Logout\n";
+    cout << "4. Update Complaint Status\n";
+    cout << "5. Assign Worker to Complaint\n";
+    cout << "6. View Entry/Exit Logs\n";
+    cout << "7. Edit Hall Dues\n";
+    cout << "8. Check Bed Availability\n";
+    cout << "9. Change Student Room\n";
+    cout << "10. Logout\n";
     cout << "Enter your choice: ";
 }
 

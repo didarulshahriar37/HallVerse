@@ -181,6 +181,7 @@ private:
         cout << "1. View All Students\n";
         cout << "2. Add Students\n";
         cout << "3. Remove Student\n";
+        cout << "4. Verify Payments (Clear dues)\n";
         cout << "Choice: ";
         int choice = InputHelper::getInt();
         
@@ -244,6 +245,7 @@ private:
                 double dues = InputHelper::getDouble();
 
                 Student student(id, name, email, contact, room, bed, hall, dues);
+                student.setPasswordHash(hasher.hash("password"));
                 studentManager.addStudent(student);
             }
             else if(choice == 3){
@@ -251,7 +253,95 @@ private:
                 string id = InputHelper::getLine();
                 studentManager.removeStudent(id);
             }
+            else if(choice == 4){
+                cout << "\n========== VERIFY PAYMENT ==========\n";
+                cout << "Enter Student ID: ";
+                string id = InputHelper::getLine();
+                Student* student = studentManager.getStudent(id);
+                if(student){
+                    cout << "\nStudent: " << student->getName() << "(" << student->getStudentID() << ")\n";
+                    cout << "Hall: " << student->getHallName() << " (" << student->getRoomNumber()<< ", " << student->getBedNumber() << ")\n";
+                    cout << "Current Due(s): $" << student->getHallDues() << "\n";
+                    cout << "Clear all due(s)? (y/n): ";
+                    string confirm = InputHelper::getLine();
+                    if(confirm == "y" || confirm == "Y"){
+                        student->setHallDues(0.0);
+                        studentManager.updateStudent(*student);
+                        cout << "✓ Payment verified and dues cleared!\n";
+                    }
+                }else{
+                    cout << "Student not found!\n";
+                }
+            }
             InputHelper::pause();
+        }
+
+        void handleCheckBed() {
+        cout << "\n========== BED AVAILABILITY MENU ==========\n";
+        cout << "1. View All Beds\n";
+        cout << "2. Search by Hall\n";
+        cout << "3. Search by Hall and Room\n";
+        cout << "4. Check Specific Bed\n";
+        cout << "Enter choice: ";
+        
+        int choice = InputHelper::getInt();
+        cin.ignore();
+
+             if (choice == 1) {
+            roomManager.displayAllBeds();
+        } else if (choice == 2) {
+            string hall;
+            cout << "Enter Hall Name (North/South): ";
+            getline(cin, hall);
+            roomManager.displayBedAvailability(hall);
+        } else if (choice == 3) {
+            string hall, room;
+            cout << "Enter Hall Name (North/South): ";
+            getline(cin, hall);
+            cout << "Enter Room Number: ";
+            getline(cin, room);
+            roomManager.displayBedAvailability(hall, room);
+        } else if (choice == 4) {
+            cout << "\nCheck Specific Bed\n";
+            cout << "Enter Hall Name (South/North): ";
+            string hall = InputHelper::getNormalizedHall();
+            string room;
+
+                    do {
+                cout << "Enter Room Number (e.g., 101): ";
+                room = InputHelper::getLine();
+                if (!InputHelper::isValidRoomForHall(hall, room)) {
+                    cout << "Invalid room for the selected hall. Try again.\n";
+                }
+            } while (!InputHelper::isValidRoomForHall(hall, room));
+            string bed;
+            do {
+                cout << "Enter Bed Number (A/B/C/D): ";
+                bed = InputHelper::getLine();
+                if (!InputHelper::isValidBed(bed)) {
+                    cout << "Invalid bed. Use A, B, C or D.\n";
+                }
+            } while (!InputHelper::isValidBed(bed));
+            bed[0] = toupper(bed[0]);
+            
+            string status = roomManager.getBedStatus(hall, room, bed);
+            cout << "\nBed Status: " << hall << " Hall, Room " << room << ", Bed " << bed << " is " << status << "\n";
+        } else {
+            cout << "Invalid choice!\n";
+        }
+        InputHelper::pause();
+    }
+
+    void handleChangeStudentRoom() {
+        std::cout << "\n========== CHANGE STUDENT ROOM ==========\n";
+        std::cout << "Enter Student ID: ";
+        std::string studentID = InputHelper::getLine();
+        
+        Student* student = studentManager.getStudent(studentID);
+        if (!student) {
+            std::cout << "Student not found!\n";
+            InputHelper::pause();
+            return;
         }
 
     // Handles viewing all complaints (admin)
