@@ -177,27 +177,35 @@ private:
     
     // Login system
     void loginSystem() {
-        InputHelper::clearScreen();
-        cout << "\n========== LOGIN ==========" << "\n";
-        cout << "Username: ";
-        string username = InputHelper::getLine();
-        cout << "Password: ";
-        string password = InputHelper::getPassword();
-        
-        if (authManager.login(username, password, true)) {
-            currentUserID = username;
-            isAdmin = true;
-            adminFlow();
-            return;
+        while (true) {
+            InputHelper::clearScreen();
+            cout << "\n========== LOGIN ==========" << "\n";
+            cout << "Username: ";
+            string username = InputHelper::getLine();
+            cout << "Password: ";
+            string password = InputHelper::getPassword();
+            
+            if (authManager.login(username, password, true)) {
+                currentUserID = username;
+                isAdmin = true;
+                adminFlow();
+                return;
+            }
+            if (authManager.login(username, password, false)) {
+                currentUserID = username;
+                isAdmin = false;
+                studentFlow();
+                return;
+            }
+            cout << "\n\u2717 Invalid credentials!\n";
+            cout << "1. Try Again\n";
+            cout << "2. Go Back\n";
+            cout << "Choice: ";
+            int choice = InputHelper::getInt();
+            if (choice == 2) {
+                return;
+            }
         }
-        if (authManager.login(username, password, false)) {
-            currentUserID = username;
-            isAdmin = false;
-            studentFlow();
-            return;
-        }
-        cout << "\n\u2717 Invalid credentials!\n";
-        InputHelper::pause();
     }
     
     // Handles managing students (admin)
@@ -615,7 +623,7 @@ private:
             InputHelper::clearScreen();
             {
                 Student* s = studentManager.getStudent(currentUserID);
-                cout << "Welcome, " << (s ? s->getName() : currentUserID) << " (" << currentUserID << ")\n";
+                cout << "Welcome, " << (s ? s->getName() : currentUserID) << "\n";
             }
             showStudentMenu();
             int choice = InputHelper::getInt();
