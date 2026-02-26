@@ -44,7 +44,7 @@ South,111,B,free
 South,111,C,free
 South,111,D,free
 South,112,A,free
-South,112,B,free
+South,112,B,Occupied
 South,112,C,free
 South,112,D,free
 South,113,A,free
@@ -247,7 +247,7 @@ North,102,A,free
 North,102,B,free
 North,102,C,free
 North,102,D,free
-North,103,A,free
+North,103,A,Vacant
 North,103,B,free
 North,103,C,occupied
 North,103,D,free

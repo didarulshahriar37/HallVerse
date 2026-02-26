@@ -175,6 +175,31 @@ private:
         }
     }
     
+    // Login system
+    void loginSystem() {
+        InputHelper::clearScreen();
+        cout << "\n========== LOGIN ==========" << "\n";
+        cout << "Username: ";
+        string username = InputHelper::getLine();
+        cout << "Password: ";
+        string password = InputHelper::getPassword();
+        
+        if (authManager.login(username, password, true)) {
+            currentUserID = username;
+            isAdmin = true;
+            adminFlow();
+            return;
+        }
+        if (authManager.login(username, password, false)) {
+            currentUserID = username;
+            isAdmin = false;
+            studentFlow();
+            return;
+        }
+        cout << "\n\u2717 Invalid credentials!\n";
+        InputHelper::pause();
+    }
+    
     // Handles managing students (admin)
     void handleManageStudents() {
         cout << "\n========== MANAGE STUDENTS ==========\n";
@@ -588,6 +613,10 @@ private:
         bool loggedIn = true;
         while (loggedIn) {
             InputHelper::clearScreen();
+            {
+                Student* s = studentManager.getStudent(currentUserID);
+                cout << "Welcome, " << (s ? s->getName() : currentUserID) << " (" << currentUserID << ")\n";
+            }
             showStudentMenu();
             int choice = InputHelper::getInt();
             
@@ -616,6 +645,7 @@ private:
         bool loggedIn = true;
         while (loggedIn) {
             InputHelper::clearScreen();
+            cout << "Welcome, Admin\n";
             showAdminMenu();
             int choice = InputHelper::getInt();
             
@@ -667,16 +697,9 @@ public:
             
             switch (choice) {
                 case 1:
-                    if (performLogin(true)) {
-                        adminFlow();
-                    }
+                    loginSystem();
                     break;
                 case 2:
-                    if (performLogin(false)) {
-                        studentFlow();
-                    }
-                    break;
-                case 4:
                     running = false;
                     cout << "\n╔════════════════════════════════════╗\n";
                     cout << "║ Thank you for using HallVerse!     ║\n";
