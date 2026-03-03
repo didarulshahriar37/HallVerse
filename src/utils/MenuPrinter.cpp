@@ -46,6 +46,7 @@ void MenuPrinter::entryExitMenu() {
     cout << "\n========== ENTRY/EXIT ==========\n";
     cout << "1. Log Entry\n";
     cout << "2. Log Exit\n";
+    cout << "3. Go Back\n";
     cout << "Choice: ";
 }
 
@@ -58,5 +59,26 @@ void MenuPrinter::filingComplaintMenu() {
     cout << "  3. Housekeeping\n";
     cout << "  4. Internet\n";
     cout << "  5. Other\n";
-    cout << "Choose (1-5): ";
+    cout << "  6. Go Back\n";
+    cout << "Choose (1-6): ";
+}
+
+void MenuPrinter::manageStudentsMenu() {
+    cout << "\n========== MANAGE STUDENTS ==========\n";
+    cout << "1. View All Students\n";
+    cout << "2. Add Students\n";
+    cout << "3. Remove Student\n";
+    cout << "4. Verify Payments (Clear dues)\n";
+    cout << "5. Go Back\n";
+    cout << "Choice: ";
+}
+
+void MenuPrinter::bedAvailabilityMenu() {
+    cout << "\n========== BED AVAILABILITY MENU ==========\n";
+    cout << "1. View All Beds\n";
+    cout << "2. Search by Hall\n";
+    cout << "3. Search by Hall and Room\n";
+    cout << "4. Check Specific Bed\n";
+    cout << "5. Go Back\n";
+    cout << "Enter choice: ";
 }

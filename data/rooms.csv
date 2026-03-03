@@ -3,11 +3,11 @@ South,101,A,occupied
 South,101,B,occupied
 South,101,C,occupied
 South,101,D,free
-South,102,A,free
+South,102,A,Vacant
 South,102,B,occupied
 South,102,C,free
 South,102,D,free
-South,103,A,free
+South,103,A,Occupied
 South,103,B,free
 South,103,C,free
 South,103,D,free
