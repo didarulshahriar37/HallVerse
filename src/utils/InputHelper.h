@@ -13,7 +13,7 @@ public:
     static void clearScreen();
     static void pause();
     static string getPassword();
-
+    static string getValidatedEmail();
     static string getNormalizedHall();
     static bool isValidRoomForHall(const string& hall, const string& room);
     static bool isValidBed(const string& bed);

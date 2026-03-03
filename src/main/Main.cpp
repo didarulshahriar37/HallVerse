@@ -92,7 +92,7 @@ private:
         if (student) {
             cout << "\nCurrent Email: " << student->getEmail() << "\n";
             cout << "Enter new email: ";
-            string email = InputHelper::getLine();
+            string email = InputHelper::getValidatedEmail();
             student->updateEmail(email);
             studentManager.updateStudent(*student);
         }
@@ -251,7 +251,7 @@ private:
                 cout << "Enter Name: ";
                 name = InputHelper::getLine();
                 cout << "Enter Email: ";
-                email = InputHelper::getLine();
+                email = InputHelper::getValidatedEmail();
                 cout << "Enter Emergency Contact: ";
                 contact = InputHelper::getLine();
                 cout << "Enter Hall Name (South/North) : ";
