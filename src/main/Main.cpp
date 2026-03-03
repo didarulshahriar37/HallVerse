@@ -115,7 +115,7 @@ private:
         if (student) {
             cout << "\nCurrent Emergency Contact: " << student->getEmergencyContact() << "\n";
             cout << "Enter new contact: ";
-            string contact = InputHelper::getLine();
+            string contact = InputHelper::getNumericLine();
             student->updateEmergencyContact(contact);
             studentManager.updateStudent(*student);
         }
@@ -262,14 +262,31 @@ private:
                 }
 
                 string id, name, email, contact;
-                cout << "\nEnter Student ID: ";
-                id = InputHelper::getLine();
+                bool backToMenu = false;
+                while (true) {
+                    cout << "\nEnter Student ID: ";
+                    id = InputHelper::getNumericLine();
+                    if (studentManager.getStudent(id) != nullptr) {
+                        cout << "✗ Error: Student already exists!\n";
+                        cout << "1. Try Again\n";
+                        cout << "2. Go Back\n";
+                        cout << "Choice: ";
+                        int idChoice = InputHelper::getInt();
+                        if (idChoice == 2) {
+                            backToMenu = true;
+                            break;
+                        }
+                        continue;
+                    }
+                    break;
+                }
+                if (backToMenu) continue;
                 cout << "Enter Name: ";
                 name = InputHelper::getLine();
                 cout << "Enter Email: ";
                 email = InputHelper::getValidatedEmail();
                 cout << "Enter Emergency Contact: ";
-                contact = InputHelper::getLine();
+                contact = InputHelper::getNumericLine();
                 cout << "Enter Hall Name (South/North) : ";
                 string hall = InputHelper::getNormalizedHall();
                 string room ;
@@ -337,11 +354,16 @@ private:
                 InputHelper::pause();
             } else if (choice == 3) {
                 InputHelper::clearScreen();
-                string hall, room;
                 cout << "Enter Hall Name (North/South): ";
-                hall = InputHelper::getLine();
-                cout << "Enter Room Number: ";
-                room = InputHelper::getLine();
+                string hall = InputHelper::getNormalizedHall();
+                string room;
+                do {
+                    cout << "Enter Room Number (e.g., 101): ";
+                    room = InputHelper::getLine();
+                    if (!InputHelper::isValidRoomForHall(hall, room)) {
+                        cout << "Invalid room for the selected hall. Try again.\n";
+                    }
+                } while (!InputHelper::isValidRoomForHall(hall, room));
                 roomManager.displayBedAvailability(hall, room);
                 InputHelper::pause();
             } else if (choice == 4) {

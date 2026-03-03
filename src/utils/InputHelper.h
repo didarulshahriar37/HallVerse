@@ -17,6 +17,8 @@ public:
     static string getNormalizedHall();
     static bool isValidRoomForHall(const string& hall, const string& room);
     static bool isValidBed(const string& bed);
+    static bool isNumeric(const string& str);
+    static string getNumericLine();
 };
 
 #endif
