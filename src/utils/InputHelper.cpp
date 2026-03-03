@@ -103,7 +103,7 @@ string InputHelper::getValidatedEmail() {
         if (email.length() > 14 && email.substr(email.length() - 14) == "@iut-dhaka.edu") {
             return email;
         } else {
-            cout << "Invalid email!.\nTry again: ";
+            cout << "Invalid email!\nTry again: ";
         }
     }
 }

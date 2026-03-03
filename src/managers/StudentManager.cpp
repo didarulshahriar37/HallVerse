@@ -55,3 +55,7 @@ bool StudentManager::isBedOccupied(const string& hall, const string& room, const
     }
     return false;
 }
+
+void StudentManager::saveAll() {
+    fileHandler->writeStudents(students);
+}

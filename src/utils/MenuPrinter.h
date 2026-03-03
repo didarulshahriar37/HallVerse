@@ -16,6 +16,10 @@ public:
     static void bedAvailabilityMenu();
     static void statusUpdateMenu();
     static void workerAssignMenu();
+    static void manageRoomsMenu();
+    static void manageComplaintsMenu();
+    static void viewComplaintsMenu(int pending, int inProgress, int resolved);
+    static void manageDuesMenu();
 };
 
 #endif
