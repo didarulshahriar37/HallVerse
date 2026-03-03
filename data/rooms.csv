@@ -4,7 +4,7 @@ South,101,B,occupied
 South,101,C,occupied
 South,101,D,free
 South,102,A,Vacant
-South,102,B,occupied
+South,102,B,Vacant
 South,102,C,free
 South,102,D,free
 South,103,A,Occupied
@@ -478,4 +478,4 @@ North,229,D,free
 North,230,A,free
 North,230,B,free
 North,230,C,free
-North,230,D,free
+North,230,D,Occupied
