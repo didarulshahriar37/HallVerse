@@ -22,9 +22,11 @@ public:
     RoomManager();
     void loadRooms();
     void updateBedStatus(const string& hall, const string& room, const string& bed, const string& status);
+    void addRooms(const string& hall, int startRoom, int endRoom);
     vector<Room> searchAvailableBeds(const string& hall = "", const string& room = "");
     void displayBedAvailability(const string& hall, const string& room = "");
     void displayAllBeds();
+    void displayBedsByStatus(const string& statusFilter);
     string getBedStatus(const string& hall, const string& room, const string& bed);
 };
 #endif

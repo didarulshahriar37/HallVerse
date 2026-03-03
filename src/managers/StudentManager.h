@@ -19,6 +19,7 @@ public:
     Student* getStudent(const string& studentID);
     bool isBedOccupied(const string& hall, const string& room, const string& bed) const;
     vector<Student>& getAllStudents() { return students; }
+    void saveAll();
 };
 
 #endif

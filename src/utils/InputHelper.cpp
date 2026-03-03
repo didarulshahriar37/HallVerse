@@ -103,7 +103,7 @@ string InputHelper::getValidatedEmail() {
         if (email.length() > 14 && email.substr(email.length() - 14) == "@iut-dhaka.edu") {
             return email;
         } else {
-            cout << "Invalid email!.\nTry again: ";
+            cout << "Invalid email!\nTry again: ";
         }
     }
 }
@@ -133,16 +133,10 @@ string InputHelper::getNormalizedHall(){
 
 // valid room : 101-130, 201-230
 bool InputHelper::isValidRoomForHall(const string& hall, const string& room){
-    if(room.size() != 3){
+    if(room.size() != 3 || !isNumeric(room)){
         return false;
     } 
-    int number = 0;
-    try{
-        number = stoi(room);
-    }
-    catch(...){
-        return false;
-    }
+    int number = stoi(room);
     int floor = number/100;
     int roomNum = number % 100;
     if(!((floor == 1 || floor == 2) && (roomNum >=1 && roomNum <=30))){
@@ -158,4 +152,23 @@ bool InputHelper::isValidBed(const string& bed){
     }
     char c = tolower(bed[0]);
     return (c == 'a' || c == 'b' || c == 'c' || c == 'd');
+}
+
+bool InputHelper::isNumeric(const string& str) {
+    if (str.empty()) return false;
+    for (char c : str) {
+        if (!isdigit(c)) return false;
+    }
+    return true;
+}
+
+string InputHelper::getNumericLine() {
+    while (true) {
+        string input = getLine();
+        if (isNumeric(input)) {
+            return input;
+        } else {
+            cout << "Invalid input! Please enter numbers only: ";
+        }
+    }
 }
