@@ -124,27 +124,29 @@ private:
 
     // Handles filing a complaint
     void handleFileComplaint() {
-        InputHelper::clearScreen();
-        MenuPrinter::filingComplaintMenu();
-        int catChoice = InputHelper::getInt();
-        if (catChoice == 6) return;
+        while (true) {
+            InputHelper::clearScreen();
+            MenuPrinter::filingComplaintMenu();
+            int catChoice = InputHelper::getInt();
+            if (catChoice == 6) return;
 
-        string category;
-        switch (catChoice) {
-            case 1: category = "Electricity"; break;
-            case 2: category = "Plumbing"; break;
-            case 3: category = "Housekeeping"; break;
-            case 4: category = "Internet"; break;
-            case 5: category = "Other"; break;
-            default: return;
+            string category;
+            switch (catChoice) {
+                case 1: category = "Electricity"; break;
+                case 2: category = "Plumbing"; break;
+                case 3: category = "Housekeeping"; break;
+                case 4: category = "Internet"; break;
+                case 5: category = "Other"; break;
+                default: continue;
+            }
+
+            cout << "Enter Description: ";
+            string description = InputHelper::getLine();
+            string cid = "C" + to_string(complaintManager.getAllComplaints().size() + 1);
+            Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
+            complaintManager.createComplaint(c);
+            InputHelper::pause();
         }
-
-        cout << "Enter Description: ";
-        string description = InputHelper::getLine();
-        string cid = "C" + to_string(complaintManager.getAllComplaints().size() + 1);
-        Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
-        complaintManager.createComplaint(c);
-        InputHelper::pause();
     }
 
     // Handles viewing student's own complaints
@@ -587,54 +589,56 @@ private:
 }
 
  void handleUpdateComplaintStatus() {
-        InputHelper::clearScreen();
-        cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
-        cout << "Enter Complaint ID: ";
-        string id = InputHelper::getLine();
-        cout << "New Status:\n";
-        cout << "  1. Pending\n";
-        cout << "  2. In-Progress\n";
-        cout << "  3. Resolved\n";
-        cout << "Choose (1-3): ";
-        int choice = InputHelper::getInt();
-        
-        string status;
-        switch(choice) {
-            case 1: status = "Pending"; break;
-            case 2: status = "In-Progress"; break;
-            case 3: status = "Resolved"; break;
-            default: status = "Pending"; break;
+        while (true) {
+            InputHelper::clearScreen();
+            cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
+            cout << "Enter Complaint ID (or 'q' to go back): ";
+            string id = InputHelper::getLine();
+            if (id == "q" || id == "Q") return;
+
+            MenuPrinter::statusUpdateMenu();
+            int choice = InputHelper::getInt();
+            
+            if (choice == 4) continue;
+
+            string status;
+            switch(choice) {
+                case 1: status = "Pending"; break;
+                case 2: status = "In-Progress"; break;
+                case 3: status = "Resolved"; break;
+                default: continue;
+            }
+            
+            complaintManager.updateComplaintStatus(id, status);
+            InputHelper::pause();
         }
-        
-        complaintManager.updateComplaintStatus(id, status);
-        InputHelper::pause();
     }
     
     void handleAssignWorker() {
-        InputHelper::clearScreen();
-        cout << "\n=== ASSIGN WORKER TO COMPLAINT ===\n";
-        cout << "Enter Complaint ID: ";
-        string complaintID = InputHelper::getLine();
-        
-        cout << "Worker Type:\n";
-        cout << "  1. Electrician\n";
-        cout << "  2. Plumber\n";
-        cout << "  3. Carpenter\n";
-        cout << "  4. General Maintenance\n";
-        cout << "Choose (1-4): ";
-        int choice = InputHelper::getInt();
-        
-        string role;
-        switch(choice) {
-            case 1: role = "Electrician"; break;
-            case 2: role = "Plumber"; break;
-            case 3: role = "Carpenter"; break;
-            case 4: role = "General Maintenance"; break;
-            default: role = "General Maintenance"; break;
+        while (true) {
+            InputHelper::clearScreen();
+            cout << "\n=== ASSIGN WORKER TO COMPLAINT ===\n";
+            cout << "Enter Complaint ID (or 'q' to go back): ";
+            string complaintID = InputHelper::getLine();
+            if (complaintID == "q" || complaintID == "Q") return;
+            
+            MenuPrinter::workerAssignMenu();
+            int choice = InputHelper::getInt();
+            
+            if (choice == 5) continue;
+
+            string role;
+            switch(choice) {
+                case 1: role = "Electrician"; break;
+                case 2: role = "Plumber"; break;
+                case 3: role = "Carpenter"; break;
+                case 4: role = "General Maintenance"; break;
+                default: continue;
+            }
+            
+            assignmentManager.assignWorker(complaintID, role);
+            InputHelper::pause();
         }
-        
-        assignmentManager.assignWorker(complaintID, role);
-        InputHelper::pause();
     }
     
     void handleViewLogs() {

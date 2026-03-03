@@ -82,3 +82,24 @@ void MenuPrinter::bedAvailabilityMenu() {
     cout << "5. Go Back\n";
     cout << "Enter choice: ";
 }
+
+void MenuPrinter::statusUpdateMenu() {
+    cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
+    cout << "New Status:\n";
+    cout << "  1. Pending\n";
+    cout << "  2. In-Progress\n";
+    cout << "  3. Resolved\n";
+    cout << "  4. Go Back\n";
+    cout << "Choose (1-4): ";
+}
+
+void MenuPrinter::workerAssignMenu() {
+    cout << "\n=== ASSIGN WORKER TO COMPLAINT ===\n";
+    cout << "Worker Type:\n";
+    cout << "  1. Electrician\n";
+    cout << "  2. Plumber\n";
+    cout << "  3. Carpenter\n";
+    cout << "  4. General Maintenance\n";
+    cout << "  5. Go Back\n";
+    cout << "Choose (1-5): ";
+}
