@@ -254,12 +254,6 @@ private:
             else if(choice == 2){
                 InputHelper::clearScreen();
                 cout << "\n========== ADD NEW STUDENT ==========\n";
-                cout << left << setw(12) << "ID" << setw(28) << "Name" << setw(8) << "Room" << setw(6) << "Bed" << setw(10) << "Hall" << right << setw(10) << "Dues" << "\n";
-                cout << "────────────────────────────────────────────────────────────────────────────\n";
-                for(const auto& s : studentManager.getAllStudents()){
-                    cout << left << setw(12) << s.getStudentID() << setw(28) << s.getName() << setw(8) << s.getRoomNumber() << setw(6) << s.getBedNumber() << setw(10) << s.getHallName();
-                    cout << right << fixed << setprecision(2) << setw(10) << s.getHallDues() << "\n";
-                }
 
                 string id, name, email, contact;
                 bool backToMenu = false;
@@ -317,8 +311,16 @@ private:
             }
             else if(choice == 3){
                 InputHelper::clearScreen();
-                cout << "Enter Student ID to remove: ";
-                string id = InputHelper::getLine();
+                cout << "\n========== REMOVE STUDENT ==========\n";
+                cout << left << setw(12) << "ID" << setw(28) << "Name" << setw(8) << "Room" << setw(6) << "Bed" << setw(10) << "Hall" << right << setw(10) << "Dues" << "\n";
+                cout << "────────────────────────────────────────────────────────────────────────────\n";
+                for(const auto& s : studentManager.getAllStudents()){
+                    cout << left << setw(12) << s.getStudentID() << setw(28) << s.getName() << setw(8) << s.getRoomNumber() << setw(6) << s.getBedNumber() << setw(10) << s.getHallName();
+                    cout << right << fixed << setprecision(2) << setw(10) << s.getHallDues() << "\n";
+                }
+
+                cout << "\nEnter Student ID to remove: ";
+                string id = InputHelper::getNumericLine();
                 studentManager.removeStudent(id);
                 InputHelper::pause();
             }
