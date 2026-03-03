@@ -1,5 +1,6 @@
 #include "MenuPrinter.h"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -79,6 +80,19 @@ void MenuPrinter::bedAvailabilityMenu() {
     cout << "Enter choice: ";
 }
 
+void MenuPrinter::viewAllBedsMenu() {
+    cout << "\n╔══════════════════════════════════════════════════╗\n";
+    cout << "║           VIEW ALL BEDS — FILTER                 ║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  1.  All Beds       (no filter)                  ║\n";
+    cout << "║  2.  Occupied Beds  (assigned to students)       ║\n";
+    cout << "║  3.  Vacant Beds    (available for assignment)   ║\n";
+    cout << "║  4.  Go Back                                     ║\n";
+    cout << "╚══════════════════════════════════════════════════╝\n";
+    cout << "  Choice: ";
+}
+
+
 void MenuPrinter::statusUpdateMenu() {
     cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
     cout << "New Status:\n";
@@ -104,7 +118,8 @@ void MenuPrinter::manageRoomsMenu() {
     cout << "\n========== MANAGE ROOMS ==========\n";
     cout << "1. Check Bed Availability\n";
     cout << "2. Change Student Room\n";
-    cout << "3. Go Back\n";
+    cout << "3. Add Rooms\n";
+    cout << "4. Go Back\n";
     cout << "Choice: ";
 }
 
@@ -127,10 +142,25 @@ void MenuPrinter::manageDuesMenu() {
 }
 
 void MenuPrinter::viewComplaintsMenu(int pending, int inProgress, int resolved) {
-    cout << "\n========== VIEW COMPLAINTS ==========\n";
-    cout << "1. Pending (" << pending << ")\n";
-    cout << "2. In-Progress (" << inProgress << ")\n";
-    cout << "3. Resolved (" << resolved << ")\n";
-    cout << "4. Go Back\n";
-    cout << "Choice: ";
+    int total = pending + inProgress + resolved;
+    cout << "\n╔══════════════════════════════════════════════════╗\n";
+    cout << "║             COMPLAINTS OVERVIEW                  ║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  Total Complaints : " << left << setw(29) << total        << "║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  🕐 Pending       : " << left << setw(29) << pending      << "║\n";
+    cout << "║     (Awaiting worker assignment)                 ║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  ⚙  In-Progress   : " << left << setw(29) << inProgress   << "║\n";
+    cout << "║     (Currently being handled by workers)         ║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  ✓  Resolved      : " << left << setw(29) << resolved     << "║\n";
+    cout << "║     (Completed complaints)                       ║\n";
+    cout << "╚══════════════════════════════════════════════════╝\n";
+    cout << "\n  View Subsection:\n";
+    cout << "  1. Pending     (" << pending    << ")\n";
+    cout << "  2. In-Progress (" << inProgress << ")\n";
+    cout << "  3. Resolved    (" << resolved   << ")\n";
+    cout << "  4. Go Back\n";
+    cout << "  Choice: ";
 }

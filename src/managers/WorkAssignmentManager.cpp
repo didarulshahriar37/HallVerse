@@ -1,5 +1,6 @@
 #include "WorkAssignmentManager.h"
 #include <iostream>
+#include <iomanip>
 #include <sstream>
  
 using namespace std;
@@ -17,18 +18,30 @@ void WorkAssignmentManager::loadAssignments() {
 }
 
 void WorkAssignmentManager::assignWorker(const string& complaintID, const string& role) {
-    Worker* worker = workerManager->findAvailableWorker(role);
+    // Use smart workload-balanced selection: pick worker with fewest resolved complaints
+    Worker* worker = workerManager->findLeastLoadedWorker(role);
     if (worker) {
         stringstream ss;
         ss << "A" << nextAssignmentID;
         WorkAssignment assignment(ss.str(), complaintID, worker->getWorkerID(), "Assigned", "");
         workAssignments.push_back(assignment);
         fileHandler->writeAssignments(workAssignments);
+        // Mark worker as unavailable
         workerManager->updateWorkerStatus(worker->getWorkerID(), false);
+        // Automatically set complaint to In-Progress
+        complaintManager->updateComplaintStatus(complaintID, "In-Progress");
         nextAssignmentID++;
-        cout << "Worker assigned successfully!\n";
+        cout << "\n✓ Worker assigned successfully!\n";
+        cout << "  ┌─────────────────────────────────────────┐\n";
+        cout << "  │ Worker ID  : " << left << setw(27) << worker->getWorkerID()  << "│\n";
+        cout << "  │ Name       : " << left << setw(27) << worker->getName()      << "│\n";
+        cout << "  │ Role       : " << left << setw(27) << role                   << "│\n";
+        cout << "  │ Contact    : " << left << setw(27) << worker->getContactNumber() << "│\n";
+        cout << "  │ Complaint  : " << left << setw(27) << complaintID            << "│\n";
+        cout << "  └─────────────────────────────────────────┘\n";
+        cout << "  → Complaint status set to In-Progress\n";
     } else {
-        cout << "No available worker found for role: " << role << "\n";
+        cout << "\n✗ No worker found for role: " << role << "\n";
     }
 }
 

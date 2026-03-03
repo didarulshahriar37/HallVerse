@@ -19,6 +19,7 @@ public:
     void loadWorkers();
 
     Worker* findAvailableWorker(const string& role);
+    Worker* findLeastLoadedWorker(const string& role);
     void updateWorkerStatus(const string& workerID, bool availability);
     vector<Worker>& getAllWorkers() { return workers; }
 };
