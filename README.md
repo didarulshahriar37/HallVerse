@@ -27,10 +27,15 @@ Profile Management:
 Complaint Management:
 - Students can file a complaint based on different categories (Electricity, plumbing, housekeeping, internet etc.)
 - Students can view their own complaints along with the status
+- Students can view assigned worker information for complaints in progress or resolved
 
 Log Entry/Exit Management:
 - Students can log their entry/exit from the hall
 - Each log is recorded with exact date and time and can be monitored by the admin
+
+Account Security:
+- Students can reset their password with current password verification
+- Password reset enforces minimum 8 character requirement
 
 **Admin Features** <br>
 From Dashboard admin can view: <br>
@@ -43,10 +48,29 @@ Student Management:
 - Admin can view all students
 - Admin can add new students
 - Admin can remove a student
-- Admin can verify students payment (clear dues)
+- Admin can change student room
+
+Room Management:
+- Admin can view all beds with status filtering (occupied/vacant/all)
+- Admin can check bed availability for specific halls or rooms
+- Admin can check specific bed status
+- Admin can change student room assignments and update occupancy
+- Admin can add rooms in bulk for a hall
 
 Complaint Management:
-- Admin can view all complaints
+- Admin can view all complaints with status filtering (pending/in-progress/resolved)
+- Admin can update complaint status
+- Admin can assign workers to pending complaints (auto-assigns role based on complaint category)
+- Admin can view assigned worker information for complaints
+
+Dues Management:
+- Admin can verify payments and reduce student dues
+- Admin can add penalties to individual students
+- Admin can add hall fees to all students at once
+
+Entry/Exit Management:
+- Admin can view all entry/exit logs with timestamps
+- Admin can filter logs by student ID
 
 ## FOLDER STRUCTURE
 HallVerse/ <br>
@@ -123,7 +147,7 @@ git clone https://github.com/didarulshahriar37/HallVerse.git
 ```
 **Change Directory**
 ```bash
-cd HallVerse
+cd HallVerse\code
 ```
 **Compilation**
 ```bash
