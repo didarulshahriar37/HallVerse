@@ -6,6 +6,7 @@
 #endif
 #include <string>
 #include <sstream>
+#include <vector>
 #include "../services/FileHandler.h"
 #include "../services/Hasher.h"
 #include "../managers/StudentManager.h"
@@ -476,31 +477,61 @@ private:
             break;
         } while (true);
         
-        // Select Room
+        // Select Room: show only rooms that have available beds
         string room;
+        {
+            auto roomsList = roomManager.getAvailableRooms(hall);
 
+            if (roomsList.empty()) {
+                cout << "\nNo available rooms in " << hall << " hall.\n";
+                InputHelper::pause();
+                return;
+            }
+
+            cout << "\nAvailable Rooms in " << hall << " Hall:\n";
+            for (size_t i = 0; i < roomsList.size(); ++i) {
+                cout << "  " << (i+1) << ". " << roomsList[i] << "\n";
+            }
+
+            int choice = -1;
             do {
-            std::cout << "Enter Room Number (101-130 or 201-230): ";
-            room = InputHelper::getLine();
-            if (!InputHelper::isValidRoomForHall(hall, room)) {
-                std::cout << "Invalid room for " << hall << " hall. Try again.\n";
-            } else {
-                break;
+                cout << "Choose Room (1-" << roomsList.size() << "): ";
+                choice = InputHelper::getInt();
+                if (choice < 1 || choice > (int)roomsList.size()) {
+                    cout << "Invalid choice. Try again.\n";
+                }
+            } while (choice < 1 || choice > (int)roomsList.size());
+
+            room = roomsList[choice-1];
+        }
+
+        // Select Bed: show only vacant beds for the chosen room
+        string bed;
+        {
+            auto bedLetters = roomManager.getAvailableBeds(hall, room);
+
+            if (bedLetters.empty()) {
+                cout << "\nNo available beds in Room " << room << " of " << hall << " hall.\n";
+                InputHelper::pause();
+                return;
             }
-        } while (true);
-        
-        // Select Bed
-        std::string bed;
-        do {
-            cout << "Enter Bed Letter (A/B/C/D): ";
-            bed = InputHelper::getLine();
-            if (!InputHelper::isValidBed(bed)) {
-                std::cout << "Invalid bed. Use A, B, C or D.\n";
-            } else {
-                bed[0] = std::toupper(bed[0]);
-                break;
+
+            cout << "\nAvailable Beds in Room " << room << ":\n";
+            for (size_t i = 0; i < bedLetters.size(); ++i) {
+                cout << "  " << (i+1) << ". " << bedLetters[i] << "\n";
             }
-        } while (true);
+
+            int bchoice = -1;
+            do {
+                cout << "Choose Bed (1-" << bedLetters.size() << "): ";
+                bchoice = InputHelper::getInt();
+                if (bchoice < 1 || bchoice > (int)bedLetters.size()) {
+                    cout << "Invalid choice. Try again.\n";
+                }
+            } while (bchoice < 1 || bchoice > (int)bedLetters.size());
+
+            bed = bedLetters[bchoice-1];
+        }
         
         // Check if bed is available
         if (studentManager.isBedOccupied(hall, room, bed)) {

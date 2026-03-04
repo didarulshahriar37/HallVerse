@@ -1,5 +1,5 @@
 hallName,roomNumber,bedNumber,status
-South,101,A,occupied
+South,101,A,Vacant
 South,101,B,occupied
 South,101,C,occupied
 South,101,D,free
@@ -475,7 +475,7 @@ North,229,A,free
 North,229,B,free
 North,229,C,free
 North,229,D,free
-North,230,A,free
-North,230,B,free
+North,230,A,Vacant
+North,230,B,Occupied
 North,230,C,free
 North,230,D,Occupied
