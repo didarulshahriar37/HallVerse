@@ -16,14 +16,21 @@ void MenuPrinter::showMainMenu() {
 void MenuPrinter::showStudentMenu() {
     cout << "\n========== STUDENT MENU ==========" << "\n";
     cout << "1. View Profile\n";
-    cout << "2. Update Email\n";
-    cout << "3. Update Emergency Contact\n";
-    cout << "4. File Complaint\n";
-    cout << "5. View My Complaints\n";
-    cout << "6. Log Entry/Exit\n";
-    cout << "7. Reset Password\n";
-    cout << "8. Logout\n";
+    cout << "2. Update Information\n";
+    cout << "3. File/View Complaints\n";
+    cout << "4. Log Entry/Exit\n";
+    cout << "5. Reset Password\n";
+    cout << "6. Logout\n";
     cout << "Enter your choice: ";
+}
+
+// Shows the Update Information sub-menu for students
+void MenuPrinter::updateInfoMenu() {
+    cout << "\n=== UPDATE INFORMATION ===\n";
+    cout << "  1. Update Email\n";
+    cout << "  2. Update Emergency Contact\n";
+    cout << "  3. Go Back\n";
+    cout << "Choose (1-3): ";
 }
 
 // Shows the admin menu after logging in as an admin
@@ -45,6 +52,15 @@ void MenuPrinter::entryExitMenu() {
     cout << "2. Log Exit\n";
     cout << "3. Go Back\n";
     cout << "Choice: ";
+}
+
+// Shows the File/View Complaints parent sub-menu for students
+void MenuPrinter::fileViewComplaintsMenu() {
+    cout << "\n=== FILE / VIEW COMPLAINTS ===\n";
+    cout << "  1. File Complaint\n";
+    cout << "  2. View My Complaints\n";
+    cout << "  3. Go Back\n";
+    cout << "Choose (1-3): ";
 }
 
 // Shows the complaint filing menu for students
