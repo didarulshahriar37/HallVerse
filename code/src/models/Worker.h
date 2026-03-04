@@ -14,6 +14,7 @@ private:
     string role;
     string contactNumber;
     bool isAvailable;
+    string passwordHash;
 
     int activeComplaints;
     int resolvedComplaints;
@@ -26,7 +27,8 @@ public:
            const string &n,
            const string &r,
            bool avail,
-           const string &contact);
+           const string &contact,
+           const string &pwdHash = "");
 
     // availability control
     void markAvailable();
@@ -47,6 +49,9 @@ public:
     int getActiveComplaints() const;
     int getResolvedComplaints() const;
     vector<string> getAssignedComplaints() const;
+    string getPasswordHash() const;
+    void setPasswordHash(const string& hash);
+    void setContactNumber(const string& contact);
 };
 
 #endif

@@ -23,6 +23,9 @@ public:
     static void manageComplaintsMenu();
     static void viewComplaintsMenu(int pending, int inProgress, int resolved);
     static void manageDuesMenu();
+    static void showWorkerMenu();
+    static void workerManageComplaintsMenu(int pending, int inProgress, int resolved);
+    static void workerUpdateInfoMenu();
 };
 
 #endif

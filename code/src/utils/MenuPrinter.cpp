@@ -180,3 +180,36 @@ void MenuPrinter::viewComplaintsMenu(int pending, int inProgress, int resolved) 
     cout << "  4. Go Back\n";
     cout << "  Choice: ";
 }
+
+void MenuPrinter::showWorkerMenu() {
+    cout << "\n========== WORKER MENU ==========\n";
+    cout << "1. Dashboard\n";
+    cout << "2. Manage Complaints\n";
+    cout << "3. Update Information\n";
+    cout << "4. Logout\n";
+    cout << "Enter your choice: ";
+}
+
+void MenuPrinter::workerManageComplaintsMenu(int pending, int inProgress, int resolved) {
+    cout << "\n╔══════════════════════════════════════════════════╗\n";
+    cout << "║           MY COMPLAINTS OVERVIEW                 ║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  🕐 Pending     : " << left << setw(31) << pending    << "║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  ⚙  In-Progress : " << left << setw(31) << inProgress << "║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  ✓  Resolved    : " << left << setw(31) << resolved   << "║\n";
+    cout << "╚══════════════════════════════════════════════════╝\n";
+    cout << "\n  1. View Pending     (" << pending    << ")\n";
+    cout << "  2. View In-Progress (" << inProgress << ")\n";
+    cout << "  3. View Resolved    (" << resolved   << ")\n";
+    cout << "  4. Go Back\n";
+    cout << "  Choice: ";
+}
+
+void MenuPrinter::workerUpdateInfoMenu() {
+    cout << "\n=== UPDATE INFORMATION ===\n";
+    cout << "  1. Update Phone Number\n";
+    cout << "  2. Go Back\n";
+    cout << "Choose (1-2): ";
+}

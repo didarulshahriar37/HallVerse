@@ -42,6 +42,10 @@ public:
     
     bool checkCredentials(const string& username, const string& passwordHash, bool isAdmin);
     void updatePassword(const string& username, const string& newPasswordHash, bool isAdmin);
+
+    bool checkWorkerCredentials(const string& workerID, const string& passwordHash);
+    void updateWorkerPassword(const string& workerID, const string& newPasswordHash);
+    void updateWorkerContact(const string& workerID, const string& newContact);
 };
 
 #endif

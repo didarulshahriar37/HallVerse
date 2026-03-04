@@ -1,7 +1,7 @@
-workerID,name,role,isAvailable,contactNumber
-W001,Abdul Karim,Electrician,0,+8801812345678
-W002,Rahim Mia,Plumber,1,+8801923456789
-W003,Jalal Uddin,Carpenter,1,+8801634567890
-W004,Mofiz Ali,Electrician,0,+8801745678901
-W005,Sumon Sheikh,Plumber,1,+8801856789012
-W006,Rafiq Hossain,General Maintenance,0,+8801967890123
+workerID,name,role,isAvailable,contactNumber,password
+W001,Abdul Karim,Electrician,0,01711111111,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+W002,Rahim Mia,Plumber,1,+8801923456789,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+W003,Jalal Uddin,Carpenter,1,+8801634567890,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+W004,Mofiz Ali,Electrician,0,+8801745678901,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+W005,Sumon Sheikh,Plumber,1,+8801856789012,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+W006,Rafiq Hossain,General Maintenance,0,+8801967890123,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8

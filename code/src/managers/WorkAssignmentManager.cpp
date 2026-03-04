@@ -70,3 +70,13 @@ vector<WorkAssignment>& WorkAssignmentManager::getAssignmentsByComplaint(const s
     }
     return result;
 }
+
+vector<WorkAssignment> WorkAssignmentManager::getAssignmentsByWorker(const string& workerID) {
+    vector<WorkAssignment> result;
+    for (const auto& a : workAssignments) {
+        if (a.getWorkerID() == workerID) {
+            result.push_back(a);
+        }
+    }
+    return result;
+}

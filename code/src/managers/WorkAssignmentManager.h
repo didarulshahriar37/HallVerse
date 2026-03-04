@@ -25,6 +25,8 @@ class WorkAssignmentManager {
     void assignWorker(const string& complaintID, const string& role);
     void completeWork(const string& assignmentID, const string& report);
     vector<WorkAssignment>& getAssignmentsByComplaint(const string& complaintID);
+    vector<WorkAssignment> getAssignmentsByWorker(const string& workerID);
+    vector<WorkAssignment>& getAllAssignments() { return workAssignments; }
     void loadAssignments();
 };
 
