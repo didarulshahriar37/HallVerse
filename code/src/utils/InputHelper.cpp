@@ -100,6 +100,11 @@ void InputHelper::pause() {
 string InputHelper::getValidatedEmail() {
     while (true) {
         string email = getLine();
+        // Check for spaces
+        if (email.find(' ') != string::npos) {
+            cout << "Invalid email! Email cannot contain spaces.\nTry again: ";
+            continue;
+        }
         if (email.length() > 14 && email.substr(email.length() - 14) == "@iut-dhaka.edu") {
             return email;
         } else {
@@ -169,6 +174,24 @@ string InputHelper::getNumericLine() {
             return input;
         } else {
             cout << "Invalid input! Please enter numbers only: ";
+        }
+    }
+}
+
+// Get non-negative double input with validation
+double InputHelper::getNonNegativeDouble() {
+    double value;
+    while(true){
+        if(!(cin >> value)){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a valid amount: ";
+        } else if (value < 0) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Due cannot be negative: ";
+        } else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return value;
         }
     }
 }

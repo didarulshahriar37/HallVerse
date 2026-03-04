@@ -371,7 +371,7 @@ private:
 
                 bed[0] = toupper(bed[0]);
                 cout << "Enter Hall Dues: ";
-                double dues = InputHelper::getDouble();
+                double dues = InputHelper::getNonNegativeDouble();
 
                 Student student(id, name, email, contact, room, bed, hall, dues);
                 student.setPasswordHash(hasher.hash("password"));
@@ -725,7 +725,7 @@ private:
                 cout << "\nStudent: " << s->getName() << " (" << id << ")\n";
                 cout << "Current Dues: $" << s->getHallDues() << "\n";
                 cout << "Enter payment amount: ";
-                double amount = InputHelper::getDouble();
+                double amount = InputHelper::getNonNegativeDouble();
 
                 if (amount > s->getHallDues()) {
                     cout << "\n✗ Error: Payment amount exceeds current dues!\n";
@@ -1232,9 +1232,9 @@ private:
         cout << "║  Role     : " << left << setw(37) << (w ? w->getRole() : "N/A")         << "║\n";
         cout << "║  Contact  : " << left << setw(37) << (w ? w->getContactNumber() : "N/A") << "║\n";
         cout << "╠══════════════════════════════════════════════════╣\n";
-        cout << "║   Pending Tasks    : " << left << setw(27) << pending    << "║\n";
-        cout << "║   In-Progress Tasks: " << left << setw(27) << inProgress << "║\n";
-        cout << "║   Resolved Tasks   : " << left << setw(27) << resolved   << "║\n";
+        cout << "║   Pending Tasks    : " << left << setw(27) << pending    << " ║\n";
+        cout << "║   In-Progress Tasks: " << left << setw(27) << inProgress << " ║\n";
+        cout << "║   Resolved Tasks   : " << left << setw(27) << resolved   << " ║\n";
         cout << "╚══════════════════════════════════════════════════╝\n";
         InputHelper::pause();
     }

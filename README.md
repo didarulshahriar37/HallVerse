@@ -9,7 +9,7 @@ HallVerse is a C++ based hall management system that manages student information
 
 ## KEY FEATURES
 **User Authentication System** <br>
-The system provides secure username and password-based authentication for both Students and Admin. It ensures role-based acccess control, allowing users to access only authorized features. A password reset feature is also included to maintain account security. <br>
+The system provides secure username and password-based authentication for Students, Admins, and Workers. It ensures role-based acccess control, allowing users to access only authorized features. A password reset feature is also included to maintain account security. <br>
 
 Student login:
 - Username: STUDENT ID (e.g. 230042100)
@@ -18,6 +18,10 @@ Student login:
 Admin login:
 - Username: A*** (A001 - A003)
 - Password: admin
+
+Worker login:
+- Username: W*** (W001 - W005)
+- Password: worker
 
 **Student Features** <br>
 Profile Management:
@@ -71,6 +75,17 @@ Dues Management:
 Entry/Exit Management:
 - Admin can view all entry/exit logs with timestamps
 - Admin can filter logs by student ID
+
+**Worker Features**
+From dashboard worker can view:
+- Name, Working Role, Contact No.
+
+Complaint Management:
+- Worker can view the complaints (working-role based)
+- Worker can update the complaint status
+
+Profile Management:
+- Worker can update his phone number
 
 ## FOLDER STRUCTURE
 HallVerse/ <br>

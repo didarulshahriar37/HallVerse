@@ -19,6 +19,7 @@ public:
     static bool isValidBed(const string& bed);
     static bool isNumeric(const string& str);
     static string getNumericLine();
+    static double getNonNegativeDouble();
 };
 
 #endif
