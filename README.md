@@ -76,7 +76,7 @@ Entry/Exit Management:
 - Admin can view all entry/exit logs with timestamps
 - Admin can filter logs by student ID
 
-**Worker Features**
+**Worker Features** <br>
 From dashboard worker can view:
 - Name, Working Role, Contact No.
 
