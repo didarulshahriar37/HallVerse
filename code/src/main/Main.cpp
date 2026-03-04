@@ -755,7 +755,7 @@ private:
         if (s) {
             cout << "Current Dues: $" << s->getHallDues() << "\n";
             cout << "Enter penalty amount: ";
-            double penalty = InputHelper::getDouble();
+            double penalty = InputHelper::getNonNegativeDouble();
             s->setHallDues(s->getHallDues() + penalty);
             studentManager.updateStudent(*s);
             cout << "\n✓ Penalty added. New dues: $" << s->getHallDues() << "\n";
@@ -769,7 +769,7 @@ private:
         InputHelper::clearScreen();
         cout << "\n========== ADD HALL FEE (ALL STUDENTS) ==========\n";
         cout << "Enter hall fee amount to add to all students: ";
-        double fee = InputHelper::getDouble();
+        double fee = InputHelper::getNonNegativeDouble();
         
         cout << "Are you sure? (y/n): ";
         string confirm = InputHelper::getLine();

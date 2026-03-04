@@ -188,7 +188,7 @@ double InputHelper::getNonNegativeDouble() {
             cout << "Invalid input. Please enter a valid amount: ";
         } else if (value < 0) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Due cannot be negative: ";
+            cout << "Invalid input. Amount cannot be negative: ";
         } else {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             return value;
