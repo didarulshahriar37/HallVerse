@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
+#include <cctype>
 using namespace std;
 RoomManager::RoomManager() {
     loadRooms();
@@ -141,6 +143,35 @@ vector<RoomManager::Room> RoomManager::searchAvailableBeds(const string& hall,
     }
     
     return results;
+}
+
+vector<string> RoomManager::getAvailableRooms(const string& hall) {
+    vector<string> roomsList;
+    for (const auto& r : rooms) {
+        string st = r.status;
+        for (auto &c : st) c = tolower(c);
+        if (st == "free" || st == "vacant") {
+            if (!hall.empty() && r.hallName != hall) continue;
+            if (find(roomsList.begin(), roomsList.end(), r.roomNumber) == roomsList.end()) {
+                roomsList.push_back(r.roomNumber);
+            }
+        }
+    }
+    return roomsList;
+}
+
+vector<string> RoomManager::getAvailableBeds(const string& hall, const string& room) {
+    vector<string> bedList;
+    for (const auto& r : rooms) {
+        string st = r.status;
+        for (auto &c : st) c = tolower(c);
+        if (st == "free" || st == "vacant") {
+            if (!hall.empty() && r.hallName != hall) continue;
+            if (!room.empty() && r.roomNumber != room) continue;
+            bedList.push_back(r.bedNumber);
+        }
+    }
+    return bedList;
 }
 void RoomManager::displayBedAvailability(const string& hall, const string& room) {
     cout << "\n========== Bed Availability Report ==========\n";

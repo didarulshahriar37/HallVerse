@@ -24,6 +24,8 @@ public:
     void updateBedStatus(const string& hall, const string& room, const string& bed, const string& status);
     void addRooms(const string& hall, int startRoom, int endRoom);
     vector<Room> searchAvailableBeds(const string& hall = "", const string& room = "");
+    vector<string> getAvailableRooms(const string& hall);
+    vector<string> getAvailableBeds(const string& hall, const string& room);
     void displayBedAvailability(const string& hall, const string& room = "");
     void displayAllBeds();
     void displayBedsByStatus(const string& statusFilter);
