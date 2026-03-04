@@ -10,7 +10,9 @@ public:
     static void showMainMenu();
     static void showAdminMenu();
     static void showStudentMenu();
+    static void updateInfoMenu();
     static void entryExitMenu();
+    static void fileViewComplaintsMenu();
     static void filingComplaintMenu();
     static void manageStudentsMenu();
     static void bedAvailabilityMenu();

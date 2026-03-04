@@ -124,6 +124,22 @@ private:
         InputHelper::pause();
     }
 
+    // Parent handler: Update Information sub-menu
+    void handleUpdateInfo() {
+        while (true) {
+            InputHelper::clearScreen();
+            MenuPrinter::updateInfoMenu();
+            int choice = InputHelper::getInt();
+            if (choice == 1)      handleUpdateEmail();
+            else if (choice == 2) handleUpdateContact();
+            else if (choice == 3) return;
+            else {
+                cout << "Invalid choice!\n";
+                InputHelper::pause();
+            }
+        }
+    }
+
     // Handles filing a complaint
     void handleFileComplaint() {
         while (true) {
@@ -151,23 +167,68 @@ private:
         }
     }
 
-    // Handles viewing student's own complaints
+    // Handles viewing student's own complaints (with worker info for In-Progress/Resolved)
     void handleViewMyComplaints() {
         InputHelper::clearScreen();
-        cout << "\n=== MY COMPLAINTS ===\n";
+        cout << "\n╔══════════════════════════════════════════════════╗\n";
+        cout << "║               MY COMPLAINTS                      ║\n";
+        cout << "╚══════════════════════════════════════════════════╝\n";
         auto comps = complaintManager.getComplaintsByStudent(currentUserID);
         if (comps.empty()) {
-            cout << "You have no complaints filed.\n";
+            cout << "\n  You have no complaints filed.\n";
         } else {
+            int idx = 0;
             for (const auto& c : comps) {
-                cout << "\nComplaint ID: " << c.getComplaintID() << "\n";
-                cout << "Category: " << c.getCategory() << "\n";
-                cout << "Description: " << c.getDescription() << "\n";
-                cout << "Status: " << c.getStatus() << "\n";
-                cout << "Date: " << c.getDate() << "\n";
+                idx++;
+                cout << "\n  [" << idx << "/" << comps.size() << "]\n";
+                cout << "  ┌──────────────────────────────────────────┐\n";
+                cout << "  │ Complaint ID : " << left << setw(27) << c.getComplaintID()   << "│\n";
+                cout << "  │ Category     : " << left << setw(27) << c.getCategory()       << "│\n";
+                cout << "  │ Status       : " << left << setw(27) << c.getStatus()         << "│\n";
+                cout << "  │ Date         : " << left << setw(27) << c.getDate()           << "│\n";
+                cout << "  │ Description  : " << left << setw(27) << c.getDescription().substr(0,27) << "│\n";
+
+                // Show worker info for In-Progress or Resolved complaints
+                if (c.getStatus() == "In-Progress" || c.getStatus() == "Resolved") {
+                    auto& assignments = assignmentManager.getAssignmentsByComplaint(c.getComplaintID());
+                    if (!assignments.empty()) {
+                        const WorkAssignment& wa = assignments.back();
+                        // Find the worker in WorkerManager
+                        Worker* worker = nullptr;
+                        for (auto& w : workerManager.getAllWorkers()) {
+                            if (w.getWorkerID() == wa.getWorkerID()) {
+                                worker = &w;
+                                break;
+                            }
+                        }
+                        cout << "  ├──────────────────────────────────────────┤\n";
+                        cout << "  │ ── Assigned Worker ──                     │\n";
+                        cout << "  │ Worker Name  : " << left << setw(27) << (worker ? worker->getName() : wa.getWorkerID()) << "│\n";
+                        cout << "  │ Service Type : " << left << setw(27) << (worker ? worker->getRole() : "N/A") << "│\n";
+                        cout << "  │ Work Status  : " << left << setw(27) << wa.getStatus() << "│\n";
+                        cout << "  │ Contact No.  : " << left << setw(27) << (worker ? worker->getContactNumber() : "N/A") << "│\n";
+                    }
+                }
+                cout << "  └──────────────────────────────────────────┘\n";
             }
         }
         InputHelper::pause();
+    }
+
+    // Parent handler: File/View Complaints sub-menu
+    void handleFileViewComplaints() {
+        while (true) {
+            InputHelper::clearScreen();
+            MenuPrinter::fileViewComplaintsMenu();
+            int choice = InputHelper::getInt();
+            if (choice == 1) handleFileComplaint();
+            else if (choice == 2) handleViewMyComplaints();
+            else if (choice == 3) return;
+            else {
+                cout << "Invalid choice!\n";
+                InputHelper::pause();
+            }
+        }
     }
     // ------------- Student side features ends here ----------------
     
@@ -613,6 +674,26 @@ private:
             cout << "  │ Status       : " << left << setw(27) << c.getStatus()                       << "│\n";
             cout << "  │ Date         : " << left << setw(27) << c.getDate()                         << "│\n";
             cout << "  │ Description  : " << left << setw(27) << c.getDescription().substr(0,27)     << "│\n";
+
+                // Show assigned worker info for In-Progress or Resolved complaints
+                if (c.getStatus() == "In-Progress" || c.getStatus() == "Resolved") {
+                    auto& assignments = assignmentManager.getAssignmentsByComplaint(c.getComplaintID());
+                    if (!assignments.empty()) {
+                        const WorkAssignment& wa = assignments.back();
+                        Worker* worker = nullptr;
+                        for (auto& w : workerManager.getAllWorkers()) {
+                            if (w.getWorkerID() == wa.getWorkerID()) {
+                                worker = &w;
+                                break;
+                            }
+                        }
+                        cout << "  ├──────────────────────────────────────────┤\n";
+                        cout << "  │ ── Assigned Worker ──                     │\n";
+                        cout << "  │ Worker Name  : " << left << setw(27) << (worker ? worker->getName() : wa.getWorkerID()) << "│\n";
+                        cout << "  │ Service Type : " << left << setw(27) << (worker ? worker->getRole() : "N/A")          << "│\n";
+                        cout << "  │ Work Status  : " << left << setw(27) << wa.getStatus()                                 << "│\n";
+                    }
+                }
             cout << "  └──────────────────────────────────────────┘\n";
         }
         InputHelper::pause();
@@ -984,18 +1065,16 @@ private:
             
             switch (choice) {
                 case 1: handleStudentProfile(); break;
-                case 2: handleUpdateEmail(); break;
-                case 3: handleUpdateContact(); break;
-                case 4: handleFileComplaint(); break;
-                case 5: handleViewMyComplaints(); break;
-                case 6: handleLogEntryExit(); break;
-                case 7: handleResetPassword(); break;
-                case 8: 
+                case 2: handleUpdateInfo(); break;
+                case 3: handleFileViewComplaints(); break;
+                case 4: handleLogEntryExit(); break;
+                case 5: handleResetPassword(); break;
+                case 6:
                     loggedIn = false;
                     cout << "\n✓ Logged out successfully!\n";
                     InputHelper::pause();
                     break;
-                default: 
+                default:
                     cout << "Invalid choice!\n";
                     InputHelper::pause();
             }
