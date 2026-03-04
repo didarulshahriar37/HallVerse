@@ -98,11 +98,11 @@ void MenuPrinter::bedAvailabilityMenu() {
 
 void MenuPrinter::viewAllBedsMenu() {
     cout << "\n╔══════════════════════════════════════════════════╗\n";
-    cout << "║           VIEW ALL BEDS — FILTER                 ║\n";
+    cout << "║           VIEW ALL BEDS                          ║\n";
     cout << "╠══════════════════════════════════════════════════╣\n";
-    cout << "║  1.  All Beds       (no filter)                  ║\n";
-    cout << "║  2.  Occupied Beds  (assigned to students)       ║\n";
-    cout << "║  3.  Vacant Beds    (available for assignment)   ║\n";
+    cout << "║  1.  All Beds                                    ║\n";
+    cout << "║  2.  Occupied Beds                               ║\n";
+    cout << "║  3.  Vacant Beds                                 ║\n";
     cout << "║  4.  Go Back                                     ║\n";
     cout << "╚══════════════════════════════════════════════════╝\n";
     cout << "  Choice: ";
@@ -142,9 +142,8 @@ void MenuPrinter::manageRoomsMenu() {
 void MenuPrinter::manageComplaintsMenu() {
     cout << "\n========== MANAGE COMPLAINTS ==========\n";
     cout << "1. View Complaints\n";
-    cout << "2. Update Complaint Status\n";
-    cout << "3. Assign Worker to Complaint\n";
-    cout << "4. Go Back\n";
+    cout << "2. Assign Worker to Complaint\n";
+    cout << "3. Go Back\n";
     cout << "Choice: ";
 }
 
@@ -164,13 +163,13 @@ void MenuPrinter::viewComplaintsMenu(int pending, int inProgress, int resolved) 
     cout << "╠══════════════════════════════════════════════════╣\n";
     cout << "║  Total Complaints : " << left << setw(29) << total        << "║\n";
     cout << "╠══════════════════════════════════════════════════╣\n";
-    cout << "║  🕐 Pending       : " << left << setw(29) << pending      << "║\n";
+    cout << "║   Pending       : " << left << setw(29) << pending      << "║\n";
     cout << "║     (Awaiting worker assignment)                 ║\n";
     cout << "╠══════════════════════════════════════════════════╣\n";
-    cout << "║  ⚙  In-Progress   : " << left << setw(29) << inProgress   << "║\n";
+    cout << "║   In-Progress   : " << left << setw(29) << inProgress   << "║\n";
     cout << "║     (Currently being handled by workers)         ║\n";
     cout << "╠══════════════════════════════════════════════════╣\n";
-    cout << "║  ✓  Resolved      : " << left << setw(29) << resolved     << "║\n";
+    cout << "║   Resolved      : " << left << setw(29) << resolved     << "║\n";
     cout << "║     (Completed complaints)                       ║\n";
     cout << "╚══════════════════════════════════════════════════╝\n";
     cout << "\n  View Subsection:\n";
@@ -194,11 +193,11 @@ void MenuPrinter::workerManageComplaintsMenu(int pending, int inProgress, int re
     cout << "\n╔══════════════════════════════════════════════════╗\n";
     cout << "║           MY COMPLAINTS OVERVIEW                 ║\n";
     cout << "╠══════════════════════════════════════════════════╣\n";
-    cout << "║  🕐 Pending     : " << left << setw(31) << pending    << "║\n";
+    cout << "║   Pending     : " << left << setw(31) << pending    << "║\n";
     cout << "╠══════════════════════════════════════════════════╣\n";
-    cout << "║  ⚙  In-Progress : " << left << setw(31) << inProgress << "║\n";
+    cout << "║   In-Progress : " << left << setw(31) << inProgress << "║\n";
     cout << "╠══════════════════════════════════════════════════╣\n";
-    cout << "║  ✓  Resolved    : " << left << setw(31) << resolved   << "║\n";
+    cout << "║   Resolved    : " << left << setw(31) << resolved   << "║\n";
     cout << "╚══════════════════════════════════════════════════╝\n";
     cout << "\n  1. View Pending     (" << pending    << ")\n";
     cout << "  2. View In-Progress (" << inProgress << ")\n";

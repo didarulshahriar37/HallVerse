@@ -841,32 +841,6 @@ private:
     InputHelper::pause();
 }
 
- void handleUpdateComplaintStatus() {
-        while (true) {
-            InputHelper::clearScreen();
-            cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
-            cout << "Enter Complaint ID (or 'q' to go back): ";
-            string id = InputHelper::getLine();
-            if (id == "q" || id == "Q") return;
-
-            MenuPrinter::statusUpdateMenu();
-            int choice = InputHelper::getInt();
-            
-            if (choice == 4) continue;
-
-            string status;
-            switch(choice) {
-                case 1: status = "Pending"; break;
-                case 2: status = "In-Progress"; break;
-                case 3: status = "Resolved"; break;
-                default: continue;
-            }
-            
-            complaintManager.updateComplaintStatus(id, status);
-            InputHelper::pause();
-        }
-    }
-    
     void handleAssignWorker() {
         while (true) {
             InputHelper::clearScreen();
@@ -1184,9 +1158,8 @@ private:
             MenuPrinter::manageComplaintsMenu();
             int choice = InputHelper::getInt();
             if (choice == 1) handleViewComplaints();
-            else if (choice == 2) handleUpdateComplaintStatus();
-            else if (choice == 3) handleAssignWorker();
-            else if (choice == 4) return;
+            else if (choice == 2) handleAssignWorker();
+            else if (choice == 3) return;
             else {
                 cout << "Invalid choice!\n";
                 InputHelper::pause();
