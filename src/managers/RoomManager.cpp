@@ -130,7 +130,10 @@ vector<RoomManager::Room> RoomManager::searchAvailableBeds(const string& hall,
     vector<Room> results;
     
     for (const auto& r : rooms) {
-        if (r.status == "free") {
+        // treat both "free" and "vacant" as available
+        string st = r.status;
+        for (auto &c : st) c = tolower(c);
+        if (st == "free" || st == "vacant") {
             if (!hall.empty() && r.hallName != hall) continue;
             if (!room.empty() && r.roomNumber != room) continue;
             results.push_back(r);

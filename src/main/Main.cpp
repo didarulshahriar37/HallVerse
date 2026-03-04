@@ -322,6 +322,17 @@ private:
 
                 cout << "\nEnter Student ID to remove: ";
                 string id = InputHelper::getNumericLine();
+                // locate student to free their bed before deletion
+                Student* target = studentManager.getStudent(id);
+                if (target) {
+                    // Update bed status to vacant in room manager
+                    roomManager.updateBedStatus(
+                        target->getHallName(),
+                        target->getRoomNumber(),
+                        target->getBedNumber(),
+                        "Vacant"
+                    );
+                }
                 studentManager.removeStudent(id);
                 InputHelper::pause();
             }
