@@ -19,7 +19,7 @@ void MenuPrinter::showStudentMenu() {
     cout << "2. Update Information\n";
     cout << "3. File/View Complaints\n";
     cout << "4. Log Entry/Exit\n";
-    cout << "5. Reset Password\n";
+    cout << "5. Update Password\n";
     cout << "6. Logout\n";
     cout << "Enter your choice: ";
 }
