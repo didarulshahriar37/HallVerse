@@ -164,6 +164,7 @@ private:
             Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
             complaintManager.createComplaint(c);
             InputHelper::pause();
+            return;
         }
     }
 
