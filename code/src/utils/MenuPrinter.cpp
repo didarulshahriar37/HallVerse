@@ -182,10 +182,9 @@ void MenuPrinter::viewComplaintsMenu(int pending, int inProgress, int resolved) 
 
 void MenuPrinter::showWorkerMenu() {
     cout << "\n========== WORKER MENU ==========\n";
-    cout << "1. Dashboard\n";
-    cout << "2. Manage Complaints\n";
-    cout << "3. Update Information\n";
-    cout << "4. Logout\n";
+    cout << "1. Manage Complaints\n";
+    cout << "2. Update Information\n";
+    cout << "3. Logout\n";
     cout << "Enter your choice: ";
 }
 

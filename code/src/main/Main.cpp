@@ -1485,16 +1485,47 @@ private:
     // Worker flow after login
     void workerFlow() {
         bool loggedIn = true;
+        bool firstLogin = true;
         while (loggedIn) {
             InputHelper::clearScreen();
             Worker* w = workerManager.findWorkerByID(currentUserID);
             cout << "Welcome, " << (w ? w->getName() : currentUserID)
                  << " [" << (w ? w->getRole() : "Worker") << "]\n";
+
+            // Auto-show dashboard summary once immediately after login
+            if (firstLogin) {
+                firstLogin = false;
+                auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
+                int pending = 0, inProgress = 0, resolved = 0;
+                for (const auto& a : myAssignments) {
+                    for (const auto& c : complaintManager.getAllComplaints()) {
+                        if (c.getComplaintID() == a.getComplaintID()) {
+                            if (c.getStatus() == "Pending")          pending++;
+                            else if (c.getStatus() == "In-Progress") inProgress++;
+                            else if (c.getStatus() == "Resolved")    resolved++;
+                            break;
+                        }
+                    }
+                }
+                cout << "\n╔══════════════════════════════════════════════════╗\n";
+                cout << "║           YOUR COMPLAINTS SUMMARY                ║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   Pending     : " << left << setw(31) << pending    << "║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   In-Progress : " << left << setw(31) << inProgress << "║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   Resolved    : " << left << setw(31) << resolved   << "║\n";
+                cout << "╚══════════════════════════════════════════════════╝\n";
+                InputHelper::pause();
+                InputHelper::clearScreen();
+                cout << "Welcome, " << (w ? w->getName() : currentUserID)
+                     << " [" << (w ? w->getRole() : "Worker") << "]\n";
+            }
+
             MenuPrinter::showWorkerMenu();
             int choice = InputHelper::getInt();
             switch (choice) {
-                case 1: handleWorkerDashboard(); break;
-                case 2: {
+                case 1: {
                     // Manage Complaints — show sub-menu with update option too
                     while (true) {
                         InputHelper::clearScreen();
@@ -1527,8 +1558,8 @@ private:
                     }
                     break;
                 }
-                case 3: handleWorkerUpdateInfo(); break;
-                case 4:
+                case 2: handleWorkerUpdateInfo(); break;
+                case 3:
                     loggedIn = false;
                     cout << "\n✓ Logged out successfully!\n";
                     InputHelper::pause();
