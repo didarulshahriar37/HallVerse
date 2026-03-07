@@ -97,15 +97,28 @@ void InputHelper::pause() {
     cin.get();
 }
 
-string InputHelper::getValidatedEmail() {
+// Email validation
+string InputHelper::getValidateEmail() {
     while (true) {
         string email = getLine();
-        // Check for spaces
-        if (email.find(' ') != string::npos) {
-            cout << "Invalid email! Email cannot contain spaces.\nTry again: ";
-            continue;
+        int atCount = 0;
+        int dotCount = 0;
+        bool hasSpace = false;
+        bool hasForbidden = false;
+        string forbidden = "(),:;<>[]";
+
+        for (char c : email) {
+            if (isspace(c)) 
+                hasSpace = true;
+            if (c == '@') 
+                atCount++;
+            if (c == '.') 
+                dotCount++;
+            if (forbidden.find(c) != string::npos) 
+                hasForbidden = true;
         }
-        if (email.length() > 14 && email.substr(email.length() - 14) == "@iut-dhaka.edu") {
+
+        if (!hasSpace && atCount == 1 && dotCount == 1 && !hasForbidden && !email.empty()) {
             return email;
         } else {
             cout << "Invalid email!\nTry again: ";
