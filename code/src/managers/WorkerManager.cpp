@@ -82,3 +82,14 @@ void WorkerManager::updateContactNumber(const string& workerID, const string& ne
         }
     }
 }
+
+bool WorkerManager::verifyWorkerPassword(const string& workerID, const string& password) {
+    string hash = hasher->hash(password);
+    return fileHandler->checkWorkerCredentials(workerID, hash);
+}
+
+void WorkerManager::updateWorkerPassword(const string& workerID, const string& newPassword) {
+    string hash = hasher->hash(newPassword);
+    fileHandler->updateWorkerPassword(workerID, hash);
+    loadWorkers();
+}

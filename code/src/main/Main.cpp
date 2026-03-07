@@ -1350,36 +1350,42 @@ private:
         InputHelper::pause();
     }
 
-    // Worker updates the status of one of their assigned complaints
+    // Worker updates the status of one of their assigned complaints (Pending/In-Progress only)
     void handleWorkerUpdateStatus() {
         InputHelper::clearScreen();
         auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
 
-        if (myAssignments.empty()) {
-            cout << "\n  You have no complaints assigned to you.\n";
+        // Collect only non-Resolved complaints
+        struct UpdatableEntry { string complaintID; string category; string status; string date; };
+        vector<UpdatableEntry> updatable;
+        for (const auto& a : myAssignments) {
+            for (const auto& c : complaintManager.getAllComplaints()) {
+                if (c.getComplaintID() == a.getComplaintID() && c.getStatus() != "Resolved") {
+                    updatable.push_back({c.getComplaintID(), c.getCategory(), c.getStatus(), c.getDate()});
+                    break;
+                }
+            }
+        }
+
+        if (updatable.empty()) {
+            cout << "\n  No complaints available to update.\n";
             InputHelper::pause();
             return;
         }
 
-        // Show the worker's complaints
+        // Show only updatable complaints
         cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
-        cout << "  Your assigned complaints:\n";
+        cout << "  Complaints available to update (Pending / In-Progress):\n";
         cout << "  " << string(60, '-') << "\n";
         cout << "  " << left << setw(14) << "Complaint ID" << setw(16) << "Category" << setw(16) << "Status" << "Date\n";
         cout << "  " << string(60, '-') << "\n";
-
-        for (const auto& a : myAssignments) {
-            for (const auto& c : complaintManager.getAllComplaints()) {
-                if (c.getComplaintID() == a.getComplaintID()) {
-                    string cat = c.getCategory();
-                    if (cat.length() > 14) cat = cat.substr(0,13);
-                    cout << "  " << left << setw(14) << c.getComplaintID()
-                         << setw(16) << cat
-                         << setw(16) << c.getStatus()
-                         << c.getDate() << "\n";
-                    break;
-                }
-            }
+        for (const auto& e : updatable) {
+            string cat = e.category;
+            if (cat.length() > 14) cat = cat.substr(0, 13);
+            cout << "  " << left << setw(14) << e.complaintID
+                 << setw(16) << cat
+                 << setw(16) << e.status
+                 << e.date << "\n";
         }
         cout << "  " << string(60, '-') << "\n";
 
@@ -1387,13 +1393,13 @@ private:
         string cid = InputHelper::getLine();
         if (cid == "q" || cid == "Q") return;
 
-        // Verify this complaint belongs to this worker
+        // Verify this complaint is in the updatable list
         bool belongs = false;
-        for (const auto& a : myAssignments) {
-            if (a.getComplaintID() == cid) { belongs = true; break; }
+        for (const auto& e : updatable) {
+            if (e.complaintID == cid) { belongs = true; break; }
         }
         if (!belongs) {
-            cout << "\n  ✗ Complaint not found or not assigned to you.\n";
+            cout << "\n  ✗ Complaint not found, not assigned to you, or already Resolved.\n";
             InputHelper::pause();
             return;
         }
@@ -1414,9 +1420,43 @@ private:
         }
 
         complaintManager.updateComplaintStatus(cid, status);
-        // Reload complaints so the change is visible everywhere
         complaintManager.loadComplaints();
         cout << "\n  ✓ Status updated to '" << status << "' successfully!\n";
+        InputHelper::pause();
+    }
+
+    // Worker updates their own password
+    void handleWorkerUpdatePassword() {
+        InputHelper::clearScreen();
+        cout << "\n========== UPDATE PASSWORD ==========\n";
+        cout << "Enter current password: ";
+        string currentPassword = InputHelper::getPassword();
+
+        if (!workerManager.verifyWorkerPassword(currentUserID, currentPassword)) {
+            cout << "\n✗ Current password is incorrect!\n";
+            InputHelper::pause();
+            return;
+        }
+
+        string newPassword, confirmPassword;
+        while (true) {
+            cout << "Enter new password: ";
+            newPassword = InputHelper::getPassword();
+            if (newPassword.length() < 8) {
+                cout << "✗ Password must be at least 8 characters!\n";
+                continue;
+            }
+            cout << "Confirm new password: ";
+            confirmPassword = InputHelper::getPassword();
+            if (newPassword != confirmPassword) {
+                cout << "✗ Passwords do not match!\n";
+                continue;
+            }
+            break;
+        }
+
+        workerManager.updateWorkerPassword(currentUserID, newPassword);
+        cout << "\n✓ Password updated successfully!\n";
         InputHelper::pause();
     }
 
@@ -1591,7 +1631,8 @@ private:
                     break;
                 }
                 case 2: handleWorkerUpdateInfo(); break;
-                case 3:
+                case 3: handleWorkerUpdatePassword(); break;
+                case 4:
                     loggedIn = false;
                     cout << "\n✓ Logged out successfully!\n";
                     InputHelper::pause();

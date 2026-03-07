@@ -184,7 +184,8 @@ void MenuPrinter::showWorkerMenu() {
     cout << "\n========== WORKER MENU ==========\n";
     cout << "1. Manage Complaints\n";
     cout << "2. Update Information\n";
-    cout << "3. Logout\n";
+    cout << "3. Update Password\n";
+    cout << "4. Logout\n";
     cout << "Enter your choice: ";
 }
 

@@ -28,6 +28,8 @@ public:
     Worker* findWorkerByID(const string& workerID);
     void updateWorkerStatus(const string& workerID, bool availability);
     void updateContactNumber(const string& workerID, const string& newContact);
+    void updateWorkerPassword(const string& workerID, const string& newPassword);
+    bool verifyWorkerPassword(const string& workerID, const string& password);
     vector<Worker>& getAllWorkers() { return workers; }
 };
 
