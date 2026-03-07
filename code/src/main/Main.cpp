@@ -1329,23 +1329,50 @@ private:
             return;
         }
 
-        int idx = 0;
-        for (const auto& e : entries) {
-            idx++;
-            const Complaint& c = e.complaint;
-            const WorkAssignment& a = e.assignment;
-            cout << "\n  [" << idx << "/" << entries.size() << "]\n";
-            cout << "  ┌──────────────────────────────────────────┐\n";
-            cout << "  │ Complaint ID  : " << left << setw(27) << c.getComplaintID()  << "│\n";
-            cout << "  │ Category      : " << left << setw(27) << c.getCategory()      << "│\n";
-            cout << "  │ Status        : " << left << setw(27) << c.getStatus()        << "│\n";
-            cout << "  │ Date          : " << left << setw(27) << c.getDate()          << "│\n";
-            string desc = c.getDescription();
-            if (desc.length() > 27) desc = desc.substr(0,24) + "...";
-            cout << "  │ Description   : " << left << setw(27) << desc                << "│\n";
-            cout << "  │ Student ID    : " << left << setw(27) << c.getStudentID()    << "│\n";
-            cout << "  │ Assignment ID : " << left << setw(27) << a.getAssignmentID() << "│\n";
-            cout << "  └──────────────────────────────────────────┘\n";
+        // --- Resolved: tabular layout ---
+        if (statusFilter == "Resolved") {
+            const int COL_W = 75;
+            cout << "\n  " << string(COL_W, '-') << "\n";
+            cout << "  " << left
+                 << setw(14) << "Complaint ID"
+                 << setw(18) << "Service Type"
+                 << setw(16) << "Student ID"
+                 << setw(14) << "Date"
+                 << "Status" << "\n";
+            cout << "  " << string(COL_W, '-') << "\n";
+            for (const auto& e : entries) {
+                const Complaint& c = e.complaint;
+                string svcType = c.getCategory();
+                if (svcType.length() > 16) svcType = svcType.substr(0, 13) + "...";
+                cout << "  " << left
+                     << setw(14) << c.getComplaintID()
+                     << setw(18) << svcType
+                     << setw(16) << c.getStudentID()
+                     << setw(14) << c.getDate()
+                     << c.getStatus() << "\n";
+            }
+            cout << "  " << string(COL_W, '-') << "\n";
+        }
+        // --- Pending / In-Progress: box layout ---
+        else {
+            int idx = 0;
+            for (const auto& e : entries) {
+                idx++;
+                const Complaint& c = e.complaint;
+                const WorkAssignment& a = e.assignment;
+                cout << "\n  [" << idx << "/" << entries.size() << "]\n";
+                cout << "  ┌──────────────────────────────────────────┐\n";
+                cout << "  │ Complaint ID  : " << left << setw(27) << c.getComplaintID()  << "│\n";
+                cout << "  │ Category      : " << left << setw(27) << c.getCategory()      << "│\n";
+                cout << "  │ Status        : " << left << setw(27) << c.getStatus()        << "│\n";
+                cout << "  │ Date          : " << left << setw(27) << c.getDate()          << "│\n";
+                string desc = c.getDescription();
+                if (desc.length() > 27) desc = desc.substr(0, 24) + "...";
+                cout << "  │ Description   : " << left << setw(27) << desc                << "│\n";
+                cout << "  │ Student ID    : " << left << setw(27) << c.getStudentID()    << "│\n";
+                cout << "  │ Assignment ID : " << left << setw(27) << a.getAssignmentID() << "│\n";
+                cout << "  └──────────────────────────────────────────┘\n";
+            }
         }
         InputHelper::pause();
     }
