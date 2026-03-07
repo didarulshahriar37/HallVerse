@@ -103,7 +103,7 @@ private:
         if (student) {
             cout << "\nCurrent Email: " << student->getEmail() << "\n";
             cout << "Enter new email: ";
-            string email = InputHelper::getValidatedEmail();
+            string email = InputHelper::getValidateEmail();
             student->updateEmail(email);
             studentManager.updateStudent(*student);
         }
@@ -164,6 +164,7 @@ private:
             Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
             complaintManager.createComplaint(c);
             InputHelper::pause();
+            return;
         }
     }
 
@@ -428,7 +429,7 @@ private:
                 cout << "Enter Name: ";
                 name = InputHelper::getLine();
                 cout << "Enter Email: ";
-                email = InputHelper::getValidatedEmail();
+                email = InputHelper::getValidateEmail();
                 cout << "Enter Emergency Contact: ";
                 contact = InputHelper::getNumericLine();
                 cout << "Enter Hall Name (South/North) : ";
