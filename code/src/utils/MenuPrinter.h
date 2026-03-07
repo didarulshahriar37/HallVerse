@@ -22,6 +22,7 @@ public:
     static void manageRoomsMenu();
     static void manageComplaintsMenu();
     static void viewComplaintsMenu(int pending, int inProgress, int resolved);
+    static void studentViewComplaintsMenu(int pending, int inProgress, int resolved);
     static void manageDuesMenu();
     static void showWorkerMenu();
     static void workerManageComplaintsMenu(int pending, int inProgress, int resolved);
