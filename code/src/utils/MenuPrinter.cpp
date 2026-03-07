@@ -212,3 +212,22 @@ void MenuPrinter::workerUpdateInfoMenu() {
     cout << "  2. Go Back\n";
     cout << "Choose (1-2): ";
 }
+
+void MenuPrinter::studentViewComplaintsMenu(int pending, int inProgress, int resolved) {
+    int total = pending + inProgress + resolved;
+    cout << "\n╔══════════════════════════════════════════════════╗\n";
+    cout << "║             MY COMPLAINTS SUMMARY                ║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║  Total Complaints : " << left << setw(29) << total        << "║\n";
+    cout << "╠══════════════════════════════════════════════════╣\n";
+    cout << "║   Pending       : " << left << setw(29) << pending      << "║\n";
+    cout << "║   In-Progress   : " << left << setw(29) << inProgress   << "║\n";
+    cout << "║   Resolved      : " << left << setw(29) << resolved     << "║\n";
+    cout << "╚══════════════════════════════════════════════════╝\n";
+    cout << "\n  View Subsection:\n";
+    cout << "  1. Pending     (" << pending    << ")\n";
+    cout << "  2. In-Progress (" << inProgress << ")\n";
+    cout << "  3. Resolved    (" << resolved   << ")\n";
+    cout << "  4. Go Back\n";
+    cout << "  Choice: ";
+}
