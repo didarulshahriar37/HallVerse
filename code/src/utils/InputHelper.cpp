@@ -180,13 +180,14 @@ bool InputHelper::isNumeric(const string& str) {
     return true;
 }
 
+// Numeric Input Validation
 string InputHelper::getNumericLine() {
     while (true) {
         string input = getLine();
         if (isNumeric(input)) {
             return input;
         } else {
-            cout << "Invalid input! Please enter numbers only: ";
+            cout << "Invalid input!\nTry Again: ";
         }
     }
 }
@@ -198,10 +199,10 @@ double InputHelper::getNonNegativeDouble() {
         if(!(cin >> value)){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Please enter a valid amount: ";
+            cout << "Invalid input.\nPlease enter a valid amount: ";
         } else if (value < 0) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Amount cannot be negative: ";
+            cout << "Invalid input. Amount cannot be negative.\nEnter a valid amount: ";
         } else {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             return value;
