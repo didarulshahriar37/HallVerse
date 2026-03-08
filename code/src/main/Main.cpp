@@ -493,6 +493,9 @@ private:
                 handleViewLogs();
             }
             else if(choice == 5){
+                handleResetStudentPassword();
+            }
+            else if(choice == 6){
                 return;
             }
             else {
@@ -500,6 +503,37 @@ private:
                 InputHelper::pause();
             }
         }
+    }
+
+    void handleResetStudentPassword() {
+        InputHelper::clearScreen();
+        cout << "\n========== RESET STUDENT PASSWORD ==========\n";
+        cout << left << setw(12) << "ID" << setw(28) << "Name" << setw(8) << "Room" << setw(6) << "Bed" << setw(10) << "Hall" << right << setw(10) << "Dues" << "\n";
+        cout << "────────────────────────────────────────────────────────────────────────────\n";
+        for(const auto& s : studentManager.getAllStudents()){
+            cout << left << setw(12) << s.getStudentID() << setw(28) << s.getName() << setw(8) << s.getRoomNumber() << setw(6) << s.getBedNumber() << setw(10) << s.getHallName();
+            cout << right << fixed << setprecision(2) << setw(10) << s.getHallDues() << "\n";
+        }
+
+        cout << "\nEnter Student ID (or 'q' to go back): ";
+        string studentID = InputHelper::getLine();
+        if (studentID == "q" || studentID == "Q") {
+            return;
+        }
+
+        Student* student = studentManager.getStudent(studentID);
+        if (!student) {
+            cout << "\n✗ Student not found!\n";
+            InputHelper::pause();
+            return;
+        }
+
+        string defaultPassword = "password";
+        authManager.resetPassword(studentID, defaultPassword, false);
+        cout << "\n✓ Password reset successfully!\n";
+        cout << "Student: " << student->getName() << "\n";
+        cout << "New Password: " << defaultPassword << "\n";
+        InputHelper::pause();
     }
 
         void handleCheckBed() {
