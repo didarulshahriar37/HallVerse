@@ -54,6 +54,30 @@ void MenuPrinter::entryExitMenu() {
     cout << "Choice: ";
 }
 
+// Shows the conditional entry/exit menu based on current status
+void MenuPrinter::conditionalEntryExitMenu(bool isLoggedIn, const string& lastTimestamp) {
+    cout << "\n========== ENTRY/EXIT ==========\n";
+    if (!lastTimestamp.empty()) {
+        if (isLoggedIn) {
+            cout << "Current Status: Logged In\n";
+            cout << "Last Entry Time: " << lastTimestamp << "\n";
+        } else {
+            cout << "Current Status: Logged Out\n";
+            cout << "Last Exit Time: " << lastTimestamp << "\n";
+        }
+    } else {
+        cout << "Current Status: Logged Out (No previous records)\n";
+    }
+    cout << "\n";
+    if (isLoggedIn) {
+        cout << "1. Log Exit\n";
+    } else {
+        cout << "1. Log Entry\n";
+    }
+    cout << "2. Go Back\n";
+    cout << "Choice: ";
+}
+
 // Shows the File/View Complaints parent sub-menu for students
 void MenuPrinter::fileViewComplaintsMenu() {
     cout << "\n=== FILE / VIEW COMPLAINTS ===\n";

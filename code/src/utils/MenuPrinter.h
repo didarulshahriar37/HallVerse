@@ -12,6 +12,7 @@ public:
     static void showStudentMenu();
     static void updateInfoMenu();
     static void entryExitMenu();
+    static void conditionalEntryExitMenu(bool isLoggedIn, const string& lastTimestamp);
     static void fileViewComplaintsMenu();
     static void filingComplaintMenu();
     static void manageStudentsMenu();

@@ -2,6 +2,7 @@
 #include "../utils/DateTimeHelper.h"
 #include <iostream>
 #include <sstream>
+#include <utility>
  
 using namespace std;
 EntryExitManager::EntryExitManager(FileHandler* fh) : fileHandler(fh), nextRecordID(1) {
@@ -36,4 +37,17 @@ void EntryExitManager::logExit(const string& studentID) {
     fileHandler->writeEntryExitLogs(logs);
     nextRecordID++;
     cout << "Exit logged successfully at " << timestamp << "\n";
+}
+
+pair<bool, string> EntryExitManager::getCurrentStatus(const string& studentID) {
+    string lastTimestamp = "";
+    bool isLoggedIn = false;
+    for (auto it = logs.rbegin(); it != logs.rend(); ++it) {
+        if (it->getStudentID() == studentID) {
+            lastTimestamp = it->getTimestamp();
+            isLoggedIn = (it->getType() == "Entry");
+            break;
+        }
+    }
+    return {isLoggedIn, lastTimestamp};
 }

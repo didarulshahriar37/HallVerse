@@ -76,24 +76,27 @@ private:
     
     // Handles logging entry/exit
     void handleLogEntryExit() {
-        while (true) {
-            InputHelper::clearScreen();
-            MenuPrinter::entryExitMenu();
-            int choice = InputHelper::getInt();
-            
-            if (choice == 1) {
-                entryExitManager.logEntry(currentUserID);
-                InputHelper::pause();
-            } else if (choice == 2) {
+        InputHelper::clearScreen();
+        pair<bool, string> status = entryExitManager.getCurrentStatus(currentUserID);
+        bool isLoggedIn = status.first;
+        string lastTimestamp = status.second;
+        MenuPrinter::conditionalEntryExitMenu(isLoggedIn, lastTimestamp);
+        int choice = InputHelper::getInt();
+        
+        if (choice == 1) {
+            if (isLoggedIn) {
                 entryExitManager.logExit(currentUserID);
-                InputHelper::pause();
-            } else if (choice == 3) {
-                return;
             } else {
-                cout << "Invalid choice!\n";
-                InputHelper::pause();
+                entryExitManager.logEntry(currentUserID);
             }
+            InputHelper::pause();
+        } else if (choice == 2) {
+            // Go back, do nothing
+        } else {
+            cout << "Invalid choice!\n";
+            InputHelper::pause();
         }
+        // After action or invalid, return to student menu
     }
 
     // Handles updating email

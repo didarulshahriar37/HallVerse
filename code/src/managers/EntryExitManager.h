@@ -17,6 +17,7 @@ public:
     void logExit(const string& studentID);
     vector<EntryExitRecord>& getLogs() { return logs; }
     void loadLogs();
+    pair<bool, string> getCurrentStatus(const string& studentID); // returns {isLoggedIn, lastTimestamp}
 };
 
 #endif
