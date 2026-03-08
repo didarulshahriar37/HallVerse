@@ -801,7 +801,7 @@ private:
     // Handles resetting password
     void handleResetPassword() {
     InputHelper::clearScreen();
-    cout << "\n========== RESET PASSWORD ==========\n";
+    cout << "\n========== UPDATE PASSWORD ==========\n";
     cout << "Enter current password: ";
     string currentPassword = InputHelper::getPassword();
 
@@ -834,7 +834,7 @@ private:
     }
 
     authManager.resetPassword(currentUserID, newPassword, false);
-    cout << "\n✓ Password reset successfully!\n";
+    cout << "\n✓ Password updated successfully!\n";
     InputHelper::pause();
 }
 
