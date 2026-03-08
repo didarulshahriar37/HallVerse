@@ -1,9 +1,5 @@
 studentID,name,email,emergencyContact,roomNumber,bedNumber,hallName,hallDues,password
-<<<<<<< HEAD:data/students.csv
 230042103,Muntajim Rahman Saimon,muntajim.rahman@gmail.com,01518918620,230,B,North,0,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
-=======
-230042103,Muntajim Rahman Saimon,muntajim.rahman@gmail.com,01518918620,228,A,North,0,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
->>>>>>> e3ef57239571d4c647a546ba2517624b96e44b52:code/data/students.csv
 230042112,Ifham Bin Hossain,ifham@iut-dhaka.edu,01823456789,230,D,North,0,180149e1e94967f0f00dfd6babfcbb784d190c14a1f488275c76b967fbeeaab8
 200041066,Tanvir Islam,tanvir@iut-dhaka.edu,+8801756789012,202,B,South,500,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
 210042088,Rafiul Hasan,rafiul@iut-dhaka.edu,+8801867890123,203,C,North,250,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
