@@ -9,7 +9,7 @@ HallVerse is a C++ based hall management system that manages student information
 
 ## KEY FEATURES
 **User Authentication System** <br>
-The system provides secure username and password-based authentication for Students, Admins, and Workers. It ensures role-based acccess control, allowing users to access only authorized features. A password reset feature is also included to maintain account security. <br>
+The system provides secure username and password-based authentication for Students, Admins, and Workers. It ensures role-based access control, allowing users to access only authorized features. Masked password input is implemented for all users to ensure maximum privacy. <br>
 
 Student login:
 - Username: STUDENT ID (e.g. 230042100)
@@ -23,69 +23,74 @@ Worker login:
 - Username: W*** (W001 - W005)
 - Password: worker
 
+**Data Validation & Security** <br>
+- **Secure Input:** Password characters are masked during entry to prevent shoulder-surfing.
+- **Robust Verification:** Specialized validation logic for Email, Phone numbers, Student IDs, and Room/Bed formats.
+- **Data Normalization:** Automatic normalization of hall names (North/South) and room formats.
+- **Encryption:** Secure password hashing (SHA-based) is used for storing credentials.
+
 **Student Features** <br>
 Profile Management:
-- Students can view their profile details
-- Students can update their email and emergency contact
+- Students can view their profile details including room, bed, and hall information.
+- Students can update their email and emergency contact information with real-time validation.
 
 Complaint Management:
-- Students can file a complaint based on different categories (Electricity, plumbing, housekeeping, internet etc.)
-- Students can view their own complaints along with the status
-- Students can view assigned worker information for complaints in progress or resolved
+- Students can file a complaint based on different categories (Electricity, Plumbing, Housekeeping, Internet, etc.).
+- Students can view their own complaints filtered by status (Pending, In-Progress, Resolved).
+- Students can view assigned worker information and contact details once a complaint is in progress or resolved.
 
 Log Entry/Exit Management:
-- Students can log their entry/exit from the hall
-- Each log is recorded with exact date and time and can be monitored by the admin
+- Students can log their entry/exit from the hall.
+- Each log is recorded with an exact date and time and can be monitored by the admin.
 
 Account Security:
-- Students can reset their password with current password verification
-- Password reset enforces minimum 8 character requirement
+- Students can update their password with current password verification.
+- Password update enforces a minimum 8-character requirement for enhanced security.
 
 **Admin Features** <br>
-From Dashboard admin can view: <br>
-- Total Students
-- Total pending dues
-- Total Complaints (pending/in-progress/resolved)
-- Total Entry/Exit
+Interactive Dashboard: <br>
+- Real-time overview of Total Students and Total pending dues.
+- Comprehensive Complaint summary (Pending/In-Progress/Resolved).
+- Entry/Exit activity monitoring.
 
 Student Management:
-- Admin can view all students
-- Admin can add new students
-- Admin can remove a student
-- Admin can change student room
+- Admin can view, add, and remove students.
+- Admin can filter and search students by ID.
 
 Room Management:
-- Admin can view all beds with status filtering (occupied/vacant/all)
-- Admin can check bed availability for specific halls or rooms
-- Admin can check specific bed status
-- Admin can change student room assignments and update occupancy
-- Admin can add rooms in bulk for a hall
+- Admin can view all beds with status filtering (Occupied/Vacant/All).
+- Admin can check bed availability for specific halls or rooms.
+- Admin can check specific bed status and change student room assignments.
+- Admin can add rooms in bulk for a hall with automatic bed generation (Beds A-D).
 
 Complaint Management:
-- Admin can view all complaints with status filtering (pending/in-progress/resolved)
-- Admin can update complaint status
-- Admin can assign workers to pending complaints (auto-assigns role based on complaint category)
-- Admin can view assigned worker information for complaints
+- Admin can view all complaints with status filtering.
+- Admin can assign workers to pending complaints (auto-matches worker role based on complaint category).
 
 Dues Management:
-- Admin can verify payments and reduce student dues
-- Admin can add penalties to individual students
-- Admin can add hall fees to all students at once
+- Admin can verify student payments and reduce dues.
+- Admin can add penalties to individual students.
+- Admin can add hall fees to all students simultaneously.
 
 Entry/Exit Management:
-- Admin can view all entry/exit logs with timestamps
-- Admin can filter logs by student ID
+- Admin can view all entry/exit logs with timestamps.
+- Admin can filter logs by student ID to track activity.
 
 **Worker Features** <br>
-From dashboard worker can view:
-- Name, Working Role, Contact No.
+Personalized Dashboard:
+- Worker can view their name, working role, and contact information.
+- Real-time summary of assigned tasks and their progress.
 
 Complaint Management:
-- Worker can view the complaints (working-role based)
-- Worker can update the complaint status
+- Worker can view all complaints assigned to them based on their specific role.
+- Worker can update the status of assigned complaints (Pending → In-Progress → Resolved).
 
 Profile Management:
-- Worker can update his phone number
+- Worker can update their contact number.
+
+Account Security:
+- Worker can reset their password with current password verification.
+- Password reset enforces a minimum 8-character requirement.
 
 ## FOLDER STRUCTURE
 HallVerse/ <br>
