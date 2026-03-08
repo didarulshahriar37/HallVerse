@@ -97,10 +97,28 @@ void InputHelper::pause() {
     cin.get();
 }
 
-string InputHelper::getValidatedEmail() {
+// Email validation
+string InputHelper::getValidateEmail() {
     while (true) {
         string email = getLine();
-        if (email.length() > 14 && email.substr(email.length() - 14) == "@iut-dhaka.edu") {
+        int atCount = 0;
+        int dotCount = 0;
+        bool hasSpace = false;
+        bool hasForbidden = false;
+        string forbidden = "(),:;<>[]";
+
+        for (char c : email) {
+            if (isspace(c)) 
+                hasSpace = true;
+            if (c == '@') 
+                atCount++;
+            if (c == '.') 
+                dotCount++;
+            if (forbidden.find(c) != string::npos) 
+                hasForbidden = true;
+        }
+
+        if (!hasSpace && atCount == 1 && dotCount == 1 && !hasForbidden && !email.empty()) {
             return email;
         } else {
             cout << "Invalid email!\nTry again: ";
@@ -162,13 +180,32 @@ bool InputHelper::isNumeric(const string& str) {
     return true;
 }
 
+// Numeric Input Validation
 string InputHelper::getNumericLine() {
     while (true) {
         string input = getLine();
         if (isNumeric(input)) {
             return input;
         } else {
-            cout << "Invalid input! Please enter numbers only: ";
+            cout << "Invalid input!\nTry Again: ";
+        }
+    }
+}
+
+// Get non-negative double input with validation
+double InputHelper::getNonNegativeDouble() {
+    double value;
+    while(true){
+        if(!(cin >> value)){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input.\nPlease enter a valid amount: ";
+        } else if (value < 0) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Amount cannot be negative.\nEnter a valid amount: ";
+        } else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return value;
         }
     }
 }

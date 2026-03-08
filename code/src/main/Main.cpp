@@ -106,7 +106,7 @@ private:
         if (student) {
             cout << "\nCurrent Email: " << student->getEmail() << "\n";
             cout << "Enter new email: ";
-            string email = InputHelper::getValidatedEmail();
+            string email = InputHelper::getValidateEmail();
             student->updateEmail(email);
             studentManager.updateStudent(*student);
         }
@@ -167,23 +167,80 @@ private:
             Complaint c(cid, category, description, "Pending", DateTimeHelper::getCurrentDate(), currentUserID);
             complaintManager.createComplaint(c);
             InputHelper::pause();
+            return;
         }
     }
 
     // Handles viewing student's own complaints (with worker info for In-Progress/Resolved)
-    void handleViewMyComplaints() {
+    void handleViewMyComplaintsByStatus(const string& statusFilter) {
         InputHelper::clearScreen();
-        cout << "\n╔══════════════════════════════════════════════════╗\n";
-        cout << "║               MY COMPLAINTS                      ║\n";
-        cout << "╚══════════════════════════════════════════════════╝\n";
         auto comps = complaintManager.getComplaintsByStudent(currentUserID);
-        if (comps.empty()) {
-            cout << "\n  You have no complaints filed.\n";
+        
+        // Count matching complaints
+        int count = 0;
+        for (const auto& c : comps) {
+            if (statusFilter == "" || c.getStatus() == statusFilter) count++;
+        }
+
+        string label = (statusFilter == "") ? "ALL" : statusFilter;
+        cout << "\n╔══════════════════════════════════════════════════╗\n";
+        cout << "║  MY COMPLAINTS — " << left << setw(32) << label << "║\n";
+        cout << "║  Total in this section: " << left << setw(25) << count << "║\n";
+        cout << "╚══════════════════════════════════════════════════╝\n";
+
+        if (count == 0) {
+            cout << "\n  No " << label << " complaints found.\n";
+            InputHelper::pause();
+            return;
+        }
+
+        if (statusFilter == "Resolved") {
+            cout << "\n  " << string(105, '-') << "\n";
+            cout << "  " << left
+                 << setw(12) << "ID"
+                 << setw(16) << "Category"
+                 << setw(14) << "Date"
+                 << setw(25) << "Worker Name"
+                 << setw(20) << "Service Role"
+                 << "Contact No" << "\n";
+            cout << "  " << string(105, '-') << "\n";
+            
+            for (const auto& c : comps) {
+                if (c.getStatus() != "Resolved") continue;
+                
+                string workerName = "N/A", workerRole = "N/A", workerContact = "N/A";
+                auto& assignments = assignmentManager.getAssignmentsByComplaint(c.getComplaintID());
+                if (!assignments.empty()) {
+                    const WorkAssignment& wa = assignments.back();
+                    workerName = wa.getWorkerID();
+                    for (auto& w : workerManager.getAllWorkers()) {
+                        if (w.getWorkerID() == wa.getWorkerID()) {
+                            workerName = w.getName();
+                            workerRole = w.getRole();
+                            workerContact = w.getContactNumber();
+                            break;
+                        }
+                    }
+                }
+                
+                string dispWorker = workerName;
+                if (dispWorker.length() > 23) dispWorker = dispWorker.substr(0, 20) + "...";
+                
+                cout << "  " << left
+                     << setw(12) << c.getComplaintID()
+                     << setw(16) << (c.getCategory().length() > 15 ? c.getCategory().substr(0,12) + "..." : c.getCategory())
+                     << setw(14) << c.getDate()
+                     << setw(25) << dispWorker
+                     << setw(20) << (workerRole.length() > 19 ? workerRole.substr(0,16) + "..." : workerRole)
+                     << workerContact << "\n";
+            }
+            cout << "  " << string(105, '-') << "\n";
         } else {
             int idx = 0;
             for (const auto& c : comps) {
+                if (statusFilter != "" && c.getStatus() != statusFilter) continue;
                 idx++;
-                cout << "\n  [" << idx << "/" << comps.size() << "]\n";
+                cout << "\n  [" << idx << "/" << count << "]\n";
                 cout << "  ┌──────────────────────────────────────────┐\n";
                 cout << "  │ Complaint ID : " << left << setw(27) << c.getComplaintID()   << "│\n";
                 cout << "  │ Category     : " << left << setw(27) << c.getCategory()       << "│\n";
@@ -191,12 +248,11 @@ private:
                 cout << "  │ Date         : " << left << setw(27) << c.getDate()           << "│\n";
                 cout << "  │ Description  : " << left << setw(27) << c.getDescription().substr(0,27) << "│\n";
 
-                // Show worker info for In-Progress or Resolved complaints
-                if (c.getStatus() == "In-Progress" || c.getStatus() == "Resolved") {
+                // Show worker info for In-Progress
+                if (c.getStatus() == "In-Progress") {
                     auto& assignments = assignmentManager.getAssignmentsByComplaint(c.getComplaintID());
                     if (!assignments.empty()) {
                         const WorkAssignment& wa = assignments.back();
-                        // Find the worker in WorkerManager
                         Worker* worker = nullptr;
                         for (auto& w : workerManager.getAllWorkers()) {
                             if (w.getWorkerID() == wa.getWorkerID()) {
@@ -216,6 +272,32 @@ private:
             }
         }
         InputHelper::pause();
+    }
+
+    void handleViewMyComplaints() {
+        while (true) {
+            InputHelper::clearScreen();
+            
+            auto comps = complaintManager.getComplaintsByStudent(currentUserID);
+            int pending = 0, inProgress = 0, resolved = 0;
+            for (const auto& c : comps) {
+                if (c.getStatus() == "Pending") pending++;
+                else if (c.getStatus() == "In-Progress") inProgress++;
+                else if (c.getStatus() == "Resolved") resolved++;
+            }
+            
+            MenuPrinter::studentViewComplaintsMenu(pending, inProgress, resolved);
+            
+            int choice = InputHelper::getInt();
+            if (choice == 1) handleViewMyComplaintsByStatus("Pending");
+            else if (choice == 2) handleViewMyComplaintsByStatus("In-Progress");
+            else if (choice == 3) handleViewMyComplaintsByStatus("Resolved");
+            else if (choice == 4) return;
+            else {
+                cout << "Invalid choice!\n";
+                InputHelper::pause();
+            }
+        }
     }
 
     // Parent handler: File/View Complaints sub-menu
@@ -277,6 +359,12 @@ private:
                 currentUserID = username;
                 isAdmin = false;
                 studentFlow();
+                return;
+            }
+            if (workerManager.loginWorker(username, password)) {
+                currentUserID = username;
+                isAdmin = false;
+                workerFlow();
                 return;
             }
             cout << "\n\u2717 Invalid credentials!\n";
@@ -344,7 +432,7 @@ private:
                 cout << "Enter Name: ";
                 name = InputHelper::getLine();
                 cout << "Enter Email: ";
-                email = InputHelper::getValidatedEmail();
+                email = InputHelper::getValidateEmail();
                 cout << "Enter Emergency Contact: ";
                 contact = InputHelper::getNumericLine();
                 cout << "Enter Hall Name (South/North) : ";
@@ -368,7 +456,7 @@ private:
 
                 bed[0] = toupper(bed[0]);
                 cout << "Enter Hall Dues: ";
-                double dues = InputHelper::getDouble();
+                double dues = InputHelper::getNonNegativeDouble();
 
                 Student student(id, name, email, contact, room, bed, hall, dues);
                 student.setPasswordHash(hasher.hash("password"));
@@ -722,7 +810,7 @@ private:
                 cout << "\nStudent: " << s->getName() << " (" << id << ")\n";
                 cout << "Current Dues: $" << s->getHallDues() << "\n";
                 cout << "Enter payment amount: ";
-                double amount = InputHelper::getDouble();
+                double amount = InputHelper::getNonNegativeDouble();
 
                 if (amount > s->getHallDues()) {
                     cout << "\n✗ Error: Payment amount exceeds current dues!\n";
@@ -752,7 +840,7 @@ private:
         if (s) {
             cout << "Current Dues: $" << s->getHallDues() << "\n";
             cout << "Enter penalty amount: ";
-            double penalty = InputHelper::getDouble();
+            double penalty = InputHelper::getNonNegativeDouble();
             s->setHallDues(s->getHallDues() + penalty);
             studentManager.updateStudent(*s);
             cout << "\n✓ Penalty added. New dues: $" << s->getHallDues() << "\n";
@@ -766,7 +854,7 @@ private:
         InputHelper::clearScreen();
         cout << "\n========== ADD HALL FEE (ALL STUDENTS) ==========\n";
         cout << "Enter hall fee amount to add to all students: ";
-        double fee = InputHelper::getDouble();
+        double fee = InputHelper::getNonNegativeDouble();
         
         cout << "Are you sure? (y/n): ";
         string confirm = InputHelper::getLine();
@@ -838,32 +926,6 @@ private:
     InputHelper::pause();
 }
 
- void handleUpdateComplaintStatus() {
-        while (true) {
-            InputHelper::clearScreen();
-            cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
-            cout << "Enter Complaint ID (or 'q' to go back): ";
-            string id = InputHelper::getLine();
-            if (id == "q" || id == "Q") return;
-
-            MenuPrinter::statusUpdateMenu();
-            int choice = InputHelper::getInt();
-            
-            if (choice == 4) continue;
-
-            string status;
-            switch(choice) {
-                case 1: status = "Pending"; break;
-                case 2: status = "In-Progress"; break;
-                case 3: status = "Resolved"; break;
-                default: continue;
-            }
-            
-            complaintManager.updateComplaintStatus(id, status);
-            InputHelper::pause();
-        }
-    }
-    
     void handleAssignWorker() {
         while (true) {
             InputHelper::clearScreen();
@@ -1181,9 +1243,8 @@ private:
             MenuPrinter::manageComplaintsMenu();
             int choice = InputHelper::getInt();
             if (choice == 1) handleViewComplaints();
-            else if (choice == 2) handleUpdateComplaintStatus();
-            else if (choice == 3) handleAssignWorker();
-            else if (choice == 4) return;
+            else if (choice == 2) handleAssignWorker();
+            else if (choice == 3) return;
             else {
                 cout << "Invalid choice!\n";
                 InputHelper::pause();
@@ -1191,7 +1252,429 @@ private:
         }
     }
 
-    // Admin flow after login
+    // ─── Worker flow after login ─────────────────────────────────────────────
+
+    // Worker dashboard: shows count of tasks by status
+    void handleWorkerDashboard() {
+        InputHelper::clearScreen();
+        auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
+
+        int pending = 0, inProgress = 0, resolved = 0;
+        for (const auto& a : myAssignments) {
+            // Map assignment status to complaint status categories
+            if (a.getStatus() == "Assigned")   pending++;
+            else if (a.getStatus() == "In-Progress") inProgress++;
+            else if (a.getStatus() == "Completed")   resolved++;
+        }
+
+        // Also account for complaint statuses tied to this worker
+        // Recount by reading from complaint statuses for robustness
+        pending = 0; inProgress = 0; resolved = 0;
+        for (const auto& a : myAssignments) {
+            // Find the associated complaint
+            for (const auto& c : complaintManager.getAllComplaints()) {
+                if (c.getComplaintID() == a.getComplaintID()) {
+                    if (c.getStatus() == "Pending")      pending++;
+                    else if (c.getStatus() == "In-Progress") inProgress++;
+                    else if (c.getStatus() == "Resolved")    resolved++;
+                    break;
+                }
+            }
+        }
+
+        Worker* w = workerManager.findWorkerByID(currentUserID);
+        cout << "\n╔══════════════════════════════════════════════════╗\n";
+        cout << "║                 WORKER DASHBOARD                 ║\n";
+        cout << "╠══════════════════════════════════════════════════╣\n";
+        cout << "║  Worker   : " << left << setw(37) << (w ? w->getName() : currentUserID) << "║\n";
+        cout << "║  Role     : " << left << setw(37) << (w ? w->getRole() : "N/A")         << "║\n";
+        cout << "║  Contact  : " << left << setw(37) << (w ? w->getContactNumber() : "N/A") << "║\n";
+        cout << "╠══════════════════════════════════════════════════╣\n";
+        cout << "║   Pending Tasks    : " << left << setw(27) << pending    << " ║\n";
+        cout << "║   In-Progress Tasks: " << left << setw(27) << inProgress << " ║\n";
+        cout << "║   Resolved Tasks   : " << left << setw(27) << resolved   << " ║\n";
+        cout << "╚══════════════════════════════════════════════════╝\n";
+        InputHelper::pause();
+    }
+
+    // Shows complaints assigned to this worker filtered by status
+    void handleWorkerViewComplaintsByStatus(const string& statusFilter) {
+        InputHelper::clearScreen();
+        auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
+
+        // Gather complaints matching the status filter
+        struct WorkerComplaintEntry {
+            Complaint complaint;
+            WorkAssignment assignment;
+        };
+        vector<WorkerComplaintEntry> entries;
+
+        for (const auto& a : myAssignments) {
+            for (const auto& c : complaintManager.getAllComplaints()) {
+                if (c.getComplaintID() == a.getComplaintID()) {
+                    if (statusFilter == "" || c.getStatus() == statusFilter) {
+                        entries.push_back({c, a});
+                    }
+                    break;
+                }
+            }
+        }
+
+        string label = (statusFilter == "") ? "ALL" : statusFilter;
+        cout << "\n╔══════════════════════════════════════════════════╗\n";
+        cout << "║  MY COMPLAINTS — " << left << setw(32) << label << "║\n";
+        cout << "║  Total: " << left << setw(41) << entries.size()  << "║\n";
+        cout << "╚══════════════════════════════════════════════════╝\n";
+
+        if (entries.empty()) {
+            cout << "\n  No " << label << " complaints assigned to you.\n";
+            InputHelper::pause();
+            return;
+        }
+
+        // --- Resolved: tabular layout ---
+        if (statusFilter == "Resolved") {
+            const int COL_W = 75;
+            cout << "\n  " << string(COL_W, '-') << "\n";
+            cout << "  " << left
+                 << setw(14) << "Complaint ID"
+                 << setw(18) << "Service Type"
+                 << setw(16) << "Student ID"
+                 << setw(14) << "Date"
+                 << "Status" << "\n";
+            cout << "  " << string(COL_W, '-') << "\n";
+            for (const auto& e : entries) {
+                const Complaint& c = e.complaint;
+                string svcType = c.getCategory();
+                if (svcType.length() > 16) svcType = svcType.substr(0, 13) + "...";
+                cout << "  " << left
+                     << setw(14) << c.getComplaintID()
+                     << setw(18) << svcType
+                     << setw(16) << c.getStudentID()
+                     << setw(14) << c.getDate()
+                     << c.getStatus() << "\n";
+            }
+            cout << "  " << string(COL_W, '-') << "\n";
+        }
+        // --- Pending / In-Progress: box layout ---
+        else {
+            int idx = 0;
+            for (const auto& e : entries) {
+                idx++;
+                const Complaint& c = e.complaint;
+                const WorkAssignment& a = e.assignment;
+                cout << "\n  [" << idx << "/" << entries.size() << "]\n";
+                cout << "  ┌──────────────────────────────────────────┐\n";
+                cout << "  │ Complaint ID  : " << left << setw(27) << c.getComplaintID()  << "│\n";
+                cout << "  │ Category      : " << left << setw(27) << c.getCategory()      << "│\n";
+                cout << "  │ Status        : " << left << setw(27) << c.getStatus()        << "│\n";
+                cout << "  │ Date          : " << left << setw(27) << c.getDate()          << "│\n";
+                string desc = c.getDescription();
+                if (desc.length() > 27) desc = desc.substr(0, 24) + "...";
+                cout << "  │ Description   : " << left << setw(27) << desc                << "│\n";
+                cout << "  │ Student ID    : " << left << setw(27) << c.getStudentID()    << "│\n";
+                cout << "  │ Assignment ID : " << left << setw(27) << a.getAssignmentID() << "│\n";
+                cout << "  └──────────────────────────────────────────┘\n";
+            }
+        }
+        InputHelper::pause();
+    }
+
+    // Worker updates the status of one of their assigned complaints (Pending/In-Progress only)
+    void handleWorkerUpdateStatus() {
+        InputHelper::clearScreen();
+        auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
+
+        // Collect only non-Resolved complaints
+        struct UpdatableEntry { string complaintID; string category; string status; string date; };
+        vector<UpdatableEntry> updatable;
+        for (const auto& a : myAssignments) {
+            for (const auto& c : complaintManager.getAllComplaints()) {
+                if (c.getComplaintID() == a.getComplaintID() && c.getStatus() != "Resolved") {
+                    updatable.push_back({c.getComplaintID(), c.getCategory(), c.getStatus(), c.getDate()});
+                    break;
+                }
+            }
+        }
+
+        if (updatable.empty()) {
+            cout << "\n  No complaints available to update.\n";
+            InputHelper::pause();
+            return;
+        }
+
+        // Show only updatable complaints
+        cout << "\n=== UPDATE COMPLAINT STATUS ===\n";
+        cout << "  Complaints available to update (Pending / In-Progress):\n";
+        cout << "  " << string(60, '-') << "\n";
+        cout << "  " << left << setw(14) << "Complaint ID" << setw(16) << "Category" << setw(16) << "Status" << "Date\n";
+        cout << "  " << string(60, '-') << "\n";
+        for (const auto& e : updatable) {
+            string cat = e.category;
+            if (cat.length() > 14) cat = cat.substr(0, 13);
+            cout << "  " << left << setw(14) << e.complaintID
+                 << setw(16) << cat
+                 << setw(16) << e.status
+                 << e.date << "\n";
+        }
+        cout << "  " << string(60, '-') << "\n";
+
+        cout << "\n  Enter Complaint ID to update (or 'q' to go back): ";
+        string cid = InputHelper::getLine();
+        if (cid == "q" || cid == "Q") return;
+
+        // Verify this complaint is in the updatable list
+        bool belongs = false;
+        for (const auto& e : updatable) {
+            if (e.complaintID == cid) { belongs = true; break; }
+        }
+        if (!belongs) {
+            cout << "\n  ✗ Complaint not found, not assigned to you, or already Resolved.\n";
+            InputHelper::pause();
+            return;
+        }
+
+        MenuPrinter::statusUpdateMenu();
+        int choice = InputHelper::getInt();
+        if (choice == 4) return;
+
+        string status;
+        switch (choice) {
+            case 1: status = "Pending";     break;
+            case 2: status = "In-Progress"; break;
+            case 3: status = "Resolved";    break;
+            default:
+                cout << "  Invalid choice!\n";
+                InputHelper::pause();
+                return;
+        }
+
+        complaintManager.updateComplaintStatus(cid, status);
+        complaintManager.loadComplaints();
+        cout << "\n  ✓ Status updated to '" << status << "' successfully!\n";
+        InputHelper::pause();
+    }
+
+    // Worker updates their own password
+    void handleWorkerUpdatePassword() {
+        InputHelper::clearScreen();
+        cout << "\n========== UPDATE PASSWORD ==========\n";
+        cout << "Enter current password: ";
+        string currentPassword = InputHelper::getPassword();
+
+        if (!workerManager.verifyWorkerPassword(currentUserID, currentPassword)) {
+            cout << "\n✗ Current password is incorrect!\n";
+            InputHelper::pause();
+            return;
+        }
+
+        string newPassword, confirmPassword;
+        while (true) {
+            cout << "Enter new password: ";
+            newPassword = InputHelper::getPassword();
+            if (newPassword.length() < 8) {
+                cout << "✗ Password must be at least 8 characters!\n";
+                continue;
+            }
+            cout << "Confirm new password: ";
+            confirmPassword = InputHelper::getPassword();
+            if (newPassword != confirmPassword) {
+                cout << "✗ Passwords do not match!\n";
+                continue;
+            }
+            break;
+        }
+
+        workerManager.updateWorkerPassword(currentUserID, newPassword);
+        cout << "\n✓ Password updated successfully!\n";
+        InputHelper::pause();
+    }
+
+    // Worker: Manage Complaints menu with status-based sub-views
+    void handleWorkerManageComplaints() {
+        while (true) {
+            InputHelper::clearScreen();
+            // Compute counts for this worker's complaints
+            auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
+            int pending = 0, inProgress = 0, resolved = 0;
+            for (const auto& a : myAssignments) {
+                for (const auto& c : complaintManager.getAllComplaints()) {
+                    if (c.getComplaintID() == a.getComplaintID()) {
+                        if (c.getStatus() == "Pending")      pending++;
+                        else if (c.getStatus() == "In-Progress") inProgress++;
+                        else if (c.getStatus() == "Resolved")    resolved++;
+                        break;
+                    }
+                }
+            }
+            MenuPrinter::workerManageComplaintsMenu(pending, inProgress, resolved);
+            int choice = InputHelper::getInt();
+            if      (choice == 1) handleWorkerViewComplaintsByStatus("Pending");
+            else if (choice == 2) handleWorkerViewComplaintsByStatus("In-Progress");
+            else if (choice == 3) handleWorkerViewComplaintsByStatus("Resolved");
+            else if (choice == 4) {
+                // Update Status sub-option
+                handleWorkerUpdateStatus();
+            }
+            else if (choice == 5) return;
+            else {
+                cout << "Invalid choice!\n";
+                InputHelper::pause();
+            }
+        }
+    }
+
+    // Worker: Update phone number
+    void handleWorkerUpdateInfo() {
+        while (true) {
+            InputHelper::clearScreen();
+            MenuPrinter::workerUpdateInfoMenu();
+            int choice = InputHelper::getInt();
+            if (choice == 1) {
+                InputHelper::clearScreen();
+                Worker* w = workerManager.findWorkerByID(currentUserID);
+                if (w) {
+                    cout << "\nCurrent Phone Number: " << w->getContactNumber() << "\n";
+                    cout << "Enter new phone number: ";
+                    string phone = InputHelper::getNumericLine();
+                    workerManager.updateContactNumber(currentUserID, phone);
+                    cout << "\n✓ Phone number updated successfully!\n";
+                } else {
+                    cout << "Worker profile not found.\n";
+                }
+                InputHelper::pause();
+            } else if (choice == 2) {
+                return;
+            } else {
+                cout << "Invalid choice!\n";
+                InputHelper::pause();
+            }
+        }
+    }
+
+    // Worker flow after login
+    void workerFlow() {
+        bool loggedIn = true;
+        bool firstLogin = true;
+        while (loggedIn) {
+            InputHelper::clearScreen();
+            Worker* w = workerManager.findWorkerByID(currentUserID);
+            cout << "Welcome, " << (w ? w->getName() : currentUserID)
+                 << " [" << (w ? w->getRole() : "Worker") << "]\n";
+
+            // Auto-show dashboard on first entry after login
+            if (firstLogin) {
+                firstLogin = false;
+                auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
+                int pending = 0, inProgress = 0, resolved = 0;
+                for (const auto& a : myAssignments) {
+                    for (const auto& c : complaintManager.getAllComplaints()) {
+                        if (c.getComplaintID() == a.getComplaintID()) {
+                            if (c.getStatus() == "Pending")          pending++;
+                            else if (c.getStatus() == "In-Progress") inProgress++;
+                            else if (c.getStatus() == "Resolved")    resolved++;
+                            break;
+                        }
+                    }
+                }
+                cout << "\n╔══════════════════════════════════════════════════╗\n";
+                cout << "║              YOUR COMPLAINTS SUMMARY             ║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   Pending     : " << left << setw(31) << pending    << "║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   In-Progress : " << left << setw(31) << inProgress << "║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   Resolved    : " << left << setw(31) << resolved   << "║\n";
+                cout << "╚══════════════════════════════════════════════════╝\n";
+                cout << "\nPress Enter to continue to the menu...";
+                cin.ignore();
+            }
+
+            InputHelper::clearScreen();
+            cout << "Welcome, " << (w ? w->getName() : currentUserID)
+                 << " [" << (w ? w->getRole() : "Worker") << "]\n";
+
+            // Auto-show dashboard summary once immediately after login
+            if (firstLogin) {
+                firstLogin = false;
+                auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
+                int pending = 0, inProgress = 0, resolved = 0;
+                for (const auto& a : myAssignments) {
+                    for (const auto& c : complaintManager.getAllComplaints()) {
+                        if (c.getComplaintID() == a.getComplaintID()) {
+                            if (c.getStatus() == "Pending")          pending++;
+                            else if (c.getStatus() == "In-Progress") inProgress++;
+                            else if (c.getStatus() == "Resolved")    resolved++;
+                            break;
+                        }
+                    }
+                }
+                cout << "\n╔══════════════════════════════════════════════════╗\n";
+                cout << "║           YOUR COMPLAINTS SUMMARY                ║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   Pending     : " << left << setw(31) << pending    << "║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   In-Progress : " << left << setw(31) << inProgress << "║\n";
+                cout << "╠══════════════════════════════════════════════════╣\n";
+                cout << "║   Resolved    : " << left << setw(31) << resolved   << "║\n";
+                cout << "╚══════════════════════════════════════════════════╝\n";
+                InputHelper::pause();
+                InputHelper::clearScreen();
+                cout << "Welcome, " << (w ? w->getName() : currentUserID)
+                     << " [" << (w ? w->getRole() : "Worker") << "]\n";
+            }
+
+            MenuPrinter::showWorkerMenu();
+            int choice = InputHelper::getInt();
+            switch (choice) {
+                case 1: {
+                    // Manage Complaints — show sub-menu with update option too
+                    while (true) {
+                        InputHelper::clearScreen();
+                        auto myAssignments = assignmentManager.getAssignmentsByWorker(currentUserID);
+                        int pending = 0, inProgress = 0, resolved = 0;
+                        for (const auto& a : myAssignments) {
+                            for (const auto& c : complaintManager.getAllComplaints()) {
+                                if (c.getComplaintID() == a.getComplaintID()) {
+                                    if (c.getStatus() == "Pending")      pending++;
+                                    else if (c.getStatus() == "In-Progress") inProgress++;
+                                    else if (c.getStatus() == "Resolved")    resolved++;
+                                    break;
+                                }
+                            }
+                        }
+                        cout << "\n========== MANAGE MY COMPLAINTS ==========\n";
+                        cout << "1. View Pending     (" << pending    << ")\n";
+                        cout << "2. View In-Progress (" << inProgress << ")\n";
+                        cout << "3. View Resolved    (" << resolved   << ")\n";
+                        cout << "4. Update Status\n";
+                        cout << "5. Go Back\n";
+                        cout << "Choice: ";
+                        int sub = InputHelper::getInt();
+                        if      (sub == 1) handleWorkerViewComplaintsByStatus("Pending");
+                        else if (sub == 2) handleWorkerViewComplaintsByStatus("In-Progress");
+                        else if (sub == 3) handleWorkerViewComplaintsByStatus("Resolved");
+                        else if (sub == 4) handleWorkerUpdateStatus();
+                        else if (sub == 5) break;
+                        else { cout << "Invalid choice!\n"; InputHelper::pause(); }
+                    }
+                    break;
+                }
+                case 2: handleWorkerUpdateInfo(); break;
+                case 3: handleWorkerUpdatePassword(); break;
+                case 4:
+                    loggedIn = false;
+                    cout << "\n✓ Logged out successfully!\n";
+                    InputHelper::pause();
+                    break;
+                default:
+                    cout << "Invalid choice!\n";
+                    InputHelper::pause();
+            }
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     void adminFlow() {
         bool loggedIn = true;
         while (loggedIn) {
@@ -1226,7 +1709,7 @@ public:
     HallVerseApp() 
         : studentManager(&fileHandler),
           complaintManager(&fileHandler),
-          workerManager(&fileHandler),
+          workerManager(&fileHandler, &hasher),
           entryExitManager(&fileHandler),
           authManager(&fileHandler, &hasher),
           assignmentManager(&fileHandler, &complaintManager, &workerManager),

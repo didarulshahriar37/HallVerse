@@ -139,7 +139,8 @@ vector<Worker> FileHandler::readWorkers() {
         if (tokens.size() >= 5) {
             // Handle different representations of availability: "1", "true", "0", "false"
             bool avail = (tokens[3] == "1" || tokens[3] == "true" || tokens[3] == "True");
-            workers.push_back(Worker(tokens[0], tokens[1], tokens[2], avail, tokens[4]));
+            string pwd = (tokens.size() >= 6) ? tokens[5] : "";
+            workers.push_back(Worker(tokens[0], tokens[1], tokens[2], avail, tokens[4], pwd));
         }
     }
     file.close();
@@ -148,10 +149,10 @@ vector<Worker> FileHandler::readWorkers() {
 
 void FileHandler::writeWorkers(const vector<Worker>& workers) {
     ofstream file(workerFile);
-    file << "workerID,name,role,isAvailable,contactNumber\n";
+    file << "workerID,name,role,isAvailable,contactNumber,password\n";
     for (const auto& w : workers) {
         file << w.getWorkerID() << "," << w.getName() << "," << w.getRole() << ","
-             << w.getIsAvailable() << "," << w.getContactNumber() << "\n";
+             << w.getIsAvailable() << "," << w.getContactNumber() << "," << w.getPasswordHash() << "\n";
     }
     file.close();
 }
@@ -265,5 +266,73 @@ void FileHandler::updatePassword(const string& username, const string& newPasswo
     for (const auto& l : lines) {
         outFile << l << "\n";
     }
+    outFile.close();
+}
+
+bool FileHandler::checkWorkerCredentials(const string& workerID, const string& passwordHash) {
+    ifstream file(workerFile);
+    string line;
+    if (!file.is_open()) return false;
+    getline(file, line); // skip header
+    while (getline(file, line)) {
+        auto tokens = split(line, ',');
+        if (tokens.size() >= 6 && tokens[0] == workerID && tokens[5] == passwordHash) {
+            file.close();
+            return true;
+        }
+    }
+    file.close();
+    return false;
+}
+
+void FileHandler::updateWorkerPassword(const string& workerID, const string& newPasswordHash) {
+    vector<string> lines;
+    ifstream file(workerFile);
+    string line;
+    if (!file.is_open()) return;
+    getline(file, line);
+    lines.push_back(line);
+    while (getline(file, line)) {
+        auto tokens = split(line, ',');
+        if (tokens.size() >= 6 && tokens[0] == workerID) {
+            tokens[5] = newPasswordHash;
+        } else if (tokens.size() == 5 && tokens[0] == workerID) {
+            tokens.push_back(newPasswordHash);
+        }
+        string newLine;
+        for (size_t i = 0; i < tokens.size(); ++i) {
+            newLine += tokens[i];
+            if (i < tokens.size() - 1) newLine += ",";
+        }
+        lines.push_back(newLine);
+    }
+    file.close();
+    ofstream outFile(workerFile);
+    for (const auto& l : lines) outFile << l << "\n";
+    outFile.close();
+}
+
+void FileHandler::updateWorkerContact(const string& workerID, const string& newContact) {
+    vector<string> lines;
+    ifstream file(workerFile);
+    string line;
+    if (!file.is_open()) return;
+    getline(file, line);
+    lines.push_back(line);
+    while (getline(file, line)) {
+        auto tokens = split(line, ',');
+        if (tokens.size() >= 5 && tokens[0] == workerID) {
+            tokens[4] = newContact;
+        }
+        string newLine;
+        for (size_t i = 0; i < tokens.size(); ++i) {
+            newLine += tokens[i];
+            if (i < tokens.size() - 1) newLine += ",";
+        }
+        lines.push_back(newLine);
+    }
+    file.close();
+    ofstream outFile(workerFile);
+    for (const auto& l : lines) outFile << l << "\n";
     outFile.close();
 }

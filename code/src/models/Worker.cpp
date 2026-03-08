@@ -13,9 +13,10 @@ Worker::Worker(const string &id,
                const string &n,
                const string &r,
                bool avail,
-               const string &contact)
+               const string &contact,
+               const string &pwdHash)
     : workerID(id), name(n), role(r), contactNumber(contact), isAvailable(avail),
-      activeComplaints(0), resolvedComplaints(0), assignedComplaintIDs() {}
+      passwordHash(pwdHash), activeComplaints(0), resolvedComplaints(0), assignedComplaintIDs() {}
 
 // availability control
 void Worker::markAvailable()
@@ -111,4 +112,19 @@ string Worker::getContactNumber() const
 bool Worker::getIsAvailable() const
 {
     return isAvailable;
+}
+
+string Worker::getPasswordHash() const
+{
+    return passwordHash;
+}
+
+void Worker::setPasswordHash(const string& hash)
+{
+    passwordHash = hash;
+}
+
+void Worker::setContactNumber(const string& contact)
+{
+    contactNumber = contact;
 }

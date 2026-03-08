@@ -1,7 +1,7 @@
 #ifndef MENU_PRINTER_H
 #define MENU_PRINTER_H
 
-#include <iostream> // Assuming iostream is needed for cout
+#include <iostream>
 
 using namespace std;
 
@@ -17,13 +17,17 @@ public:
     static void filingComplaintMenu();
     static void manageStudentsMenu();
     static void bedAvailabilityMenu();
-    static void viewAllBedsMenu(); // Added declaration for viewAllBedsMenu
+    static void viewAllBedsMenu();
     static void statusUpdateMenu();
     static void workerAssignMenu();
     static void manageRoomsMenu();
     static void manageComplaintsMenu();
     static void viewComplaintsMenu(int pending, int inProgress, int resolved);
+    static void studentViewComplaintsMenu(int pending, int inProgress, int resolved);
     static void manageDuesMenu();
+    static void showWorkerMenu();
+    static void workerManageComplaintsMenu(int pending, int inProgress, int resolved);
+    static void workerUpdateInfoMenu();
 };
 
 #endif

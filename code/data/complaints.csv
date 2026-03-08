@@ -11,9 +11,13 @@ C10,230042112,Water,Basine jam,Resolved,2026-01-10
 C10,230042112,Electric,Power Socket Not Working,Pending,2026-01-12
 C11,230042112,water,...,Resolved,2026-01-12
 C12,230042112,Electricity,Light Fuse,Resolved,2026-01-12
-C13,230042112,Internet,not working,Pending,2026-01-12
+C13,230042112,Internet,not working,In-Progress,2026-01-12
 C14,230042112,Other,Internet Bad,Pending,2026-01-12
-C15,230042112,Electricity,light broken,Pending,2026-01-19
+C15,230042112,Electricity,light broken,Resolved,2026-01-19
 C16,230042112,Electricity,light so low,Pending,2026-01-23
 C17,230042103,Electricity,asdfghj,Pending,2026-01-23
 C18,230042137,Internet,Router isn't working properly,In-Progress,2026-03-04
+C19,230042103,Plumbing,Water logging issue,Pending,2026-03-05
+C20,230042160,Plumbing,issues found,Pending,2026-03-07
+C21,230042160,Internet,Slow Internet,Pending,2026-03-07
+C22,230042160,Housekeeping,,In-Progress,2026-03-07

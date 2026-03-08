@@ -2,12 +2,22 @@
 #include <iostream>
  
 using namespace std;
-WorkerManager::WorkerManager(FileHandler* fh) : fileHandler(fh) {
+
+WorkerManager::WorkerManager(FileHandler* fh, Hasher* h) : fileHandler(fh), hasher(h) {
     loadWorkers();
 }
 
 void WorkerManager::loadWorkers() {
     workers = fileHandler->readWorkers();
+}
+
+void WorkerManager::saveWorkers() {
+    fileHandler->writeWorkers(workers);
+}
+
+bool WorkerManager::loginWorker(const string& workerID, const string& password) {
+    string hash = hasher->hash(password);
+    return fileHandler->checkWorkerCredentials(workerID, hash);
 }
 
 Worker* WorkerManager::findAvailableWorker(const string& role) {
@@ -34,6 +44,15 @@ Worker* WorkerManager::findLeastLoadedWorker(const string& role) {
     return best;
 }
 
+Worker* WorkerManager::findWorkerByID(const string& workerID) {
+    for (auto& w : workers) {
+        if (w.getWorkerID() == workerID) {
+            return &w;
+        }
+    }
+    return nullptr;
+}
+
 void WorkerManager::updateWorkerStatus(const string& workerID, bool availability) {
     for (auto& w : workers) {
         if (w.getWorkerID() == workerID) {
@@ -50,4 +69,27 @@ void WorkerManager::updateWorkerStatus(const string& workerID, bool availability
         }
     }
     cout << "Worker not found!\n";
+}
+
+void WorkerManager::updateContactNumber(const string& workerID, const string& newContact) {
+    for (auto& w : workers) {
+        if (w.getWorkerID() == workerID) {
+            w.setContactNumber(newContact);
+            fileHandler->updateWorkerContact(workerID, newContact);
+            // Reload to keep in-memory data in sync
+            loadWorkers();
+            return;
+        }
+    }
+}
+
+bool WorkerManager::verifyWorkerPassword(const string& workerID, const string& password) {
+    string hash = hasher->hash(password);
+    return fileHandler->checkWorkerCredentials(workerID, hash);
+}
+
+void WorkerManager::updateWorkerPassword(const string& workerID, const string& newPassword) {
+    string hash = hasher->hash(newPassword);
+    fileHandler->updateWorkerPassword(workerID, hash);
+    loadWorkers();
 }

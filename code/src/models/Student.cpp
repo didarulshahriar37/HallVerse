@@ -39,10 +39,10 @@ void Student::viewProfile(){
     cout << "Student Name: " << name << "\n";
     cout << "Student Email: " << email << "\n";
     cout << "Emergency Contact: " << emergencyContact << "\n";
+    cout << "Hall Name: " << hallName << "\n";
     cout << "Room Number: " << roomNumber << "\n";
     cout << "Bed Number: " << bedNumber << "\n";
-    cout << "Hall Name: " << hallName << "\n";
-    cout << "Hall Due: $ " << fixed << setprecision(2) << hallDues << "\n";
+    cout << "Total Due(s): $ " << fixed << setprecision(2) << hallDues << "\n";
     cout << "===========================================\n";   
 }
 

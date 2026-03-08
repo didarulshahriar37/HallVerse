@@ -13,12 +13,13 @@ public:
     static void clearScreen();
     static void pause();
     static string getPassword();
-    static string getValidatedEmail();
+    static string getValidateEmail();
     static string getNormalizedHall();
     static bool isValidRoomForHall(const string& hall, const string& room);
     static bool isValidBed(const string& bed);
     static bool isNumeric(const string& str);
     static string getNumericLine();
+    static double getNonNegativeDouble();
 };
 
 #endif
