@@ -19,6 +19,10 @@ public:
     Student* getStudent(const string& studentID);
     bool isBedOccupied(const string& hall, const string& room, const string& bed) const;
     vector<Student>& getAllStudents() { return students; }
+
+    // Reset every student password hash to the provided default (e.g. hashed "password")
+    void resetAllPasswords(const string& defaultHash);
+
     void saveAll();
 };
 

@@ -107,7 +107,8 @@ void MenuPrinter::manageStudentsMenu() {
     cout << "3. Remove Student\n";
     cout << "4. View Entry/Exit Logs\n";
     cout << "5. Reset Student Password\n";
-    cout << "6. Go Back\n";
+    cout << "6. Reset ALL Passwords\n";
+    cout << "7. Go Back\n";
     cout << "Choice: ";
 }
 

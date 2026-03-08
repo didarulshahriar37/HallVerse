@@ -496,6 +496,16 @@ private:
                 handleResetStudentPassword();
             }
             else if(choice == 6){
+                // reset all student passwords to default
+                cout << "\nAre you sure you want to reset ALL student passwords to default? (y/n): ";
+                string confirm = InputHelper::getLine();
+                if (confirm == "y" || confirm == "Y") {
+                    string defaultHash = hasher.hash("password");
+                    studentManager.resetAllPasswords(defaultHash);
+                    InputHelper::pause();
+                }
+            }
+            else if(choice == 7){
                 return;
             }
             else {

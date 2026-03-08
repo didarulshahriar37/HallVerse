@@ -56,6 +56,14 @@ bool StudentManager::isBedOccupied(const string& hall, const string& room, const
     return false;
 }
 
+void StudentManager::resetAllPasswords(const string& defaultHash) {
+    for (auto& s : students) {
+        s.setPasswordHash(defaultHash);
+    }
+    fileHandler->writeStudents(students);
+    cout << "All student passwords have been reset to default.\n";
+}
+
 void StudentManager::saveAll() {
     fileHandler->writeStudents(students);
 }
