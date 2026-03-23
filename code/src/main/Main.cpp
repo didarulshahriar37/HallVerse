@@ -341,6 +341,10 @@ private:
     
     // Login system
     void loginSystem() {
+        // Pre-compute default password hashes for comparison
+        const string studentDefaultHash = hasher.hash("password");
+        const string workerDefaultHash  = hasher.hash("worker");
+
         while (true) {
             InputHelper::clearScreen();
             cout << "\n========== LOGIN ==========" << "\n";
@@ -348,25 +352,43 @@ private:
             string username = InputHelper::getLine();
             cout << "Password: ";
             string password = InputHelper::getPassword();
-            
+
+            // ── Admin login (no first-login check needed) ──
             if (authManager.login(username, password, true)) {
                 currentUserID = username;
                 isAdmin = true;
                 adminFlow();
                 return;
             }
+
+            // ── Student login ──
             if (authManager.login(username, password, false)) {
                 currentUserID = username;
                 isAdmin = false;
+
+                // Detect default password — force change before menu access
+                if (hasher.hash(password) == studentDefaultHash) {
+                    forcedStudentPasswordChange();
+                }
+
                 studentFlow();
                 return;
             }
+
+            // ── Worker login ──
             if (workerManager.loginWorker(username, password)) {
                 currentUserID = username;
                 isAdmin = false;
+
+                // Detect default password — force change before menu access
+                if (hasher.hash(password) == workerDefaultHash) {
+                    forcedWorkerPasswordChange();
+                }
+
                 workerFlow();
                 return;
             }
+
             cout << "\n\u2717 Invalid credentials!\n";
             cout << "1. Try Again\n";
             cout << "2. Go Back\n";
@@ -969,6 +991,101 @@ private:
     cout << "\n✓ Password updated successfully!\n";
     InputHelper::pause();
 }
+
+    // ── Forced password change on first student login ──────────────────────
+    // Returns true if the user successfully changed their password,
+    // false only if the user somehow exits (should not happen — loop is infinite).
+    bool forcedStudentPasswordChange() {
+        InputHelper::clearScreen();
+        cout << "\n╔══════════════════════════════════════════════════════════╗\n";
+        cout << "║          ⚠  MANDATORY PASSWORD CHANGE  ⚠                ║\n";
+        cout << "╠══════════════════════════════════════════════════════════╣\n";
+        cout << "║  You are using the default password.                     ║\n";
+        cout << "║  For your security you MUST set a new password           ║\n";
+        cout << "║  before you can access the system.                       ║\n";
+        cout << "╚══════════════════════════════════════════════════════════╝\n";
+
+        const string defaultPassword = "password";
+
+        while (true) {
+            string newPassword, confirmPassword;
+
+            cout << "\nEnter new password (min 8 chars): ";
+            newPassword = InputHelper::getPassword();
+
+            if (newPassword.length() < 8) {
+                cout << "\n✗ Password must be at least 8 characters. Try again.\n";
+                continue;
+            }
+
+            if (newPassword == defaultPassword) {
+                cout << "\n✗ New password cannot be the same as the default password ('" << defaultPassword << "'). Choose a different password.\n";
+                continue;
+            }
+
+            cout << "Confirm new password: ";
+            confirmPassword = InputHelper::getPassword();
+
+            if (newPassword != confirmPassword) {
+                cout << "\n✗ Passwords do not match. Try again.\n";
+                continue;
+            }
+
+            // Commit the new password
+            authManager.resetPassword(currentUserID, newPassword, false);
+            studentManager.loadStudents();
+            InputHelper::clearScreen();
+            cout << "\n✓ Password changed successfully! You may now access the system.\n";
+            InputHelper::pause();
+            return true;
+        }
+    }
+
+    // ── Forced password change on first worker login ───────────────────────
+    bool forcedWorkerPasswordChange() {
+        InputHelper::clearScreen();
+        cout << "\n╔══════════════════════════════════════════════════════════╗\n";
+        cout << "║          ⚠  MANDATORY PASSWORD CHANGE  ⚠                ║\n";
+        cout << "╠══════════════════════════════════════════════════════════╣\n";
+        cout << "║  You are using the default password.                     ║\n";
+        cout << "║  For your security you MUST set a new password           ║\n";
+        cout << "║  before you can access the system.                       ║\n";
+        cout << "╚══════════════════════════════════════════════════════════╝\n";
+
+        const string defaultPassword = "worker";
+
+        while (true) {
+            string newPassword, confirmPassword;
+
+            cout << "\nEnter new password (min 8 chars): ";
+            newPassword = InputHelper::getPassword();
+
+            if (newPassword.length() < 8) {
+                cout << "\n✗ Password must be at least 8 characters. Try again.\n";
+                continue;
+            }
+
+            if (newPassword == defaultPassword) {
+                cout << "\n✗ New password cannot be the same as the default password ('" << defaultPassword << "'). Choose a different password.\n";
+                continue;
+            }
+
+            cout << "Confirm new password: ";
+            confirmPassword = InputHelper::getPassword();
+
+            if (newPassword != confirmPassword) {
+                cout << "\n✗ Passwords do not match. Try again.\n";
+                continue;
+            }
+
+            // Commit the new password
+            workerManager.updateWorkerPassword(currentUserID, newPassword);
+            InputHelper::clearScreen();
+            cout << "\n✓ Password changed successfully! You may now access the system.\n";
+            InputHelper::pause();
+            return true;
+        }
+    }
 
     void handleAssignWorker() {
         while (true) {
