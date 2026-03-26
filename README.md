@@ -9,7 +9,10 @@ HallVerse is a C++ based hall management system that manages student information
 
 ## KEY FEATURES
 **User Authentication System** <br>
-The system provides secure username and password-based authentication for Students, Admins, and Workers. It ensures role-based access control, allowing users to access only authorized features. Masked password input is implemented for all users to ensure maximum privacy. <br>
+The system provides secure username and password-based authentication for Students, Admins, and Workers. It ensures role-based access control, allowing users to access only authorized features. Masked password input is implemented for all users to ensure maximum privacy.
+- **Mandatory Password Change:** Users logging in with default passwords for the first time are forced to change them before accessing the system.
+- **Password Validation:** Enforces a minimum of 8 characters, prevents reuse of current passwords, and forbids the use of common default passwords (e.g., "password" or "worker").
+- **Secure Verification:** Manual password updates require current password verification for enhanced security. <br>
 
 Student login:
 - Username: STUDENT ID (e.g. 230042100)
@@ -45,7 +48,8 @@ Log Entry/Exit Management:
 
 Account Security:
 - Students can update their password with current password verification.
-- Password update enforces a minimum 8-character requirement for enhanced security.
+- Students MUST change their password upon first login if using the default password.
+- Password update enforces a minimum 8-character requirement and prevents reuse of existing or default passwords.
 
 **Admin Features** <br>
 Interactive Dashboard: <br>
@@ -90,7 +94,8 @@ Profile Management:
 
 Account Security:
 - Worker can reset their password with current password verification.
-- Password reset enforces a minimum 8-character requirement.
+- Workers MUST change their password upon first login if using the default password.
+- Password reset enforces a minimum 8-character requirement and prevents reuse of existing or default passwords.
 
 ## FOLDER STRUCTURE
 HallVerse/ <br>
