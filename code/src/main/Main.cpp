@@ -954,43 +954,59 @@ private:
 
     // Handles resetting password
     void handleResetPassword() {
-    InputHelper::clearScreen();
-    cout << "\n========== UPDATE PASSWORD ==========\n";
-    cout << "Enter current password: ";
-    string currentPassword = InputHelper::getPassword();
+        while (true) {
+            InputHelper::clearScreen();
+            cout << "\n========== UPDATE PASSWORD ==========\n";
+            cout << "Enter current password: ";
+            string currentPassword = InputHelper::getPassword();
 
-    if (!authManager.login(currentUserID, currentPassword, false)) {
-        cout << "\n✗ Current password is incorrect!\n";
-        InputHelper::pause();
-        return;
-    }
+            if (!authManager.login(currentUserID, currentPassword, false)) {
+                cout << "\n✗ Current password is incorrect!\n";
+                cout << "1. Try Again\n";
+                cout << "2. Go Back\n";
+                cout << "Choice: ";
+                int choice = InputHelper::getInt();
+                if (choice == 1) continue;
+                return;
+            }
 
-    string newPassword, confirmPassword;
+            string newPassword, confirmPassword;
+            while (true) {
+                cout << "Enter new password: ";
+                newPassword = InputHelper::getPassword();
 
-    while (true) {
-        cout << "Enter new password: ";
-        newPassword = InputHelper::getPassword();
+                if (newPassword == currentPassword) {
+                    cout << "✗ This password is already in use by you! Please use a new one.\n";
+                    continue;
+                }
 
-        if (newPassword.length() < 8) {
-            cout << "✗ Password must contain at least 8 characters!\n";
-            continue;
+                if (newPassword == "password") {
+                    cout << "✗ Password cannot be set as the default password ('password').\n";
+                    continue;
+                }
+
+                if (newPassword.length() < 8) {
+                    cout << "✗ Password must contain at least 8 characters!\n";
+                    continue;
+                }
+
+                cout << "Confirm new password: ";
+                confirmPassword = InputHelper::getPassword();
+
+                if (newPassword != confirmPassword) {
+                    cout << "✗ Passwords do not match!\n";
+                    continue;
+                }
+
+                break;
+            }
+
+            authManager.resetPassword(currentUserID, newPassword, false);
+            cout << "\n✓ Password updated successfully!\n";
+            InputHelper::pause();
+            return;
         }
-
-        cout << "Confirm new password: ";
-        confirmPassword = InputHelper::getPassword();
-
-        if (newPassword != confirmPassword) {
-            cout << "✗ Passwords do not match!\n";
-            continue;
-        }
-
-        break;
     }
-
-    authManager.resetPassword(currentUserID, newPassword, false);
-    cout << "\n✓ Password updated successfully!\n";
-    InputHelper::pause();
-}
 
     // ── Forced password change on first student login ──────────────────────
     // Returns true if the user successfully changed their password,
@@ -1618,37 +1634,55 @@ private:
 
     // Worker updates their own password
     void handleWorkerUpdatePassword() {
-        InputHelper::clearScreen();
-        cout << "\n========== UPDATE PASSWORD ==========\n";
-        cout << "Enter current password: ";
-        string currentPassword = InputHelper::getPassword();
+        while (true) {
+            InputHelper::clearScreen();
+            cout << "\n========== UPDATE PASSWORD ==========\n";
+            cout << "Enter current password: ";
+            string currentPassword = InputHelper::getPassword();
 
-        if (!workerManager.verifyWorkerPassword(currentUserID, currentPassword)) {
-            cout << "\n✗ Current password is incorrect!\n";
+            if (!workerManager.verifyWorkerPassword(currentUserID, currentPassword)) {
+                cout << "\n✗ Current password is incorrect!\n";
+                cout << "1. Try Again\n";
+                cout << "2. Go Back\n";
+                cout << "Choice: ";
+                int choice = InputHelper::getInt();
+                if (choice == 1) continue;
+                return;
+            }
+
+            string newPassword, confirmPassword;
+            while (true) {
+                cout << "Enter new password: ";
+                newPassword = InputHelper::getPassword();
+
+                if (newPassword == currentPassword) {
+                    cout << "✗ This password is already in use by you! Please use a new one.\n";
+                    continue;
+                }
+
+                if (newPassword == "password" || newPassword == "worker") {
+                    cout << "✗ Password cannot be set as default.\n";
+                    continue;
+                }
+
+                if (newPassword.length() < 8) {
+                    cout << "✗ Password must be at least 8 characters!\n";
+                    continue;
+                }
+                cout << "Confirm new password: ";
+                confirmPassword = InputHelper::getPassword();
+                if (newPassword != confirmPassword) {
+                    cout << "✗ Passwords do not match!\n";
+                    continue;
+                }
+                break;
+            }
+
+            workerManager.updateWorkerPassword(currentUserID, newPassword);
+            cout << "\n✓ Password updated successfully!\n";
             InputHelper::pause();
             return;
         }
-
-        string newPassword, confirmPassword;
-        while (true) {
-            cout << "Enter new password: ";
-            newPassword = InputHelper::getPassword();
-            if (newPassword.length() < 8) {
-                cout << "✗ Password must be at least 8 characters!\n";
-                continue;
-            }
-            cout << "Confirm new password: ";
-            confirmPassword = InputHelper::getPassword();
-            if (newPassword != confirmPassword) {
-                cout << "✗ Passwords do not match!\n";
-                continue;
-            }
-            break;
-        }
-
-        workerManager.updateWorkerPassword(currentUserID, newPassword);
-        cout << "\n✓ Password updated successfully!\n";
-        InputHelper::pause();
     }
 
     // Worker: Manage Complaints menu with status-based sub-views
