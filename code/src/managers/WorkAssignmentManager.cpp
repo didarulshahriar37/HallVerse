@@ -4,14 +4,11 @@
 #include <sstream>
  
 using namespace std;
-
-// WorkAssignmentManager handles assignment of workers to complaints and tracks completion.
 WorkAssignmentManager::WorkAssignmentManager(FileHandler* fh, ComplaintManager* cm, WorkerManager* wm)
-    : id("WAM_001"), complaintManager(cm), workerManager(wm), fileHandler(fh), nextAssignmentID(1) {
+    : id("W-001"), complaintManager(cm), workerManager(wm), fileHandler(fh), nextAssignmentID(1) {
     loadAssignments();
 }
 
-// Loads work assignment records from file and sets next ID token.
 void WorkAssignmentManager::loadAssignments() {
     workAssignments = fileHandler->readAssignments();
     if (!workAssignments.empty()) {
@@ -20,14 +17,13 @@ void WorkAssignmentManager::loadAssignments() {
     }
 }
 
-// Assigns best-available worker to complaint and updates state in complaint and worker managers.
 void WorkAssignmentManager::assignWorker(const string& complaintID, const string& role) {
     // Use smart workload-balanced selection: pick worker with fewest resolved complaints
     Worker* worker = workerManager->findLeastLoadedWorker(role);
     if (worker) {
         stringstream ss;
         ss << "A" << nextAssignmentID;
-        WorkAssignment assignment(ss.str(), complaintID, worker->getWorkerID(), "Assigned", "");
+        WorkAssignment assignment(ss.str(), complaintID, worker->getWorkerID(), "Assigned");
         workAssignments.push_back(assignment);
         fileHandler->writeAssignments(workAssignments);
         // Mark worker as unavailable
@@ -47,21 +43,6 @@ void WorkAssignmentManager::assignWorker(const string& complaintID, const string
     } else {
         cout << "\n✗ No worker found for role: " << role << "\n";
     }
-}
-
-void WorkAssignmentManager::completeWork(const string& assignmentID, const string& report) {
-    for (auto& a : workAssignments) {
-        if (a.getAssignmentID() == assignmentID) {
-            a.markCompleted();
-            a.addReport(report);
-            fileHandler->writeAssignments(workAssignments);
-            workerManager->updateWorkerStatus(a.getWorkerID(), true);
-            complaintManager->updateComplaintStatus(a.getComplaintID(), "Resolved");
-            cout << "Work completed successfully!\n";
-            return;
-        }
-    }
-    cout << "Assignment not found!\n";
 }
 
 vector<WorkAssignment>& WorkAssignmentManager::getAssignmentsByComplaint(const string& complaintID) {
