@@ -437,7 +437,7 @@ private:
                 while (true) {
                     cout << "\nEnter Student ID: ";
                     id = InputHelper::getNumericLine();
-                    if (studentManager.getStudent(id) != nullptr) {
+                    if (studentManager.getStudent(id) != nullptr) { //same id cannot be added twice
                         cout << "✗ Error: Student already exists!\n";
                         cout << "1. Try Again\n";
                         cout << "2. Go Back\n";
