@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Constructor: Initializes hasher with ID
 Hasher::Hasher() : id("HASHER_001") {}
 
 // Custom hash: for each character c in the password,

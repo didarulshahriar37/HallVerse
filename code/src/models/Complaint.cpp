@@ -1,10 +1,12 @@
 #include "Complaint.h"
 using namespace std;
 
+// Default constructor: Initializes complaint with "Pending" status
 Complaint::Complaint() {
     status = "Pending";
 }
 
+// Parameterized constructor: Creates complaint with all details
 Complaint::Complaint(
     string complaintID,
     string category,
@@ -21,6 +23,7 @@ Complaint::Complaint(
     this->studentID = studentID;
 }
 
+// Updates complaint status (Pending → In-Progress → Resolved)
 void Complaint::updateStatus(const string& newStatus){
     status = newStatus;
 }

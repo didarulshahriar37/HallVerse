@@ -2,20 +2,24 @@
 #include <iostream>
  
 using namespace std;
+// Constructor: Initializes with file handler and loads all students
 StudentManager::StudentManager(FileHandler* fh) : fileHandler(fh) {
     loadStudents();
 }
 
+// Loads students from CSV file into memory
 void StudentManager::loadStudents() {
     students = fileHandler->readStudents();
 }
 
+// Adds new student to memory and persists to file
 void StudentManager::addStudent(const Student& student) {
     students.push_back(student);
     fileHandler->writeStudents(students);
     cout << "Student added successfully!\n";
 }
 
+// Updates existing student record in file
 void StudentManager::updateStudent(const Student& student) {
     for (auto& s : students) {
         if (s.getStudentID() == student.getStudentID()) {
@@ -28,6 +32,7 @@ void StudentManager::updateStudent(const Student& student) {
     cout << "Student not found!\n";
 }
 
+// Removes student by ID and persists change
 void StudentManager::removeStudent(const string& studentID) {
     for (auto it = students.begin(); it != students.end(); ++it) {
         if (it->getStudentID() == studentID) {
@@ -40,6 +45,7 @@ void StudentManager::removeStudent(const string& studentID) {
     cout << "Student not found!\n";
 }
 
+// Retrieves pointer to student by ID (returns nullptr if not found)
 Student* StudentManager::getStudent(const string& studentID) {
     for (auto& s : students) {
         if (s.getStudentID() == studentID) {
@@ -49,6 +55,7 @@ Student* StudentManager::getStudent(const string& studentID) {
     return nullptr;
 }
 
+// Checks if bed is already assigned to another student
 bool StudentManager::isBedOccupied(const string& hall, const string& room, const string& bed) const {
     for (const auto& s : students) {
         if (s.getHallName() == hall && s.getRoomNumber() == room && s.getBedNumber() == bed) return true;
@@ -56,6 +63,7 @@ bool StudentManager::isBedOccupied(const string& hall, const string& room, const
     return false;
 }
 
+// Sets all students to same password hash (for admin reset)
 void StudentManager::resetAllPasswords(const string& defaultHash) {
     for (auto& s : students) {
         s.setPasswordHash(defaultHash);
@@ -64,6 +72,7 @@ void StudentManager::resetAllPasswords(const string& defaultHash) {
     cout << "All student passwords have been reset to default.\n";
 }
 
+// Persists all student data to file
 void StudentManager::saveAll() {
     fileHandler->writeStudents(students);
 }

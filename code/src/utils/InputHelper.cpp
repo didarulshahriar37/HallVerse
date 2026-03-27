@@ -92,12 +92,14 @@ void InputHelper::clearScreen() {
     #endif
 }
 
+// Pause execution until user presses Enter
 void InputHelper::pause() {
     cout << "Press Enter to continue...";
     cin.get();
 }
 
 // Email validation
+// Prompts and validates email (checks for single @, single ., no spaces, no forbidden characters)
 string InputHelper::getValidateEmail() {
     while (true) {
         string email = getLine();
@@ -126,6 +128,7 @@ string InputHelper::getValidateEmail() {
     }
 }
 
+// Prompts for hall name, normalizes to "North" or "South" (supports "n"/"s" shortcuts)
 string InputHelper::getNormalizedHall(){
     while(true){
         string hall = getLine();
@@ -149,7 +152,7 @@ string InputHelper::getNormalizedHall(){
     }
 }
 
-// valid room : 101-130, 201-230
+// Validates room format (3-digit numbers 101-130, 201-230)
 bool InputHelper::isValidRoomForHall(const string& hall, const string& room){
     if(room.size() != 3 || !isNumeric(room)){
         return false;
@@ -163,7 +166,7 @@ bool InputHelper::isValidRoomForHall(const string& hall, const string& room){
     return true;
 }
 
-// valid beds: A, B, C, D
+// Validates bed letter (A, B, C, or D)
 bool InputHelper::isValidBed(const string& bed){
     if(bed.size() != 1){
         return false;
@@ -172,6 +175,7 @@ bool InputHelper::isValidBed(const string& bed){
     return (c == 'a' || c == 'b' || c == 'c' || c == 'd');
 }
 
+// Checks if string contains only digits
 bool InputHelper::isNumeric(const string& str) {
     if (str.empty()) return false;
     for (char c : str) {
@@ -180,7 +184,7 @@ bool InputHelper::isNumeric(const string& str) {
     return true;
 }
 
-// Numeric Input Validation
+// Prompts for numeric input with retry loop
 string InputHelper::getNumericLine() {
     while (true) {
         string input = getLine();
@@ -192,7 +196,7 @@ string InputHelper::getNumericLine() {
     }
 }
 
-// Get non-negative double input with validation
+// Reads double and ensures non-negative value
 double InputHelper::getNonNegativeDouble() {
     double value;
     while(true){

@@ -9,6 +9,7 @@
 #include <iostream>
  
 using namespace std;
+// Constructor: Initializes file paths for all data files
 FileHandler::FileHandler() 
     : id("FH_001"),
       studentFile("data/students.csv"),
@@ -18,6 +19,7 @@ FileHandler::FileHandler()
       assignmentFile("data/assignments.csv"),
       entryExitFile("data/entry_exit.csv") {}
 
+// Helper function: Splits string by delimiter for CSV parsing
 vector<string> FileHandler::split(const string& str, char delimiter) {
     vector<string> tokens;
     stringstream ss(str);
@@ -28,6 +30,7 @@ vector<string> FileHandler::split(const string& str, char delimiter) {
     return tokens;
 }
 
+// Reads student data from CSV file, handles multiple formats
 vector<Student> FileHandler::readStudents() {
     vector<Student> students;
     ifstream file(studentFile);
@@ -85,6 +88,7 @@ vector<Student> FileHandler::readStudents() {
     return students;
 }
 
+// Writes student data to CSV file with header
 void FileHandler::writeStudents(const vector<Student>& students) {
     ofstream file(studentFile);
     file << "studentID,name,email,emergencyContact,roomNumber,bedNumber,hallName,hallDues,password\n";
@@ -96,6 +100,7 @@ void FileHandler::writeStudents(const vector<Student>& students) {
     file.close();
 }
 
+// Reads complaint data from CSV file
 vector<Complaint> FileHandler::readComplaints() {
     vector<Complaint> complaints;
     ifstream file(complaintFile);
@@ -115,6 +120,7 @@ vector<Complaint> FileHandler::readComplaints() {
     return complaints;
 }
 
+// Writes complaint data to CSV file
 void FileHandler::writeComplaints(const vector<Complaint>& complaints) {
     ofstream file(complaintFile);
     file << "complaintID,studentID,category,description,status,date\n";
@@ -126,6 +132,7 @@ void FileHandler::writeComplaints(const vector<Complaint>& complaints) {
     file.close();
 }
 
+// Reads worker data from CSV file
 vector<Worker> FileHandler::readWorkers() {
     vector<Worker> workers;
     ifstream file(workerFile);
@@ -147,6 +154,7 @@ vector<Worker> FileHandler::readWorkers() {
     return workers;
 }
 
+// Writes worker data to CSV file
 void FileHandler::writeWorkers(const vector<Worker>& workers) {
     ofstream file(workerFile);
     file << "workerID,name,role,isAvailable,contactNumber,password\n";
@@ -157,6 +165,7 @@ void FileHandler::writeWorkers(const vector<Worker>& workers) {
     file.close();
 }
 
+// Reads work assignment data from CSV file
 vector<WorkAssignment> FileHandler::readAssignments() {
     vector<WorkAssignment> assignments;
     ifstream file(assignmentFile);
@@ -176,6 +185,7 @@ vector<WorkAssignment> FileHandler::readAssignments() {
     return assignments;
 }
 
+// Writes work assignment data to CSV file
 void FileHandler::writeAssignments(const vector<WorkAssignment>& assignments) {
     ofstream file(assignmentFile);
     file << "assignmentID,complaintID,workerID,status,report\n";
@@ -187,6 +197,7 @@ void FileHandler::writeAssignments(const vector<WorkAssignment>& assignments) {
     file.close();
 }
 
+// Reads entry/exit log data from CSV file
 vector<EntryExitRecord> FileHandler::readEntryExitLogs() {
     vector<EntryExitRecord> records;
     ifstream file(entryExitFile);
@@ -205,6 +216,7 @@ vector<EntryExitRecord> FileHandler::readEntryExitLogs() {
     return records;
 }
 
+// Writes entry/exit log data to CSV file
 void FileHandler::writeEntryExitLogs(const vector<EntryExitRecord>& records) {
     ofstream file(entryExitFile);
     file << "recordID,studentID,type,timestamp\n";
@@ -215,6 +227,7 @@ void FileHandler::writeEntryExitLogs(const vector<EntryExitRecord>& records) {
     file.close();
 }
 
+// Checks if username/password hash exists in admin or student file
 bool FileHandler::checkCredentials(const string& username, const string& passwordHash, bool isAdmin) {
     string filename = isAdmin ? adminFile : studentFile;
     ifstream file(filename);
@@ -235,6 +248,7 @@ bool FileHandler::checkCredentials(const string& username, const string& passwor
     return false;
 }
 
+// Updates password hash for user in admin/student file
 void FileHandler::updatePassword(const string& username, const string& newPasswordHash, bool isAdmin) {
     string filename = isAdmin ? adminFile : studentFile;
     vector<string> lines;
@@ -269,6 +283,7 @@ void FileHandler::updatePassword(const string& username, const string& newPasswo
     outFile.close();
 }
 
+// Checks if worker credentials are valid
 bool FileHandler::checkWorkerCredentials(const string& workerID, const string& passwordHash) {
     ifstream file(workerFile);
     string line;
@@ -285,6 +300,7 @@ bool FileHandler::checkWorkerCredentials(const string& workerID, const string& p
     return false;
 }
 
+// Updates worker password hash in CSV file
 void FileHandler::updateWorkerPassword(const string& workerID, const string& newPasswordHash) {
     vector<string> lines;
     ifstream file(workerFile);
@@ -312,6 +328,7 @@ void FileHandler::updateWorkerPassword(const string& workerID, const string& new
     outFile.close();
 }
 
+// Updates worker contact number in CSV file
 void FileHandler::updateWorkerContact(const string& workerID, const string& newContact) {
     vector<string> lines;
     ifstream file(workerFile);

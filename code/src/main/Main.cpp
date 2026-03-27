@@ -99,7 +99,7 @@ private:
         // After action or invalid, return to student menu
     }
 
-    // Handles updating email
+    // Handles updating student email
     void handleUpdateEmail() {
         InputHelper::clearScreen();
         Student* student = studentManager.getStudent(currentUserID);
@@ -318,6 +318,7 @@ private:
     // ------------- Student side features ends here ----------------
     
     // Authentication handling
+    // Performs login for admin or student
     bool performLogin(bool isAdminLogin) {
         InputHelper::clearScreen();
         cout << "\n========== " << (isAdminLogin ? "ADMIN" : "STUDENT") << " LOGIN ==========" << "\n";
@@ -1901,6 +1902,7 @@ private:
     }
     
 public:
+    // Constructor: Initializes all managers and services
     HallVerseApp() 
         : studentManager(&fileHandler),
           complaintManager(&fileHandler),
@@ -1939,6 +1941,7 @@ public:
         }
     }
 };
+// Main entry point: Sets up console and starts the application
 int main() {
 #ifdef _WIN32
     // Ensure Windows console uses UTF-8 so box-drawing characters render correctly
