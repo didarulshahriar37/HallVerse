@@ -1,6 +1,6 @@
 complaintID,studentID,category,description,status,date
 C1,230042103,Electricity,Light not working in room 101,In-Progress,2025-01-05
-C2,230042112,Water,Water leakage in bathroom,In-Progress,2025-01-06
+C2,230042112,Water,Water leakage in bathroom,Pending,2025-01-06
 C3,200041055,Room,Broken window glass needs replacement,Resolved,2025-01-04
 C4,210042088,Electricity,Fan making strange noise,In-Progress,2025-01-07
 C5,220043099,Water,Low water pressure in 3rd floor,In-Progress,2025-01-08
@@ -17,7 +17,7 @@ C15,230042112,Electricity,light broken,Resolved,2026-01-19
 C16,230042112,Electricity,light so low,Pending,2026-01-23
 C17,230042103,Electricity,asdfghj,Pending,2026-01-23
 C18,230042137,Internet,Router isn't working properly,In-Progress,2026-03-04
-C19,230042103,Plumbing,Water logging issue,Pending,2026-03-05
-C20,230042160,Plumbing,issues found,Pending,2026-03-07
+C19,230042103,Plumbing,Water logging issue,In-Progress,2026-03-05
+C20,230042160,Plumbing,issues found,In-Progress,2026-03-07
 C21,230042160,Internet,Slow Internet,In-Progress,2026-03-07
 C22,230042160,Housekeeping,,In-Progress,2026-03-07
