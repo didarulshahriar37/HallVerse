@@ -12,11 +12,22 @@ private:
     int nextRecordID;
     
 public:
+    // Constructor: initialize with file handler and load existing entry/exit logs
     EntryExitManager(FileHandler* fh);
+
+    // Record student entry, persist log and update dataset
     void logEntry(const string& studentID);
+
+    // Record student exit, persist log and update dataset
     void logExit(const string& studentID);
+
+    // Return logged entries (for admin view/search)
     vector<EntryExitRecord>& getLogs() { return logs; }
+
+    // Load existing logs from CSV into memory
     void loadLogs();
+
+    // Get current status for a student (true if last event is Entry)
     pair<bool, string> getCurrentStatus(const string& studentID); // returns {isLoggedIn, lastTimestamp}
 };
 

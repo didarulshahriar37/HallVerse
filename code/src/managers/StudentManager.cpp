@@ -2,7 +2,9 @@
 #include <iostream>
  
 using namespace std;
-// Constructor: Initializes with file handler and loads all students
+
+// StudentManager coordinates student CRUD operations and persistence.
+// It keeps student vector in-memory and writes through FileHandler.
 StudentManager::StudentManager(FileHandler* fh) : fileHandler(fh) {
     loadStudents();
 }

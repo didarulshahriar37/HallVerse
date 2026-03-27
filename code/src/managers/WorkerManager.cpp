@@ -3,6 +3,7 @@
  
 using namespace std;
 
+// WorkerManager handles worker CRUD, login, status updates, and availability tracking.
 WorkerManager::WorkerManager(FileHandler* fh, Hasher* h) : fileHandler(fh), hasher(h) {
     loadWorkers();
 }

@@ -6,10 +6,13 @@
 #include <algorithm>
 #include <cctype>
 using namespace std;
+
+// RoomManager reads/writes `data/rooms.csv` and provides room/bed queries.
 RoomManager::RoomManager() {
     loadRooms();
 }
 
+// Splits a CSV-style string by delimiter.
 vector<string> RoomManager::split(const string& str, char delimiter) {
     vector<string> tokens;
     stringstream ss(str);
@@ -20,6 +23,7 @@ vector<string> RoomManager::split(const string& str, char delimiter) {
     return tokens;
 }
 
+// Loads room list from disk into memory.
 void RoomManager::loadRooms() {
     rooms.clear();
     ifstream file("data/rooms.csv");

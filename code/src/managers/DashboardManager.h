@@ -12,9 +12,16 @@ private:
     EntryExitManager* entryExitManager;
     
 public:
+    // Constructor: initialize references to each manager used for dashboard data
     DashboardManager(StudentManager* sm, ComplaintManager* cm, EntryExitManager* eem);
+
+    // Get number of registered students
     int getTotalStudents();
+
+    // Fill counts of complaints in different statuses
     void getComplaintSummary(int& pending, int& inProgress, int& resolved);
+
+    // Print formatted dashboard summary (students, complaints, entry-exit)
     void displayDashboard();
 };
 

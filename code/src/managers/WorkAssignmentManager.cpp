@@ -4,11 +4,14 @@
 #include <sstream>
  
 using namespace std;
+
+// WorkAssignmentManager handles assignment of workers to complaints and tracks completion.
 WorkAssignmentManager::WorkAssignmentManager(FileHandler* fh, ComplaintManager* cm, WorkerManager* wm)
     : id("WAM_001"), complaintManager(cm), workerManager(wm), fileHandler(fh), nextAssignmentID(1) {
     loadAssignments();
 }
 
+// Loads work assignment records from file and sets next ID token.
 void WorkAssignmentManager::loadAssignments() {
     workAssignments = fileHandler->readAssignments();
     if (!workAssignments.empty()) {
@@ -17,6 +20,7 @@ void WorkAssignmentManager::loadAssignments() {
     }
 }
 
+// Assigns best-available worker to complaint and updates state in complaint and worker managers.
 void WorkAssignmentManager::assignWorker(const string& complaintID, const string& role) {
     // Use smart workload-balanced selection: pick worker with fewest resolved complaints
     Worker* worker = workerManager->findLeastLoadedWorker(role);

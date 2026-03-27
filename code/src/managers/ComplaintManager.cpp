@@ -2,10 +2,13 @@
 #include <iostream>
  
 using namespace std;
+
+// Constructor: Load complaint list and initialize next complaint ID
 ComplaintManager::ComplaintManager(FileHandler* fh) : fileHandler(fh), nextComplaintID(1) {
     loadComplaints();
 }
 
+// Read complaint records from storage and update ID counter
 void ComplaintManager::loadComplaints() {
     complaints = fileHandler->readComplaints();
     if (!complaints.empty()) {

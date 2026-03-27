@@ -3,14 +3,18 @@
 #include <iomanip>
 
 using namespace std;
+
+// Constructor: binds dashboard to existing managers (students, complaints, entry/exit)
 DashboardManager::DashboardManager(StudentManager *sm, ComplaintManager *cm, EntryExitManager *eem)
     : id("DM_001"), studentManager(sm), complaintManager(cm), entryExitManager(eem) {}
 
+// Returns total number of students from StudentManager
 int DashboardManager::getTotalStudents()
 {
     return studentManager->getAllStudents().size();
 }
 
+// Evaluates complaint counts by status categories and returns via output references
 void DashboardManager::getComplaintSummary(int &pending, int &inProgress, int &resolved)
 {
     pending = inProgress = resolved = 0;
@@ -24,6 +28,8 @@ void DashboardManager::getComplaintSummary(int &pending, int &inProgress, int &r
             resolved++;
     }
 }
+
+// Prints a summary dashboard with totals for students, dues, complaints, entries/exits
 void DashboardManager::displayDashboard()
 {
     cout << "\n";
