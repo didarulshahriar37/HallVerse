@@ -1,13 +1,13 @@
 studentID,name,email,emergencyContact,roomNumber,bedNumber,hallName,hallDues,password
-230042103,Muntajim Rahman Saimon,muntajim.rahman@gmail.com,01518918620,230,B,North,0,20572
-230042112,Ifham Bin Hossain,ifham@iut-dhaka.edu,01823456789,230,D,North,0,24605
-200041066,Tanvir Islam,tanvir@iut-dhaka.edu,+8801756789012,202,B,South,500,32671
-210042088,Rafiul Hasan,rafiul@iut-dhaka.edu,+8801867890123,203,C,North,250,32671
-220043111,Kamrul Hassan,kamrul@iut-dhaka.edu,+8801689012345,202,A,North,0,32671
-230042145,Fahim Rahman,fahim@iut-dhaka.edu,+8801790123456,203,B,South,800,32671
-230042101,Samir,samir@iut-dhaka.edu,01711172356,230,D,South,0,32671
-230042102,Ashfaq,asfaq@iut-dhaka.edu,012109012,211,A,North,0,32671
-230042156,Sifat,sifat@iut-dhaka.edu,0212312444,210,B,North,1500,32671
-230042105,Tiran Abdullah,tiran@iut-dhaka.edu,+8801234567891,102,D,,0,32671
-230042113,Shaikh Muhaiminul Hasan,muhaimin@iut-dhaka.edu,015711617178,227,C,North,1000,32671
-230042137,Didarul Shahriar,didarulshahriar@iut-dhaka.edu,01750111111,103,A,South,0,16798
+230042103,Muntajim Rahman Saimon,muntajim.rahman@gmail.com,01518918620,230,B,North,600,20572
+230042112,Ifham Bin Hossain,ifham@iut-dhaka.edu,01823456789,230,D,North,400,24605
+200041066,Tanvir Islam,tanvir@iut-dhaka.edu,+8801756789012,202,B,South,1100,32671
+210042088,Rafiul Hasan,rafiul@iut-dhaka.edu,+8801867890123,203,C,North,850,32671
+220043111,Kamrul Hassan,kamrul@iut-dhaka.edu,+8801689012345,202,A,North,600,32671
+230042145,Fahim Rahman,fahim@iut-dhaka.edu,+8801790123456,203,B,South,1400,32671
+230042101,Samir,samir@iut-dhaka.edu,01711172356,230,D,South,600,32671
+230042102,Ashfaq,asfaq@iut-dhaka.edu,012109012,211,A,North,600,32671
+230042156,Sifat,sifat@iut-dhaka.edu,0212312444,210,B,North,2100,32671
+230042105,Tiran Abdullah,tiran@iut-dhaka.edu,+8801234567891,102,D,,600,32671
+230042113,Shaikh Muhaiminul Hasan,muhaimin@iut-dhaka.edu,015711617178,227,C,North,1600,32671
+230042137,Didarul Shahriar,didarulshahriar@iut-dhaka.edu,01750111111,103,A,South,600,16798
