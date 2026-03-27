@@ -4,7 +4,8 @@
 
 using namespace std;
 
-// Default constructor
+// Default constructor implementation: Initializes an empty student object with default values
+// Features used: Student data initialization, hall management system
 Student::Student() {
     bedNumber = "";
     hallName = "";
@@ -12,7 +13,16 @@ Student::Student() {
     passwordHash = "";
 }
 
-// Parameterized constructor
+// Parameterized constructor implementation: Creates a student with complete profile information
+// Parameters: studentID - unique student identifier
+//           name - full name of the student
+//           email - email address for communication
+//           emergencyContact - emergency contact number
+//           roomNumber - assigned room number
+//           bedNumber - assigned bed (A, B, C, or D)
+//           hallName - hall name (North/South)
+//           hallDues - outstanding dues amount
+// Features used: Student registration, room allocation, dues tracking, contact management
 Student::Student(const string& studentID,
                  const string& name,
                  const string& email,
@@ -32,7 +42,8 @@ Student::Student(const string& studentID,
     this->passwordHash = "";
 }
 
-// View Profile Method
+// View Profile Method implementation: Displays the complete student profile with all information and dues
+// Features used: Profile viewing, student dashboard
 void Student::viewProfile(){
     cout << "\n============= STUDENT PROFILE =============\n";
     cout << "Student Id: " << studentID << "\n";
@@ -47,7 +58,9 @@ void Student::viewProfile(){
 }
 
 // Update Methods
-// Update Email
+// Update Email implementation: Updates the student's email with validation
+// Parameters: newEmail - new email address to set
+// Features used: Email validation, profile updates
 void Student::updateEmail(const string& newEmail){
     if(newEmail.empty()){
         cout << "You must provide an email address !\n";
@@ -57,7 +70,9 @@ void Student::updateEmail(const string& newEmail){
     cout << "Email updated to: " << email << "\n";
 }
 
-// Update Emergency Contact
+// Update Emergency Contact implementation: Updates the emergency contact number with validation
+// Parameters: newEmergencyContact - new contact number to set
+// Features used: Contact validation, emergency information updates
 void Student::updateEmergencyContact(const string& newEmergencyContact){
     if(newEmergencyContact.empty()){
         cout << "You must provide an emergency contact !\n";
