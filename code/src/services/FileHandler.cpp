@@ -176,9 +176,9 @@ vector<WorkAssignment> FileHandler::readAssignments() {
     getline(file, line);
     while (getline(file, line)) {
         auto tokens = split(line, ',');
-        if (tokens.size() >= 5) {
+        if (tokens.size() >= 4) {
             assignments.push_back(WorkAssignment(tokens[0], tokens[1], tokens[2], 
-                                                tokens[3], tokens[4]));
+                                                tokens[3]));
         }
     }
     file.close();
@@ -188,11 +188,10 @@ vector<WorkAssignment> FileHandler::readAssignments() {
 // Writes work assignment data to CSV file
 void FileHandler::writeAssignments(const vector<WorkAssignment>& assignments) {
     ofstream file(assignmentFile);
-    file << "assignmentID,complaintID,workerID,status,report\n";
+    file << "assignmentID,complaintID,workerID,status\n";
     for (const auto& a : assignments) {
         file << a.getAssignmentID() << "," << a.getComplaintID() << "," 
-             << a.getWorkerID() << "," << a.getStatus() << "," 
-             << a.getReport() << "\n";
+             << a.getWorkerID() << "," << a.getStatus() << "\n";
     }
     file.close();
 }

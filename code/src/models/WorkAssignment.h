@@ -11,16 +11,13 @@ class WorkAssignment{
     string status;
     string complaintID;
     string workerID;
-    string report;
     
     public:
     WorkAssignment();
     WorkAssignment(string aID, string cID, string wID, 
-                   string stat, string rep);
+                   string stat);
     
     void updateStatus(const string& newStatus);
-    void addReport(const string& newReport);
-    void markCompleted();
     
     string getAssignmentID() const { return assignmentID; }
     string getComplaintID() const { return complaintID; }
