@@ -23,7 +23,7 @@ class WorkAssignment{
     string getComplaintID() const { return complaintID; }
     string getWorkerID() const { return workerID; }
     string getStatus() const { return status; }
-    string getReport() const { return report; }
+    // string getReport() const { return report; }
 };
 
 #endif
