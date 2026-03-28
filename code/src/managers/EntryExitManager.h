@@ -22,13 +22,15 @@ public:
     void logExit(const string& studentID);
 
     // Return logged entries (for admin view/search)
-    vector<EntryExitRecord>& getLogs() { return logs; }
+    vector<EntryExitRecord>& getLogs() { 
+        return logs; 
+    }
 
     // Load existing logs from CSV into memory
     void loadLogs();
 
-    // Get current status for a student (true if last event is Entry)
-    pair<bool, string> getCurrentStatus(const string& studentID); // returns {isLoggedIn, lastTimestamp}
+    // Get current status for a student (true if last event is Entry) : returns {isLoggedIn, lastTimestamp}
+    pair<bool, string> getCurrentStatus(const string& studentID);
 };
 
 #endif

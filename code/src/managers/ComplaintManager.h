@@ -23,7 +23,9 @@ public:
     vector<Complaint> getComplaintsByStudent(const string& studentID);
 
     // Return reference to all complaints in memory
-    vector<Complaint>& getAllComplaints() { return complaints; }
+    vector<Complaint>& getAllComplaints() { 
+        return complaints; 
+    }
 
     // Update complaint status (Pending, In-Progress, Resolved)
     void updateComplaintStatus(const string& complaintID, const string& status);

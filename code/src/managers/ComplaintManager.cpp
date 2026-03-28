@@ -17,6 +17,7 @@ void ComplaintManager::loadComplaints() {
     }
 }
 
+// Creates a new complaint
 void ComplaintManager::createComplaint(const Complaint& complaint) {
     complaints.push_back(complaint);
     fileHandler->writeComplaints(complaints);
@@ -24,6 +25,7 @@ void ComplaintManager::createComplaint(const Complaint& complaint) {
     cout << "Complaint submitted successfully! ID: " << complaint.getComplaintID() << "\n";
 }
 
+// retuurns the complaint made by a particular student
 vector<Complaint> ComplaintManager::getComplaintsByStudent(const string& studentID) {
     vector<Complaint> result;
     for (const auto& c : complaints) {
@@ -34,6 +36,7 @@ vector<Complaint> ComplaintManager::getComplaintsByStudent(const string& student
     return result;
 }
 
+// updates the status of a complaint
 void ComplaintManager::updateComplaintStatus(const string& complaintID, const string& status) {
     for (auto& c : complaints) {
         if (c.getComplaintID() == complaintID) {

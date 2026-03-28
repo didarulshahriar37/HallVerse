@@ -13,17 +13,13 @@ class EntryExitRecord{
     string type;
     string timestamp;
 
-    // Constructors
     public:
+    // Constructors
     // Default constructor: Initializes an empty entry/exit record
     // Features used: Basic object initialization for entry/exit tracking system
     EntryExitRecord();
     
     // Parameterized constructor: Creates a record with specific details
-    // Parameters: recordID - unique identifier for the record
-    //           studentID - ID of the student making entry/exit
-    //           type - "Entry" or "Exit" 
-    //           timestamp - date/time of the event
     // Features used: Entry/exit logging, student identification, timestamp recording
     EntryExitRecord(string recordID, string studentID, string type, string timestamp);
 

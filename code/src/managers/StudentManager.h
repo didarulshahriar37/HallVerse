@@ -33,7 +33,9 @@ public:
     bool isBedOccupied(const string& hall, const string& room, const string& bed) const;
 
     // Return all students in memory reference for read/write loops
-    vector<Student>& getAllStudents() { return students; }
+    vector<Student>& getAllStudents() {
+         return students; 
+    }
 
     // Reset every student password hash to the provided default (e.g. hashed "password")
     void resetAllPasswords(const string& defaultHash);

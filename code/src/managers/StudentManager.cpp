@@ -47,7 +47,7 @@ void StudentManager::removeStudent(const string& studentID) {
     cout << "Student not found!\n";
 }
 
-// Retrieves pointer to student by ID (returns nullptr if not found)
+// Retrieves pointer to student by ID
 Student* StudentManager::getStudent(const string& studentID) {
     for (auto& s : students) {
         if (s.getStudentID() == studentID) {

@@ -7,10 +7,6 @@ using namespace std;
 EntryExitRecord::EntryExitRecord(){}
 
 // Parameterized constructor implementation: Creates a record with specific details
-// Parameters: recordID - unique identifier for the record
-//           studentID - ID of the student making entry/exit
-//           type - "Entry" or "Exit"
-//           timestamp - date/time of the event
 // Features used: Entry/exit logging, student identification, timestamp recording
 EntryExitRecord::EntryExitRecord(
     string recordID,

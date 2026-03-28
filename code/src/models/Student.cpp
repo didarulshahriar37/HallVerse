@@ -14,14 +14,6 @@ Student::Student() {
 }
 
 // Parameterized constructor implementation: Creates a student with complete profile information
-// Parameters: studentID - unique student identifier
-//           name - full name of the student
-//           email - email address for communication
-//           emergencyContact - emergency contact number
-//           roomNumber - assigned room number
-//           bedNumber - assigned bed (A, B, C, or D)
-//           hallName - hall name (North/South)
-//           hallDues - outstanding dues amount
 // Features used: Student registration, room allocation, dues tracking, contact management
 Student::Student(const string& studentID,
                  const string& name,
@@ -59,7 +51,6 @@ void Student::viewProfile(){
 
 // Update Methods
 // Update Email implementation: Updates the student's email with validation
-// Parameters: newEmail - new email address to set
 // Features used: Email validation, profile updates
 void Student::updateEmail(const string& newEmail){
     if(newEmail.empty()){
@@ -71,7 +62,6 @@ void Student::updateEmail(const string& newEmail){
 }
 
 // Update Emergency Contact implementation: Updates the emergency contact number with validation
-// Parameters: newEmergencyContact - new contact number to set
 // Features used: Contact validation, emergency information updates
 void Student::updateEmergencyContact(const string& newEmergencyContact){
     if(newEmergencyContact.empty()){

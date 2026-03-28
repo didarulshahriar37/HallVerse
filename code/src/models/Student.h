@@ -22,14 +22,6 @@ public:
     Student();
     
     // Parameterized constructor: Creates a student with complete profile information
-    // Parameters: studentID - unique student identifier
-    //           name - full name of the student
-    //           email - email address for communication
-    //           emergencyContact - emergency contact number
-    //           roomNumber - assigned room number
-    //           bedNumber - assigned bed (A, B, C, or D)
-    //           hallName - hall name (North/South)
-    //           hallDues - outstanding dues amount
     // Features used: Student registration, room allocation, dues tracking, contact management
     Student(const string& studentID,
             const string& name,
@@ -40,7 +32,7 @@ public:
             const string& hallName,
             double hallDues);
 
-    // Getters (const-correct)
+    // Getters
     // Returns the unique student identifier
     // Features used: Student identification, authentication, record linking
     string getStudentID() const {
