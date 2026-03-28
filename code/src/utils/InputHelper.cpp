@@ -99,7 +99,7 @@ void InputHelper::pause() {
 }
 
 // Email validation
-// Prompts and validates email (checks for single @, single ., no spaces, no forbidden characters)
+// validates email (checks for single @, single ., no spaces, no forbidden characters)
 string InputHelper::getValidateEmail() {
     while (true) {
         string email = getLine();
