@@ -15,7 +15,7 @@ class WorkAssignment{
     
     public:
     WorkAssignment();
-    WorkAssignment(string aID, string cID, string wID, 
+    WorkAssignment(string aID, string cID, string wID,
                    string stat, string rep);
     
     void updateStatus(const string& newStatus);

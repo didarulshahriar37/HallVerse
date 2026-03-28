@@ -5,7 +5,7 @@
  
 using namespace std;
 WorkAssignmentManager::WorkAssignmentManager(FileHandler* fh, ComplaintManager* cm, WorkerManager* wm)
-    : id("WAM_001"), complaintManager(cm), workerManager(wm), fileHandler(fh), nextAssignmentID(1) {
+    : id("W-001"), complaintManager(cm), workerManager(wm), fileHandler(fh), nextAssignmentID(1) {
     loadAssignments();
 }
 
@@ -45,11 +45,10 @@ void WorkAssignmentManager::assignWorker(const string& complaintID, const string
     }
 }
 
-void WorkAssignmentManager::completeWork(const string& assignmentID, const string& report) {
+void WorkAssignmentManager::completeWork(const string& assignmentID) {
     for (auto& a : workAssignments) {
         if (a.getAssignmentID() == assignmentID) {
             a.markCompleted();
-            a.addReport(report);
             fileHandler->writeAssignments(workAssignments);
             workerManager->updateWorkerStatus(a.getWorkerID(), true);
             complaintManager->updateComplaintStatus(a.getComplaintID(), "Resolved");

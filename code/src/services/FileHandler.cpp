@@ -112,8 +112,7 @@ vector<Complaint> FileHandler::readComplaints() {
     while (getline(file, line)) {
         auto tokens = split(line, ',');
         if (tokens.size() >= 6) {
-            complaints.push_back(Complaint(tokens[0], tokens[2], tokens[3], 
-                                         tokens[4], tokens[5], tokens[1]));
+            complaints.push_back(Complaint(tokens[0], tokens[2], tokens[3],tokens[4], tokens[5], tokens[1]));
         }
     }
     file.close();
@@ -125,8 +124,8 @@ void FileHandler::writeComplaints(const vector<Complaint>& complaints) {
     ofstream file(complaintFile);
     file << "complaintID,studentID,category,description,status,date\n";
     for (const auto& c : complaints) {
-        file << c.getComplaintID() << "," << c.getStudentID() << "," 
-             << c.getCategory() << "," << c.getDescription() << "," 
+        file << c.getComplaintID() << "," << c.getStudentID() << ","
+             << c.getCategory() << "," << c.getDescription() << ","
              << c.getStatus() << "," << c.getDate() << "\n";
     }
     file.close();
