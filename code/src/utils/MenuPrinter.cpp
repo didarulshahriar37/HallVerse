@@ -24,7 +24,6 @@ void MenuPrinter::showStudentMenu() {
     cout << "Enter your choice: ";
 }
 
-// Shows the Update Information sub-menu for students
 void MenuPrinter::updateInfoMenu() {
     cout << "\n=== UPDATE INFORMATION ===\n";
     cout << "  1. Update Email\n";
