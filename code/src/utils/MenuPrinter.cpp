@@ -33,7 +33,6 @@ void MenuPrinter::updateInfoMenu() {
     cout << "Choose (1-3): ";
 }
 
-// Shows the admin menu after logging in as an admin
 void MenuPrinter::showAdminMenu() {
     cout << "\n========== ADMIN MENU ==========" << "\n";
     cout << "1. View Dashboard\n";
